@@ -216,3 +216,32 @@ cartoon, 3D render look, CGI, anime, illustration, mutated bee, extra legs, defo
 - "অন্তত বারোটি মৌমাছি" — ১/১২ চা-চামচ গড় হিসাব, তাই "প্রায় বারোটি" বলা বেশি সঠিক।
 
 **ঙ) Negative Prompt-এ "text on screen":** এটি ঠিক আছে — সব টেক্সট After Effects-এ যুক্ত হবে, AI ক্লিপে কোনো লেখা থাকা উচিত নয়।
+
+---
+
+## ৮. রেডি ভিডিও (মোশন গ্রাফিক্স সংস্করণ)
+
+`video/` ফোল্ডারে পুরো ভিডিওটি কোড দিয়ে তৈরি করা হয়েছে — 1080×1920 (9:16), 30fps, ~২ মিনিট, পুরুষ কণ্ঠের বাংলা ভয়েসওভার, কাইনেটিক সাবটাইটেল, ইনফোগ্রাফিক কার্ড, অরিজিনাল ব্যাকগ্রাউন্ড মিউজিক ও সাউন্ড ইফেক্ট।
+
+ফাইনাল ভিডিও: [`video/nooriyah-honeybee-documentary.mp4`](video/nooriyah-honeybee-documentary.mp4)
+
+| ফাইল | কাজ |
+|---|---|
+| `script.json` | দৃশ্যভিত্তিক ভয়েসওভার; ` / ` চিহ্ন দিয়ে সাবটাইটেলের ভাঙন |
+| `synth_vo.py` | Coqui Bangla male VITS মডেলে প্রতিটি লাইনের ভয়েস তৈরি |
+| `process_vo.sh` | নীরবতা ছাঁটা, গতি ১.১x, EQ ও কম্প্রেশন |
+| `build_timeline.py` | ভয়েস জোড়া দিয়ে `vo.wav` ও সাবটাইটেল টাইমিং (`timeline.json`) |
+| `index.html` | সব দৃশ্যের মোশন গ্রাফিক্স (SVG/HTML, প্রতিটি ফ্রেম সময়-নির্ভর) |
+| `render.js` | Playwright দিয়ে ফ্রেম রেন্ডার করে ffmpeg-এ পাঠানো |
+| `music.py` | মিউজিক (প্যাড + আরপেজিও) ও SFX (হুশ, রাইজার, ইমপ্যাক্ট, চাইম) তৈরি |
+| `mix.sh` | ভয়েসের নিচে মিউজিক ডাকিং, −১৪ LUFS লাউডনেস, ফাইনাল MP4 |
+
+রি-রেন্ডার:
+```bash
+cd video
+python3 synth_vo.py <model_dir> build/raw && ./process_vo.sh build/raw build/vo
+python3 build_timeline.py build/vo build && (printf 'window.TIMELINE = '; cat build/timeline.json; echo ';') > timeline.js
+python3 music.py build/timeline.json build/music.wav
+node render.js build/video.mp4 30
+./mix.sh nooriyah-honeybee-documentary.mp4 build/vo.wav build/music.wav build/video.mp4
+```

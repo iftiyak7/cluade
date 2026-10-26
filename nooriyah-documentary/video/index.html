@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>Nooriyah Honeybee Documentary</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  :root {
+    --emerald: #117B50; --lime: #94D541; --amber: #C98A24; --honey: #F2B544;
+    --cream: #F5F0E5; --forest: #173D2D; --night: #06130E; --red: #FF5A5F;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+  body { font-family: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif; color: var(--cream); }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+    background: radial-gradient(ellipse 90% 60% at 50% 42%, #0F3626 0%, #0A2419 45%, var(--night) 100%); }
+  .abs { position: absolute; }
+  .full { position: absolute; inset: 0; }
+  svg.full { width: 1080px; height: 1920px; overflow: visible; }
+  #dust { position: absolute; inset: 0; }
+  #vignette { background: radial-gradient(ellipse 75% 62% at 50% 46%, transparent 55%, rgba(0,0,0,0.62) 100%); }
+  #grain { opacity: 0.07; mix-blend-mode: overlay; background-size: 540px 960px; }
+  .layer { position: absolute; inset: 0; will-change: opacity, transform; }
+
+  /* HUD */
+  .dots { position: absolute; top: 236px; left: 0; right: 0; display: flex; justify-content: center; gap: 16px; }
+  .dot { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center;
+    font: 700 26px 'Noto Sans Bengali'; color: rgba(245,240,229,0.55);
+    border: 2px solid rgba(245,240,229,0.22); background: rgba(255,255,255,0.03); }
+  .dot.done { background: rgba(148,213,65,0.18); border-color: rgba(148,213,65,0.55); color: var(--lime); }
+  .dot.on { background: radial-gradient(circle at 35% 30%, #FFD36E, #E9A322 70%); border-color: #FFD36E;
+    color: #2A1A05; box-shadow: 0 0 26px rgba(242,181,68,0.75); }
+  .title { position: absolute; top: 330px; left: 0; right: 0; display: flex; justify-content: center;
+    align-items: center; gap: 22px; }
+  .badge { width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center;
+    font: 900 50px 'Noto Sans Bengali'; color: #2A1A05;
+    background: radial-gradient(circle at 35% 30%, #FFD978, #E39B1B 72%);
+    box-shadow: 0 0 34px rgba(242,181,68,0.55), inset 0 -6px 12px rgba(120,60,0,0.35); }
+  .title-text { font: 800 58px 'Noto Sans Bengali'; color: var(--cream); white-space: nowrap;
+    text-shadow: 0 4px 24px rgba(0,0,0,0.6); }
+  .logo-badge { position: absolute; left: 42px; top: 64px; width: 118px; height: 118px; border-radius: 26px;
+    overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 0 2px rgba(148,213,65,0.35); }
+  .logo-badge img, .logo img { width: 100%; height: 100%; display: block; }
+
+  /* Subtitles */
+  #subs { position: absolute; left: 70px; right: 70px; top: 1300px; height: 240px;
+    display: flex; align-items: center; justify-content: center; text-align: center; }
+  .sub { font: 800 84px/1.28 'Noto Sans Bengali'; color: #FFFFFF; letter-spacing: 0.2px;
+    text-shadow: 0 0 18px rgba(0,0,0,0.95), 0 0 42px rgba(0,0,0,0.8), 0 6px 14px rgba(0,0,0,0.9); }
+  .sub .w { display: inline-block; margin: 0 9px; }
+  .sub .hl { color: #FFC94D; text-shadow: 0 0 22px rgba(242,181,68,0.55), 0 0 18px rgba(0,0,0,0.95); }
+  .sub .sc { color: var(--lime); text-shadow: 0 0 22px rgba(148,213,65,0.45), 0 0 18px rgba(0,0,0,0.95); }
+  .sub .neg { color: var(--red); text-shadow: 0 0 22px rgba(255,90,95,0.45), 0 0 18px rgba(0,0,0,0.95); }
+
+  /* Cards */
+  .panel { position: absolute; border-radius: 34px; background: rgba(255,255,255,0.035);
+    border: 2px solid rgba(245,240,229,0.12); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+  .card { position: absolute; border-radius: 26px; background: rgba(16,44,32,0.82);
+    border: 2px solid rgba(245,240,229,0.14); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px; text-align: center; }
+  .card.on { border-color: #FFC94D; background: rgba(70,52,12,0.55); box-shadow: 0 0 34px rgba(242,181,68,0.35); }
+  .card .k { font: 800 34px 'Noto Sans Bengali'; color: var(--honey); }
+  .card .v { font: 700 34px/1.25 'Noto Sans Bengali'; color: var(--cream); }
+  .icon { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(148,213,65,0.14); border: 2px solid rgba(148,213,65,0.35); }
+  .card.on .icon { background: rgba(242,181,68,0.25); border-color: #FFC94D; }
+  .pill { position: absolute; border-radius: 999px; padding: 18px 40px; white-space: nowrap;
+    font: 800 42px 'Noto Sans Bengali'; color: #FFD6D7; background: rgba(120,20,30,0.35);
+    border: 2.5px solid rgba(255,90,95,0.7); box-shadow: 0 0 30px rgba(255,90,95,0.25); }
+  .pill.amber { color: #FFE3A3; background: rgba(110,70,10,0.45); border-color: rgba(255,201,77,0.8);
+    box-shadow: 0 0 30px rgba(242,181,68,0.3); }
+  .pill.lime { color: #E6FFC4; background: rgba(40,80,20,0.45); border-color: rgba(148,213,65,0.8);
+    box-shadow: 0 0 30px rgba(148,213,65,0.25); }
+  .en { font-family: 'Montserrat', sans-serif; }
+  .bar { position: absolute; border-radius: 30px; background: rgba(10,30,22,0.85);
+    border: 2px solid rgba(148,213,65,0.45); box-shadow: 0 0 30px rgba(148,213,65,0.12); }
+  .bar .row { position: absolute; left: 40px; right: 40px; top: 26px; display: flex; justify-content: space-between;
+    font: 800 38px 'Noto Sans Bengali'; }
+  .bar .track { position: absolute; left: 40px; right: 40px; bottom: 30px; height: 22px; border-radius: 11px;
+    background: rgba(255,255,255,0.08); overflow: hidden; }
+  .bar .fill { height: 100%; border-radius: 11px; background: linear-gradient(90deg, #E39B1B, #FFD36E); }
+  .label-en { font: 900 62px 'Montserrat'; letter-spacing: 3px; color: var(--lime);
+    text-shadow: 0 0 26px rgba(148,213,65,0.5); }
+  .label-bn { font: 700 42px 'Noto Sans Bengali'; color: var(--cream); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <radialGradient id="gAbd" cx="40%" cy="30%" r="80%">
+        <stop offset="0" stop-color="#FFD36E"/><stop offset="0.55" stop-color="#E39B1B"/><stop offset="1" stop-color="#8A5208"/>
+      </radialGradient>
+      <radialGradient id="gThorax" cx="40%" cy="35%" r="70%">
+        <stop offset="0" stop-color="#8A5A20"/><stop offset="1" stop-color="#2E1C0A"/>
+      </radialGradient>
+      <radialGradient id="gHead" cx="45%" cy="35%" r="70%">
+        <stop offset="0" stop-color="#4A3015"/><stop offset="1" stop-color="#1A1006"/>
+      </radialGradient>
+      <linearGradient id="gWing" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/><stop offset="1" stop-color="#BFE6FF" stop-opacity="0.18"/>
+      </linearGradient>
+      <radialGradient id="gHoney" cx="38%" cy="35%" r="75%">
+        <stop offset="0" stop-color="#FFE7A0"/><stop offset="0.35" stop-color="#F6B93B"/><stop offset="0.8" stop-color="#C47A10"/><stop offset="1" stop-color="#7A4405"/>
+      </radialGradient>
+      <linearGradient id="gHoneyV" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFD36E"/><stop offset="0.5" stop-color="#E39B1B"/><stop offset="1" stop-color="#A3600A"/>
+      </linearGradient>
+      <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#FFC94D" stop-opacity="0.55"/><stop offset="1" stop-color="#FFC94D" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="gGlowLime" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#94D541" stop-opacity="0.45"/><stop offset="1" stop-color="#94D541" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="gSun" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#FFF1C1"/><stop offset="0.25" stop-color="#FFC24D" stop-opacity="0.95"/>
+        <stop offset="0.6" stop-color="#F08A24" stop-opacity="0.35"/><stop offset="1" stop-color="#F08A24" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="gWood" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#B07A45"/><stop offset="0.5" stop-color="#7A4B22"/><stop offset="1" stop-color="#4A2A10"/>
+      </linearGradient>
+      <linearGradient id="gStem" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#2F7A3E"/><stop offset="1" stop-color="#5BAA3A"/>
+      </linearGradient>
+      <linearGradient id="gLeaf" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#B5E86A"/><stop offset="1" stop-color="#5FA52A"/>
+      </linearGradient>
+      <radialGradient id="gPetalY" cx="50%" cy="85%" r="90%">
+        <stop offset="0" stop-color="#FFB000"/><stop offset="1" stop-color="#FFE45C"/>
+      </radialGradient>
+      <radialGradient id="gPetalB" cx="50%" cy="85%" r="90%">
+        <stop offset="0" stop-color="#7E9BE0"/><stop offset="1" stop-color="#E4ECFF"/>
+      </radialGradient>
+      <linearGradient id="gGlass" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.22"/><stop offset="0.15" stop-color="#FFFFFF" stop-opacity="0.05"/>
+        <stop offset="0.8" stop-color="#FFFFFF" stop-opacity="0.03"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0.18"/>
+      </linearGradient>
+      <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0B2419" stop-opacity="0"/><stop offset="0.55" stop-color="#6B3A1A" stop-opacity="0.55"/>
+        <stop offset="1" stop-color="#F29A3A" stop-opacity="0.85"/>
+      </linearGradient>
+      <linearGradient id="gField" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#3B3A14"/><stop offset="0.4" stop-color="#1D3A1C"/><stop offset="1" stop-color="#0B2015"/>
+      </linearGradient>
+      <linearGradient id="gFadeDown" gradientUnits="userSpaceOnUse" x1="0" y1="1080" x2="0" y2="1260">
+        <stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/>
+      </linearGradient>
+      <mask id="mFadeDown" maskUnits="userSpaceOnUse" x="0" y="0" width="1080" height="1920"><rect width="1080" height="1920" fill="url(#gFadeDown)"/></mask>
+      <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="fSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
+      <filter id="fBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+    </defs>
+  </svg>
+  <canvas id="dust" width="1080" height="1920"></canvas>
+  <div id="scene" class="full"></div>
+  <div id="hud" class="full"></div>
+  <div id="subs"></div>
+  <div id="vignette" class="full"></div>
+  <div id="grain" class="full"></div>
+</div>
+<script src="timeline.js"></script>
+<script>
+"use strict";
+const TL = window.TIMELINE;
+const SC = Object.fromEntries(TL.scenes.map((s, i) => [s.id, { ...s, index: i }]));
+const FPS = 30;
+
+// ---------- math helpers ----------
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const eOut = k => 1 - Math.pow(1 - k, 3);
+const eInOut = k => k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const eBack = k => { const c = 1.70158, c3 = c + 1; return 1 + c3 * Math.pow(k - 1, 3) + c * Math.pow(k - 1, 2); };
+const TAU = Math.PI * 2;
+const bn = s => String(s).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+function rng(seed) {
+  return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+// Timeline anchors: start of a line / chunk, end of a line.
+const A = (sid, li, ci = 0) => SC[sid].lines[li].chunks[Math.min(ci, SC[sid].lines[li].chunks.length - 1)].start;
+const E = (sid, li) => SC[sid].lines[li].end;
+const f = n => n.toFixed(2);
+
+// ---------- illustration primitives ----------
+function bee(x, y, s, t, o = {}) {
+  const flip = o.flip ? -1 : 1, rot = o.rot || 0, op = o.opacity ?? 1;
+  const hz = o.hz ?? 11;
+  const flap = Math.sin((t + (o.phase || 0)) * TAU * hz);
+  const wy = o.rest ? 0.92 : 0.35 + 0.65 * Math.abs(flap);
+  const xr = o.xray || 0;
+  const body = 1 - 0.78 * xr;
+  let g = `<g transform="translate(${f(x)},${f(y)}) rotate(${f(rot)}) scale(${f(s * flip)},${f(s)})" opacity="${f(op)}">`;
+  // shadow glow
+  g += `<ellipse cx="-10" cy="10" rx="120" ry="70" fill="url(#gGlow)" opacity="${f(0.35 * (o.glow ?? 1))}"/>`;
+  // far wing
+  g += `<g transform="translate(-2,-24) scale(1,${f(wy)})"><ellipse cx="-30" cy="-34" rx="48" ry="22" transform="rotate(-32 -30 -34)" fill="url(#gWing)" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" opacity="${f(0.75 * body + 0.2)}"/></g>`;
+  // legs
+  g += `<g stroke="#20140A" stroke-width="4" fill="none" stroke-linecap="round" opacity="${f(body)}">
+    <path d="M5,24 L-6,48 L-14,58"/><path d="M18,26 L16,52 L10,64"/><path d="M30,22 L40,46 L44,58"/></g>`;
+  // abdomen
+  g += `<g opacity="${f(body)}"><clipPath id="cpAbd${o.id || ''}"><ellipse cx="-48" cy="6" rx="58" ry="40"/></clipPath>
+    <ellipse cx="-48" cy="6" rx="58" ry="40" fill="url(#gAbd)"/>
+    <g clip-path="url(#cpAbd${o.id || ''})" fill="#2A1806"><rect x="-84" y="-40" width="14" height="90"/><rect x="-58" y="-40" width="15" height="90"/><rect x="-32" y="-40" width="13" height="90"/></g>
+    <path d="M-104,8 L-122,12 L-104,16 Z" fill="#2A1806"/>
+    <ellipse cx="-40" cy="-14" rx="30" ry="9" fill="#FFF3C9" opacity="0.35"/></g>`;
+  // thorax + head
+  g += `<g opacity="${f(body)}"><circle cx="14" cy="0" r="31" fill="url(#gThorax)"/>
+    <circle cx="14" cy="0" r="31" fill="none" stroke="#D9A04A" stroke-width="5" stroke-dasharray="2 5" opacity="0.7"/>
+    <circle cx="54" cy="5" r="23" fill="url(#gHead)"/>
+    <ellipse cx="60" cy="-1" rx="10" ry="14" fill="#0B0704"/><circle cx="63" cy="-6" r="3.5" fill="#FFFFFF" opacity="0.8"/>
+    <path d="M60,-15 Q66,-40 88,-48" stroke="#1A1006" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M52,-16 Q52,-42 70,-56" stroke="#1A1006" stroke-width="3.5" fill="none" stroke-linecap="round"/></g>`;
+  if (o.tongue) g += `<path d="M70,18 L${f(70 + 46 * o.tongue)},${f(18 + 30 * o.tongue)}" stroke="#3A230C" stroke-width="4" stroke-linecap="round"/>`;
+  if (xr > 0) {
+    // x-ray wireframe body
+    g += `<g fill="rgba(148,213,65,0.06)" stroke="#94D541" stroke-width="${f(2.2 / s * 2)}" opacity="${f(xr)}">
+      <ellipse cx="-48" cy="6" rx="58" ry="40"/><circle cx="14" cy="0" r="31"/><circle cx="54" cy="5" r="23"/>
+      <path d="M-84,-30 Q-77,6 -84,40 M-58,-36 Q-50,6 -58,44 M-32,-36 Q-25,6 -32,44" fill="none" opacity="0.6"/>
+      <path d="M62,14 Q30,10 -8,4" fill="none" stroke-dasharray="4 4"/></g>`;
+    const fill = o.stomach ?? 0;
+    g += `<g opacity="${f(xr)}"><clipPath id="cpSt${o.id || ''}"><ellipse cx="-24" cy="4" rx="22" ry="17"/></clipPath>
+      <ellipse cx="-24" cy="4" rx="34" ry="28" fill="url(#gGlow)"/>
+      <ellipse cx="-24" cy="4" rx="22" ry="17" fill="rgba(242,181,68,0.12)" stroke="#FFC94D" stroke-width="2"/>
+      <rect clip-path="url(#cpSt${o.id || ''})" x="-48" y="${f(21 - 34 * fill)}" width="48" height="40" fill="url(#gHoneyV)" opacity="0.95"/></g>`;
+  }
+  // near wing
+  g += `<g transform="translate(4,-26) scale(1,${f(wy)})"><ellipse cx="-14" cy="-40" rx="62" ry="27" transform="rotate(-22 -14 -40)" fill="url(#gWing)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" opacity="${f(0.8 * body + 0.2)}"/>
+    <path d="M-50,-30 Q-14,-44 34,-58" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" fill="none"/></g>`;
+  if (!o.rest) g += `<ellipse cx="-10" cy="-62" rx="66" ry="10" fill="#FFFFFF" opacity="0.08" filter="url(#fSoft)"/>`;
+  return g + `</g>`;
+}
+
+function flower(x, y, s, open, type, t, o = {}) {
+  const petals = type === 'y' ? 4 : 7, grad = type === 'y' ? 'gPetalY' : 'gPetalB';
+  const len = type === 'y' ? 70 : 62, wid = type === 'y' ? 38 : 22;
+  const sway = Math.sin(t * 1.3 + x * 0.01) * 2.5;
+  let g = `<g transform="translate(${f(x)},${f(y)}) rotate(${f(sway)}) scale(${f(s)})">`;
+  if (o.stem !== false) g += `<path d="M0,10 Q-8,180 6,420" stroke="url(#gStem)" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M2,170 Q60,120 96,150 Q52,190 2,170 Z" fill="url(#gLeaf)" opacity="0.9"/>`;
+  g += `<circle r="${len * 1.5}" fill="url(#gGlow)" opacity="${f(0.5 * open)}"/>`;
+  for (let i = 0; i < petals; i++) {
+    const a = i * 360 / petals + 45;
+    g += `<ellipse cx="0" cy="${f(-len * 0.55 * open)}" rx="${f(wid * open)}" ry="${f(len * 0.55 * open)}" transform="rotate(${f(a)})" fill="url(#${grad})" stroke="rgba(120,70,0,0.25)" stroke-width="1"/>`;
+  }
+  if (type === 'y') {
+    for (let i = 0; i < 6; i++) { const a = i * TAU / 6 + 0.3; g += `<line x1="0" y1="0" x2="${f(Math.cos(a) * 26 * open)}" y2="${f(Math.sin(a) * 26 * open)}" stroke="#E08A00" stroke-width="3"/><circle cx="${f(Math.cos(a) * 27 * open)}" cy="${f(Math.sin(a) * 27 * open)}" r="5" fill="#FFF09A"/>`; }
+    g += `<circle r="${f(15 * open)}" fill="#7DBA2E"/>`;
+  } else {
+    for (let i = 0; i < 10; i++) { const a = i * TAU / 10; g += `<path d="M0,0 Q${f(Math.cos(a + 0.4) * 22)},${f(Math.sin(a + 0.4) * 22)} ${f(Math.cos(a) * 34 * open)},${f(Math.sin(a) * 34 * open)}" stroke="#3E5A2A" stroke-width="3" fill="none"/>`; }
+    g += `<circle r="${f(14 * open)}" fill="#4B6B33"/><circle r="${f(7 * open)}" fill="#C9E28A"/>`;
+  }
+  return g + `</g>`;
+}
+
+function dropPath(cx, cy, s) {
+  return `<path transform="translate(${f(cx)},${f(cy)}) scale(${f(s)})" d="M0,-62 C14,-36 46,-6 46,26 A46,46 0 1 1 -46,26 C-46,-6 -14,-36 0,-62 Z"`;
+}
+function honeyDrop(cx, cy, s, t, op = 1) {
+  return `<g opacity="${f(op)}"><circle cx="${f(cx)}" cy="${f(cy + 14 * s)}" r="${f(90 * s)}" fill="url(#gGlow)"/>
+    ${dropPath(cx, cy, s)} fill="url(#gHoney)" stroke="#FFE3A3" stroke-opacity="0.35" stroke-width="${f(1.5 / s)}"/>
+    <ellipse cx="${f(cx - 16 * s)}" cy="${f(cy + 4 * s + Math.sin(t * 1.4) * 3 * s)}" rx="${f(9 * s)}" ry="${f(20 * s)}" transform="rotate(20 ${f(cx - 16 * s)} ${f(cy)})" fill="#FFF6D8" opacity="0.7"/>
+    <circle cx="${f(cx + 18 * s)}" cy="${f(cy + 44 * s)}" r="${f(5 * s)}" fill="#FFF6D8" opacity="0.4"/></g>`;
+}
+function hexPts(cx, cy, r) {
+  let p = [];
+  for (let i = 0; i < 6; i++) { const a = (60 * i - 90) * Math.PI / 180; p.push(`${f(cx + r * Math.cos(a))},${f(cy + r * Math.sin(a))}`); }
+  return p.join(' ');
+}
+function rays(cx, cy, t, op, color = '255,214,120') {
+  let g = `<g opacity="${f(op)}">`;
+  for (let i = 0; i < 7; i++) {
+    const a = -90 + (i - 3) * 13 + Math.sin(t * 0.3 + i) * 3;
+    g += `<polygon points="${cx},${cy} ${f(cx + Math.cos((a - 2.6) * Math.PI / 180) * 1500)},${f(cy + Math.sin((a - 2.6) * Math.PI / 180) * 1500)} ${f(cx + Math.cos((a + 2.6) * Math.PI / 180) * 1500)},${f(cy + Math.sin((a + 2.6) * Math.PI / 180) * 1500)}" fill="rgba(${color},${f(0.05 + 0.03 * Math.sin(t + i))})"/>`;
+  }
+  return g + `</g>`;
+}
+const svg = inner => `<svg class="full" viewBox="0 0 1080 1920">${inner}</svg>`;
+const el = (style, inner = '', cls = 'abs') => `<div class="${cls}" style="${style}">${inner}</div>`;
+// Pop-in transform for HTML overlays.
+const pop = (t, a, d = 0.45) => { const k = prog(t, a, a + d); return `opacity:${f(clamp(k * 2.5))};transform:translateY(${f((1 - eOut(k)) * 30)}px) scale(${f(0.85 + 0.15 * eBack(k))});`; };
+const fade = (t, a, d = 0.4) => clamp((t - a) / d);
+// Animated straight callout line with tracking ring.
+function callout(x1, y1, x2, y2, k, color = '#94D541', t = 0) {
+  const len = Math.hypot(x2 - x1, y2 - y1);
+  const ring = eBack(clamp(k * 3));
+  return `<g opacity="${f(clamp(k * 4))}">
+    <circle cx="${f(x1)}" cy="${f(y1)}" r="${f(34 * ring)}" fill="none" stroke="${color}" stroke-width="4" stroke-dasharray="10 8" transform="rotate(${f(t * 60)} ${f(x1)} ${f(y1)})"/>
+    <circle cx="${f(x1)}" cy="${f(y1)}" r="8" fill="${color}"/>
+    <line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" stroke="${color}" stroke-width="3.5" stroke-dasharray="${f(len)}" stroke-dashoffset="${f(len * (1 - eOut(clamp(k * 1.6 - 0.25))))}"/>
+    <circle cx="${f(x2)}" cy="${f(y2)}" r="${f(7 * clamp(k * 2 - 1))}" fill="${color}"/></g>`;
+}
+const ICON = {
+  drop: `<svg width="40" height="40" viewBox="-50 -70 100 125"><path d="M0,-62 C14,-36 46,-6 46,26 A46,46 0 1 1 -46,26 C-46,-6 -14,-36 0,-62 Z" fill="#FFC94D"/></svg>`,
+  sack: `<svg width="42" height="42" viewBox="0 0 40 40"><ellipse cx="20" cy="22" rx="14" ry="11" fill="none" stroke="#FFC94D" stroke-width="4"/><path d="M12,14 Q20,4 30,12" stroke="#94D541" stroke-width="3.5" fill="none"/></svg>`,
+  spark: `<svg width="42" height="42" viewBox="0 0 40 40"><path d="M20,3 L23,16 L36,20 L23,24 L20,37 L17,24 L4,20 L17,16 Z" fill="#94D541"/></svg>`,
+  bee: `<svg width="44" height="44" viewBox="-130 -80 230 160"><ellipse cx="-48" cy="6" rx="58" ry="40" fill="#FFC94D"/><rect x="-62" y="-34" width="14" height="80" fill="#2A1806"/><circle cx="14" cy="0" r="31" fill="#6B4518"/><circle cx="54" cy="5" r="23" fill="#2A1806"/><ellipse cx="-10" cy="-60" rx="56" ry="24" fill="#DDF2FF" opacity="0.8"/></svg>`,
+  hive: `<svg width="44" height="44" viewBox="0 0 40 40"><polygon points="${hexPts(20, 20, 16)}" fill="none" stroke="#FFC94D" stroke-width="4"/><polygon points="${hexPts(20, 20, 7)}" fill="#94D541"/></svg>`,
+};
+
+// ---------- scenes: each returns markup for absolute time t ----------
+const SCENES = {
+  s1(t) {
+    const s = SC.s1, lt = t - s.start;
+    const dk = eBack(prog(t, 0.25, 1.5));
+    const bob = Math.sin(t * 1.3) * 10;
+    const cx = 540, cy = 830 + bob;
+    const wq = A('s1', 1, 0);
+    // bee orbits the drop; depth from orbit phase
+    const ang = (t - 1.2) * 0.85 - 0.6;
+    const bx = cx + Math.cos(ang) * 330, by = cy - 40 + Math.sin(ang) * 120;
+    const front = Math.sin(ang) > 0;
+    const beeOp = fade(t, 1.0, 0.8);
+    const beeSvg = bee(bx, by, 0.72 + 0.12 * Math.sin(ang), t, { flip: Math.sin(ang) > 0, opacity: beeOp, id: 'a', rot: Math.cos(ang) * 6 });
+    let g = rays(540, -200, t, fade(t, 0, 1.5) * 0.9);
+    g += `<circle cx="${cx}" cy="${f(cy)}" r="${f(330 * dk)}" fill="url(#gGlow)" opacity="${f(0.55 + 0.15 * Math.sin(t * 2))}"/>`;
+    if (!front) g += beeSvg;
+    g += honeyDrop(cx, cy, 2.7 * dk, t, clamp(dk));
+    if (front) g += beeSvg;
+    // pollen sparkles around the drop
+    const r = rng(7);
+    for (let i = 0; i < 26; i++) {
+      const a = r() * TAU + t * (0.1 + r() * 0.2), d = 190 + r() * 200;
+      g += `<circle cx="${f(cx + Math.cos(a) * d)}" cy="${f(cy + Math.sin(a) * d * 0.8)}" r="${f(2 + r() * 3)}" fill="#FFE3A3" opacity="${f(dk * (0.25 + 0.5 * Math.abs(Math.sin(t * 2 + i))))}"/>`;
+    }
+    let h = svg(g);
+    const qk = prog(t, A('s1', 1, 3), A('s1', 1, 3) + 0.5);
+    h += el(`left:${f(700)}px;top:${f(480)}px;font:900 230px Montserrat;color:#FFC94D;text-shadow:0 0 60px rgba(242,181,68,0.7);opacity:${f(clamp(qk * 2))};transform:scale(${f(0.4 + 0.6 * eBack(qk))}) rotate(${f(12 - 12 * eOut(qk))}deg)`, '?');
+    h += el(`left:110px;right:110px;top:1135px;display:flex;justify-content:center;${pop(t, wq + 0.2)}`,
+      `<div class="pill amber" style="position:relative">একটি মৌমাছির সারাজীবনের সংগ্রহ কতটুকু?</div>`);
+    return h;
+  },
+
+  s2(t) {
+    const s = SC.s2;
+    const t0 = s.start;
+    const sunK = eOut(prog(t, t0, t0 + 3.5));
+    let g = `<circle cx="540" cy="${f(lerp(1180, 720, sunK))}" r="420" fill="url(#gSun)" opacity="${f(0.85 * sunK)}"/>`;
+    g += rays(540, lerp(1180, 720, sunK), t, sunK * 0.9);
+    const open = eBack(prog(t, t0 + 0.4, t0 + 2.0));
+    g += `<g mask="url(#mFadeDown)">` + flower(285, 1060, 0.95, eBack(prog(t, t0 + 0.9, t0 + 2.3)), 'b', t);
+    g += flower(820, 1080, 0.9, eBack(prog(t, t0 + 1.1, t0 + 2.5)), 'y', t);
+    g += flower(540, 930, 1.55, open, 'y', t) + `</g>`;
+    // bee flight in and landing
+    const a1 = A('s2', 1, 0), land = a1 + 1.8;
+    const k = eInOut(prog(t, a1 - 0.6, land));
+    const landed = t >= land;
+    let bx = lerp(1180, 640, k), by = lerp(560, 868, k) - Math.sin(k * Math.PI) * 110 + (landed ? Math.sin(t * 3) * 2 : Math.sin(t * 6) * 6);
+    const tongueK = eOut(prog(t, A('s2', 1, 2) - 0.3, A('s2', 1, 2) + 0.3));
+    if (t > a1 - 0.6) g += bee(bx, by, 1.08, t, { flip: true, id: 'b', rest: landed && t > land + 0.4, hz: landed ? 4 : 11, tongue: tongueK, rot: landed ? -8 : -12 * (1 - k) });
+    // nectar stream into the bee
+    if (tongueK > 0.5) {
+      for (let i = 0; i < 9; i++) {
+        const p = ((t * 0.9 + i / 9) % 1);
+        const x = lerp(548, 575, p), y = lerp(922, 895, p);
+        g += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(5 + 3 * Math.sin(p * Math.PI))}" fill="#FFC94D" filter="url(#fGlow)" opacity="${f(Math.sin(p * Math.PI) * clamp(tongueK * 2 - 1))}"/>`;
+      }
+    }
+    // callout
+    const ck = prog(t, A('s2', 1, 3) - 0.1, A('s2', 1, 3) + 1.0);
+    g += callout(540, 930, 300, 690, ck, '#94D541', t);
+    let h = svg(g);
+    const emph = prog(t, A('s2', 2, 1), A('s2', 2, 1) + 0.4);
+    h += el(`left:70px;top:560px;${pop(t, A('s2', 1, 3) + 0.5)}`,
+      `<div class="label-en" style="${emph > 0 ? `color:#FFC94D;text-shadow:0 0 ${f(26 + 20 * emph)}px rgba(242,181,68,0.7)` : ''}">NECTAR</div>
+       <div class="label-bn" style="margin-top:2px">→ মধুর কাঁচামাল</div>`);
+    return h;
+  },
+
+  s3(t) {
+    const s = SC.s3, t0 = s.start;
+    const xr = eInOut(prog(t, A('s3', 1, 0) - 0.2, A('s3', 1, 0) + 0.6));
+    const bx = 560 + Math.sin(t * 0.9) * 14, by = 770 + Math.sin(t * 1.7) * 12;
+    const S = 2.55;
+    const fill = eOut(prog(t, A('s3', 1, 1), A('s3', 2, 0) + 0.5));
+    let g = '';
+    // speed streaks
+    const r = rng(3);
+    for (let i = 0; i < 16; i++) {
+      const y = 520 + r() * 640, sp = 500 + r() * 600, len = 80 + r() * 160;
+      const x = 1200 - ((t * sp + r() * 2000) % 1500);
+      g += `<line x1="${f(x)}" y1="${f(y)}" x2="${f(x + len)}" y2="${f(y)}" stroke="#FFE3A3" stroke-width="2" opacity="${f(0.12 + 0.1 * r())}" stroke-linecap="round"/>`;
+    }
+    g += `<circle cx="${f(bx)}" cy="${f(by)}" r="380" fill="url(#gGlowLime)" opacity="${f(0.6 * xr)}"/>`;
+    g += bee(bx, by, S, t, { id: 'c', xray: xr, stomach: fill, glow: 1 - xr });
+    const P = (lx, ly) => [bx + lx * S, by + ly * S];
+    // nectar flowing from mouth into honey stomach
+    if (xr > 0.3) {
+      for (let i = 0; i < 7; i++) {
+        const p = (t * 0.7 + i / 7) % 1;
+        const [x, y] = P(lerp(64, -10, p), lerp(14, 4, p) - Math.sin(p * Math.PI) * 4);
+        g += `<circle cx="${f(x)}" cy="${f(y)}" r="6" fill="#FFC94D" opacity="${f(xr * Math.sin(p * Math.PI))}" filter="url(#fGlow)"/>`;
+      }
+    }
+    // enzyme reaction: big molecule splits into two
+    const mk = prog(t, A('s3', 2, 1), A('s3', 2, 3) + 0.8);
+    if (mk > 0) {
+      const rr = rng(11);
+      for (let i = 0; i < 6; i++) {
+        const [cx, cy] = P(-24 + (rr() - 0.5) * 30, 4 + (rr() - 0.5) * 20);
+        const ph = clamp(mk * 1.4 - i * 0.07);
+        const sp = 16 * eOut(ph);
+        g += `<g opacity="${f(clamp(mk * 5))}"><line x1="${f(cx - sp)}" y1="${f(cy)}" x2="${f(cx + sp)}" y2="${f(cy)}" stroke="#FFF3C9" stroke-width="2" opacity="${f(1 - ph)}"/>
+          <polygon points="${hexPts(cx - sp, cy, 7)}" fill="#FFE3A3" stroke="#94D541" stroke-width="1.5"/>
+          <polygon points="${hexPts(cx + sp, cy, 7)}" fill="${ph > 0.6 ? '#94D541' : '#FFE3A3'}" stroke="#94D541" stroke-width="1.5"/></g>`;
+      }
+    }
+    // callout to honey stomach
+    const [sx, sy] = P(-24, 4);
+    g += callout(sx, sy, 300, 520, prog(t, A('s3', 1, 3) - 0.15, A('s3', 1, 3) + 0.9), '#94D541', t);
+    let h = svg(g);
+    h += el(`left:60px;top:445px;${pop(t, A('s3', 1, 3) + 0.4)}`, `<div class="label-en" style="font-size:52px">HONEY STOMACH</div>`);
+    // "normal stomach - no" tag
+    const nk = A('s3', 0, 1);
+    h += el(`left:600px;top:470px;${pop(t, nk)};opacity:${f(fade(t, nk, 0.3) * (1 - fade(t, A('s3', 1, 0), 0.4)))}`,
+      `<div class="pill" style="position:relative">✕ সাধারণ পাকস্থলী</div>`);
+    // three step cards like the reference layout
+    const ca = A('s3', 1, 0);
+    const steps = [['১', 'শুঁড় দিয়ে প্রবেশ', ICON.drop, ca + 0.2], ['২', 'হানি স্টমাক', ICON.sack, A('s3', 1, 3)], ['৩', 'এনজাইম বিক্রিয়া', ICON.spark, A('s3', 2, 1)]];
+    let cards = '';
+    steps.forEach(([n, txt, ic, on], i) => {
+      cards += el(`left:${30 + i * 314}px;top:24px;width:294px;height:200px;${pop(t, ca + i * 0.12)}`,
+        `<div class="icon">${ic}</div><div class="v">${txt}</div>`, `card${t >= on ? ' on' : ''}`);
+    });
+    h += el(`left:43px;top:1050px;width:994px;height:248px;${pop(t, ca - 0.1)}`, cards, 'panel');
+    return h;
+  },
+
+  s4(t) {
+    const s = SC.s4, t0 = s.start;
+    let g = '';
+    // drifting honeycomb backdrop
+    for (let row = 0; row < 9; row++) for (let col = 0; col < 8; col++) {
+      const cx = col * 150 + (row % 2) * 75 - 40, cy = 440 + row * 130 + ((t * 8) % 130);
+      g += `<polygon points="${hexPts(cx, cy, 80)}" fill="none" stroke="#C98A24" stroke-width="3" opacity="${f(0.07 + 0.04 * Math.sin(row + col + t))}"/>`;
+    }
+    // swarm of helpers (collective work)
+    const swk = fade(t, A('s4', 0, 2), 0.8);
+    const r = rng(21);
+    for (let i = 0; i < 7; i++) {
+      const ph = r() * TAU, rx = 300 + r() * 180, ry = 70 + r() * 80, sp = 0.4 + r() * 0.35;
+      const a = t * sp + ph, x = 540 + Math.cos(a) * rx, y = 610 + Math.sin(a) * ry + i * 8;
+      g += bee(x, y, 0.36, t, { flip: Math.sin(a) > 0, opacity: swk * 0.8, phase: i * 0.1, id: 'sw' + i, glow: 0.4 });
+    }
+    const lx = 360, rx2 = 720, y = 880;
+    const bobL = Math.sin(t * 2.2) * 5, bobR = Math.sin(t * 2.2 + 1) * 5;
+    g += `<circle cx="540" cy="${y}" r="260" fill="url(#gGlow)" opacity="0.6"/>`;
+    g += bee(lx, y + bobL, 1.45, t, { id: 'l', rest: true, hz: 3 });
+    g += bee(rx2, y + bobR, 1.45, t, { id: 'r', flip: true, rest: true, hz: 3 });
+    // nectar transfer from collector (right) to worker (left)
+    const tk = prog(t, A('s4', 1, 1) - 0.2, A('s4', 1, 3) + 0.4);
+    const x1 = rx2 - 74 * 1.45 + 10, x2 = lx + 74 * 1.45 - 10, yy = y + 26;
+    if (tk > 0) {
+      const len = x1 - x2;
+      g += `<path d="M${f(x1)},${f(yy)} Q540,${f(yy - 70)} ${f(x2)},${f(yy)}" fill="none" stroke="#FFC94D" stroke-width="6" stroke-linecap="round" stroke-dasharray="14 12" stroke-dashoffset="${f(-t * 60)}" opacity="${f(clamp(tk * 4) * 0.9)}" filter="url(#fGlow)"/>`;
+      const p = eInOut(clamp(tk * 1.3));
+      const qx = (1 - p) * (1 - p) * x1 + 2 * p * (1 - p) * 540 + p * p * x2, qy = (1 - p) * (1 - p) * yy + 2 * p * (1 - p) * (yy - 70) + p * p * yy;
+      g += honeyDrop(qx, qy - 6, 0.38, t, clamp(tk * 4));
+    }
+    // enzyme sparkles
+    const ek = fade(t, A('s4', 2, 1), 0.5);
+    if (ek > 0) {
+      const rs = rng(5);
+      for (let i = 0; i < 14; i++) {
+        const a = rs() * TAU, d = 50 + rs() * 120, tw = Math.abs(Math.sin(t * 3 + i));
+        g += `<path transform="translate(${f(540 + Math.cos(a) * d)},${f(yy - 30 + Math.sin(a) * d * 0.6)}) scale(${f(0.5 + tw * 0.6)})" d="M0,-12 L3,-3 L12,0 L3,3 L0,12 L-3,3 L-12,0 L-3,-3 Z" fill="#94D541" opacity="${f(ek * tw)}"/>`;
+      }
+    }
+    let h = svg(g);
+    h += el(`left:${rx2 - 130}px;top:${y + 100}px;width:260px;text-align:center;${pop(t, A('s4', 1, 0))}`, `<div class="pill amber" style="position:relative;display:inline-block;font-size:36px;padding:12px 30px">সংগ্রাহক</div>`);
+    h += el(`left:${lx - 130}px;top:${y + 100}px;width:260px;text-align:center;${pop(t, A('s4', 1, 3))}`, `<div class="pill lime" style="position:relative;display:inline-block;font-size:36px;padding:12px 30px">কর্মী</div>`);
+    // moisture bar (reference-style progress card)
+    const mk = prog(t, A('s4', 2, 2), E('s4', 2) + 0.6);
+    const pct = lerp(80, 55, eInOut(mk));
+    h += el(`left:80px;top:1112px;width:920px;height:150px;${pop(t, A('s4', 2, 0))}`,
+      `<div class="row"><span>জলীয় অংশ কমছে...</span><span style="color:var(--lime)">${bn(Math.round(pct))}%</span></div>
+       <div class="track"><div class="fill" style="width:${f(pct)}%"></div></div>`, 'bar');
+    return h;
+  },
+
+  s5(t) {
+    const s = SC.s5;
+    let g = '';
+    const R = 64, W = Math.sqrt(3) * R, cols = 6, rows = 4;
+    const ox = 540 - (cols - 0.5) * W / 2 + W / 2, oy = 830;
+    const fillA = A('s5', 0, 1) - 0.3, capA = A('s5', 3, 1) - 0.2;
+    const cells = [];
+    for (let rr = 0; rr < rows; rr++) for (let c = 0; c < cols; c++) cells.push([ox + c * W + (rr % 2) * W / 2 - W / 4, oy + rr * R * 1.5, rr, c]);
+    g += `<rect x="60" y="${oy - 110}" width="960" height="${rows * R * 1.5 + 140}" rx="40" fill="url(#gGlow)" opacity="0.35"/>`;
+    const dry = eInOut(prog(t, A('s5', 2, 0), A('s5', 2, 3) + 0.6));
+    cells.forEach(([cx, cy, rr, c], i) => {
+      const order = (c + rr * 0.6) / cols;
+      const lvl = eOut(prog(t, fillA + order * 1.6, fillA + order * 1.6 + 1.2));
+      const cap = eOut(prog(t, capA + order * 2.2, capA + order * 2.2 + 0.6));
+      const id = `h${i}`;
+      g += `<clipPath id="${id}"><polygon points="${hexPts(cx, cy, R - 7)}"/></clipPath>
+        <polygon points="${hexPts(cx, cy, R - 4)}" fill="#1B120A" stroke="#D99A35" stroke-width="7" stroke-linejoin="round"/>`;
+      // nectar: paler and more liquid before drying, deep honey after
+      const top = cy + R - 2 * R * lvl * (0.95 - 0.12 * dry);
+      g += `<rect clip-path="url(#${id})" x="${f(cx - R)}" y="${f(top + Math.sin(t * 3 + i) * 2 * (1 - dry))}" width="${2 * R}" height="${2 * R}" fill="url(#gHoneyV)" opacity="${f(0.55 + 0.45 * dry)}"/>`;
+      g += `<ellipse clip-path="url(#${id})" cx="${f(cx - 14)}" cy="${f(top + 16)}" rx="18" ry="6" fill="#FFF3C9" opacity="${f(0.35 * lvl)}"/>`;
+      if (cap > 0) g += `<polygon points="${hexPts(cx, cy, (R - 9) * (0.4 + 0.6 * cap))}" fill="#F3E2B5" opacity="${f(0.92 * cap)}" stroke="#FFF8E6" stroke-width="2"/>
+        <polygon points="${hexPts(cx - 8, cy - 10, (R - 30) * cap)}" fill="#FFFFFF" opacity="${f(0.25 * cap)}"/>`;
+    });
+    // evaporating water molecules
+    const ev = prog(t, A('s5', 2, 0) - 0.3, A('s5', 3, 0));
+    if (ev > 0 && ev < 1) {
+      const r = rng(9);
+      for (let i = 0; i < 28; i++) {
+        const [cx, cy] = cells[Math.floor(r() * cells.length)];
+        const p = ((t * (0.35 + r() * 0.3) + r()) % 1);
+        const x = cx + Math.sin(p * 6 + i) * 18, y = cy - p * 360;
+        const op = Math.sin(p * Math.PI) * clamp(Math.min(ev * 6, (1 - ev) * 6));
+        g += `<g opacity="${f(op)}"><circle cx="${f(x)}" cy="${f(y)}" r="9" fill="#BFE6FF"/><circle cx="${f(x - 9)}" cy="${f(y + 6)}" r="5" fill="#FFFFFF"/><circle cx="${f(x + 9)}" cy="${f(y + 6)}" r="5" fill="#FFFFFF"/></g>`;
+        if (i % 7 === 0) g += `<text x="${f(x + 18)}" y="${f(y - 10)}" font-family="Montserrat" font-weight="800" font-size="24" fill="#BFE6FF" opacity="${f(op)}">H₂O</text>`;
+      }
+    }
+    // fanning bees with airflow
+    const fk = fade(t, A('s5', 1, 0) - 0.2, 0.6) * (1 - fade(t, A('s5', 3, 0), 0.6) * 0.6);
+    for (let i = 0; i < 3; i++) g += bee(300 + i * 240, 625 + Math.sin(t * 2 + i) * 6, 0.62, t, { opacity: fk, hz: 14, phase: i * 0.03, id: 'f' + i, glow: 0.5 });
+    if (fk > 0) for (let i = 0; i < 5; i++) {
+      const y = 690 + i * 22, off = (t * 420 + i * 140) % 900;
+      g += `<path d="M${f(-200 + off)},${y} q 90,-30 180,0 t 180,0" fill="none" stroke="#E6FFC4" stroke-width="3" stroke-linecap="round" opacity="${f(fk * 0.35)}"/>`;
+    }
+    let h = svg(g);
+    // water percentage gauge, then wax cap label
+    const pct = Math.round(lerp(80, 18, dry));
+    const gOut = fade(t, A('s5', 3, 0) - 0.2, 0.4);
+    h += el(`left:120px;top:448px;width:840px;height:150px;${pop(t, A('s5', 2, 0) - 0.3)};opacity:${f(fade(t, A('s5', 2, 0) - 0.3, 0.3) * (1 - gOut))}`,
+      `<div class="row"><span>পুষ্পরসে পানি</span><span style="color:${dry > 0.98 ? 'var(--lime)' : '#FFC94D'};font-size:46px">${bn(pct)}%</span></div>
+       <div class="track"><div class="fill" style="width:${f(pct)}%;background:linear-gradient(90deg,#5FB6FF,#BFE6FF)"></div></div>`, 'bar');
+    h += el(`left:0;right:0;top:470px;text-align:center;${pop(t, A('s5', 3, 1))}`,
+      `<div class="pill lime" style="position:relative;display:inline-block"><span class="en" style="font-weight:900">WAX CAP</span> · মোমের সিল</div>`);
+    return h;
+  },
+
+  s6(t) {
+    const s = SC.s6;
+    const rev = A('s6', 1, 0), l3 = A('s6', 2, 0);
+    let g = `<ellipse cx="540" cy="760" rx="520" ry="620" fill="url(#gGlow)" opacity="${f(0.35 + 0.25 * fade(t, rev, 0.3))}"/>`;
+    // spoon group shrinks away after the reveal
+    const sk = eInOut(prog(t, rev - 0.1, rev + 0.8));
+    const spoonOut = fade(t, l3 - 0.2, 0.6);
+    const gs = lerp(1, 0.62, sk), gy = lerp(0, 330, sk);
+    let sp = `<g opacity="${f(1 - spoonOut)}" transform="translate(540,${f(900 + gy)}) scale(${f(gs)}) translate(-540,-900)">`;
+    sp += `<rect x="150" y="888" width="440" height="26" rx="13" fill="url(#gWood)"/>
+      <ellipse cx="735" cy="900" rx="165" ry="62" fill="url(#gWood)"/>
+      <ellipse cx="735" cy="892" rx="140" ry="44" fill="#3A2210"/>`;
+    // the falling drop and its landing pool
+    const fallA = A('s6', 0, 3), land = A('s6', 0, 4) + 0.4;
+    const fk = prog(t, fallA, land);
+    const pool = eOut(prog(t, land, land + 0.8));
+    if (pool > 0) {
+      sp += `<ellipse cx="735" cy="894" rx="${f(110 * pool)}" ry="${f(32 * pool)}" fill="url(#gHoney)"/>`;
+      const ring = prog(t, land, land + 0.7);
+      sp += `<ellipse cx="735" cy="894" rx="${f(60 + 120 * ring)}" ry="${f(18 + 34 * ring)}" fill="none" stroke="#FFE3A3" stroke-width="3" opacity="${f(1 - ring)}"/>`;
+    }
+    if (fk < 1) {
+      const dy = lerp(470, 870, fk * fk);
+      const stretch = 1 + fk * 0.35;
+      sp += `<g transform="translate(735,${f(dy)}) scale(${f(1 / Math.sqrt(stretch))},${f(stretch)}) translate(-735,${f(-dy)})">${honeyDrop(735, dy, 0.55, t, clamp(fade(t, s.start + 0.3, 0.8)))}</g>`;
+      if (fk > 0) sp += `<line x1="735" y1="${f(dy - 60)}" x2="735" y2="${f(dy - 60 - 120 * fk)}" stroke="#FFC94D" stroke-width="3" opacity="0.25"/>`;
+    }
+    sp += bee(300, 842, 0.85, t, { rest: true, hz: 2, id: 'sp' });
+    g += sp + `</g>`;
+    // twelve bees = one teaspoon
+    const bk = prog(t, A('s6', 2, 1), A('s6', 2, 3));
+    if (t > l3 - 0.2) {
+      for (let i = 0; i < 12; i++) {
+        const k = eBack(clamp((bk * 12 - i) / 1.2));
+        const x = 175 + (i % 6) * 146, y = 905 + Math.floor(i / 6) * 150;
+        g += bee(x, y + Math.sin(t * 2 + i) * 4, 0.5 * k, t, { id: 't' + i, phase: i * 0.07, opacity: clamp(k), glow: 0.6 });
+      }
+    }
+    let h = svg(g);
+    // big reveal
+    const rk = prog(t, rev, rev + 0.55);
+    const up = eInOut(prog(t, l3, l3 + 0.6));
+    h += el(`left:0;right:0;top:${f(lerp(500, 455, up))}px;text-align:center;opacity:${f(clamp(rk * 3))};transform:scale(${f(lerp(1.7, 1, eOut(rk)) * lerp(1, 0.78, up))})`,
+      `<div style="font:900 250px/1 'Noto Sans Bengali';color:#FFC94D;text-shadow:0 0 ${f(40 + 80 * (1 - rk))}px rgba(242,181,68,0.85),0 10px 30px rgba(0,0,0,0.6)">১/১২</div>
+       <div style="font:800 70px 'Noto Sans Bengali';color:var(--cream);margin-top:6px">চা-চামচ</div>`);
+    h += el(`left:120px;right:120px;top:${f(lerp(840, 1290, 0))}px;text-align:center;font:600 36px/1.4 'Hind Siliguri';color:rgba(245,240,229,0.8);opacity:${f(fade(t, A('s6', 1, 1), 0.5) * (1 - fade(t, l3 - 0.3, 0.4)))}`,
+      'একটি কর্মী মৌমাছির সারাজীবনের<br>আনুমানিক মধু উৎপাদন');
+    // white flash on impact
+    h += el(`left:0;top:0;width:1080px;height:1920px;background:#FFF3D0;opacity:${f(0.35 * (1 - prog(t, rev, rev + 0.35)) * (t >= rev ? 1 : 0))}`);
+    h += el(`left:0;right:0;top:1170px;text-align:center;${pop(t, A('s6', 2, 3))}`,
+      `<div class="pill amber" style="position:relative;display:inline-block">১২টি মৌমাছি = ১ চামচ মধু</div>`);
+    return h;
+  },
+
+  s7(t) {
+    const s = SC.s7, t0 = s.start;
+    const horizon = 760;
+    let g = `<rect x="0" y="300" width="1080" height="${horizon - 300}" fill="url(#gSky)"/>
+      <circle cx="540" cy="${horizon}" r="360" fill="url(#gSun)" opacity="0.9"/>
+      <rect x="0" y="${horizon}" width="1080" height="${1360 - horizon}" fill="url(#gField)"/>`;
+    // perspective flower field, camera flying forward
+    const r = rng(42), cam = (t - t0) * 2.4, fl = [];
+    for (let i = 0; i < 420; i++) {
+      const wx = (r() - 0.5) * 16, wz0 = r() * 30, col = r(), tr = r() < 0.12;
+      let z = ((wz0 - cam) % 30 + 30) % 30 + 0.6;
+      fl.push([wx, z, col, tr, i]);
+    }
+    fl.sort((a, b) => b[1] - a[1]);
+    const trackK = fade(t, A('s7', 0, 1), 0.6);
+    for (const [wx, z, col, tr, i] of fl) {
+      const sx = 540 + wx * 520 / z, sy = horizon + 1500 / z;
+      if (sy > 1380 || sx < -40 || sx > 1120) continue;
+      const sz = 46 / z, op = clamp((30 - z) / 6) * clamp((1400 - sy) / 140);
+      const c = col < 0.55 ? '#FFD84D' : col < 0.8 ? '#FFFFFF' : '#E7A2C8';
+      g += `<circle cx="${f(sx)}" cy="${f(sy)}" r="${f(sz)}" fill="${c}" opacity="${f(op)}"/>`;
+      if (tr && trackK > 0 && sz > 3) g += `<circle cx="${f(sx)}" cy="${f(sy)}" r="${f(sz * 3 + 6)}" fill="none" stroke="#94D541" stroke-width="2.5" opacity="${f(op * trackK)}"/><circle cx="${f(sx)}" cy="${f(sy)}" r="${f(sz * 1.6)}" fill="url(#gGlowLime)" opacity="${f(op * trackK)}"/>`;
+    }
+    // honey stream pouring down for the closing line
+    const hk = eInOut(prog(t, A('s7', 1, 1) - 0.3, E('s7', 1) + 0.6));
+    if (hk > 0) {
+      const w = 34 + 10 * Math.sin(t * 3);
+      const yEnd = lerp(470, 1500, hk);
+      g += `<rect x="0" y="0" width="1080" height="1920" fill="#120B03" opacity="${f(0.45 * hk)}"/>
+        <path d="M${f(540 - w)},470 C${f(540 - w * 0.6)},${f(yEnd * 0.6)} ${f(540 - w * 0.45)},${f(yEnd * 0.85)} ${f(540 - w * 0.4)},${f(yEnd)} L${f(540 + w * 0.4)},${f(yEnd)} C${f(540 + w * 0.45)},${f(yEnd * 0.85)} ${f(540 + w * 0.6)},${f(yEnd * 0.6)} ${f(540 + w)},470 Z" fill="url(#gHoneyV)" filter="url(#fGlow)"/>
+        <rect x="${f(540 - w * 0.25)}" y="470" width="6" height="${f(yEnd - 470)}" fill="#FFF3C9" opacity="0.45"/>`;
+      g += honeyDrop(540, yEnd + 10, 0.9, t, 1);
+    }
+    let h = svg(g);
+    // flower counter
+    const ck = eOut(prog(t, A('s7', 0, 1), A('s7', 0, 2) + 1.2));
+    const n = Math.round(2000000 * ck).toLocaleString('en-US');
+    h += el(`left:0;right:0;top:440px;text-align:center;${pop(t, A('s7', 0, 0) + 0.2)};opacity:${f(fade(t, A('s7', 0, 0) + 0.2, 0.3) * (1 - fade(t, A('s7', 1, 1), 0.5)))}`,
+      `<div class="en" style="font:900 132px/1 Montserrat;color:var(--cream);text-shadow:0 0 40px rgba(242,181,68,0.6),0 8px 26px rgba(0,0,0,0.7)">${n}</div>
+       <div class="en" style="font:800 46px Montserrat;letter-spacing:16px;color:var(--lime);margin-top:12px">FLOWERS</div>`);
+    h += el(`left:0;right:0;top:700px;text-align:center;${pop(t, A('s7', 0, 2))};opacity:${f(fade(t, A('s7', 0, 2), 0.3) * (1 - fade(t, A('s7', 1, 1), 0.5)))}`,
+      `<div class="pill amber" style="position:relative;display:inline-block">= আধা কেজি মধু</div>`);
+    return h;
+  },
+
+  s8(t) {
+    const s = SC.s8, t0 = s.start;
+    const bg = fade(t, t0, 1.2);
+    const l2 = A('s8', 1, 0), l3 = A('s8', 2, 0);
+    const jarOut = eInOut(prog(t, l2 - 0.4, l2 + 0.4));
+    let g = `<rect width="1080" height="1920" fill="#117B50" opacity="${f(bg * 0.55)}"/>
+      <ellipse cx="540" cy="900" rx="700" ry="900" fill="#1C9963" opacity="${f(bg * 0.35)}" filter="url(#fBlur)"/>`;
+    // jar with rising honey
+    const jk = eOut(prog(t, t0 + 0.3, E('s8', 0)));
+    let jar = `<g opacity="${f(clamp(fade(t, t0, 0.8)) * (1 - jarOut))}" transform="translate(540,900) scale(${f(1 - 0.25 * jarOut)}) translate(-540,-900)">`;
+    jar += `<ellipse cx="540" cy="1110" rx="260" ry="34" fill="#000" opacity="0.35" filter="url(#fSoft)"/>`;
+    // leaves and comb pieces
+    jar += `<path d="M300,1080 Q240,930 340,860 Q370,980 300,1080 Z" fill="url(#gLeaf)"/><path d="M790,1090 Q880,980 800,900 Q750,1000 790,1090 Z" fill="url(#gLeaf)"/>`;
+    for (let i = 0; i < 3; i++) jar += `<polygon points="${hexPts(330 + i * 52, 1085 - (i % 2) * 28, 30)}" fill="url(#gHoneyV)" stroke="#F3E2B5" stroke-width="4"/>`;
+    jar += `<clipPath id="jarC"><rect x="400" y="740" width="280" height="370" rx="46"/></clipPath>
+      <rect clip-path="url(#jarC)" x="400" y="${f(1110 - 340 * jk)}" width="280" height="380" fill="url(#gHoneyV)"/>
+      <ellipse clip-path="url(#jarC)" cx="540" cy="${f(1110 - 340 * jk)}" rx="140" ry="12" fill="#FFE3A3" opacity="0.6"/>
+      <rect x="400" y="740" width="280" height="370" rx="46" fill="url(#gGlass)" stroke="rgba(255,255,255,0.55)" stroke-width="4"/>
+      <rect x="418" y="712" width="244" height="40" rx="12" fill="#E9DFC6" opacity="0.9"/>
+      <rect x="420" y="770" width="16" height="280" rx="8" fill="#FFFFFF" opacity="0.25"/>`;
+    if (jk < 0.98) jar += `<rect x="${f(532 + Math.sin(t * 4) * 2)}" y="520" width="16" height="${f(1110 - 340 * jk - 520)}" rx="8" fill="url(#gHoneyV)" filter="url(#fGlow)"/>`;
+    g += jar + `</g>`;
+    let h = svg(g);
+    // logo reveal with light sweep
+    const lk = prog(t, l2 - 0.1, l2 + 0.8);
+    const sweep = prog(t, l2 + 0.5, l2 + 1.6), sweep2 = prog(t, l3 + 2.2, l3 + 3.2);
+    const sw = sweep < 1 ? sweep : sweep2;
+    h += el(`left:${540 - 290}px;top:${f(430)}px;width:580px;height:580px;border-radius:56px;overflow:hidden;
+      box-shadow:0 30px 80px rgba(0,0,0,0.45),0 0 0 3px rgba(148,213,65,0.35),0 0 ${f(90 * lk)}px rgba(148,213,65,0.35);
+      opacity:${f(clamp(lk * 2.5))};transform:scale(${f(0.7 + 0.3 * eBack(lk))})`,
+      `<img src="../assets/nooriyah-logo.jpg" style="width:100%;height:100%;display:block">
+       <div style="position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,0.45) 48%,rgba(212,255,150,0.25) 52%,transparent 65%);transform:translateX(${f(lerp(-120, 120, eInOut(sw)))}%);mix-blend-mode:soft-light"></div>`, 'abs');
+    h += el(`left:0;right:0;top:1080px;text-align:center;${pop(t, l3 + 0.3, 0.7)}`,
+      `<div style="font:800 64px 'Noto Sans Bengali';color:var(--cream);text-shadow:0 6px 24px rgba(0,0,0,0.4)">প্রকৃতির গল্প, <span style="color:var(--lime)">যত্নের সঙ্গে।</span></div>`);
+    h += el(`left:0;right:0;top:1200px;text-align:center;${pop(t, E('s8', 2) - 0.4, 0.7)}`,
+      `<div class="en" style="display:inline-block;font:700 40px Montserrat;letter-spacing:3px;color:#FFE3A3;padding:14px 38px;border-radius:999px;border:2px solid rgba(255,227,163,0.55);background:rgba(0,0,0,0.18)">nooriyah.com.bd</div>`);
+    return h;
+  },
+};
+
+// ---------- subtitles ----------
+const HL = new Set(['মধু', 'মধুর', 'মধুরই', 'খাঁটি', 'ফোঁটা', 'কতটুকু', 'পুষ্পরস', 'পুষ্পরসের', 'নেক্টার', 'কাঁচামাল', 'অমৃত',
+  'বারো', 'বারোটি', 'ভাগের', 'এক', 'ভাগ', 'আধা', 'কেজি', 'বিশ', 'লাখ', 'মৌমাছি', 'মৌমাছির', 'নিঃশব্দ', 'সাধনা', 'যত্নটুকু']);
+const SCI = new Set(['হানি', 'স্টমাক', 'এনজাইম', 'ষড়ভুজ', 'আশি', 'আঠারো', 'শতাংশ', 'শতাংশে', 'সম্মিলিত', 'মোমের', 'সিল', 'বিশুদ্ধতা', 'অকৃত্রিম', 'থলিতে', 'সরল']);
+const NEG = new Set(['না']);
+function subtitle(t) {
+  for (const s of TL.scenes) {
+    if (s.id === 's8' && t >= A('s8', 1, 0) - 0.3) return '';
+    for (const l of s.lines) {
+      const cs = l.chunks;
+      for (let i = 0; i < cs.length; i++) {
+        const c = cs[i];
+        const end = i + 1 < cs.length ? cs[i + 1].start : c.end + 0.3;
+        if (t >= c.start - 0.06 && t < end) {
+          const k = prog(t, c.start - 0.06, c.start + 0.22);
+          const out = i + 1 < cs.length ? 0 : prog(t, end - 0.2, end);
+          const words = c.text.split(' ').map((w, wi) => {
+            const bare = w.replace(/[,।?]/g, '');
+            const cls = NEG.has(bare) ? 'neg' : SCI.has(bare) ? 'sc' : HL.has(bare) ? 'hl' : '';
+            const wk = eBack(prog(t, c.start - 0.06 + wi * 0.05, c.start + 0.2 + wi * 0.05));
+            return `<span class="w ${cls}" style="opacity:${f(clamp(wk * 1.6))};transform:translateY(${f((1 - wk) * 26)}px) scale(${f(0.8 + 0.2 * wk)})">${bare}</span>`;
+          }).join('');
+          return `<div class="sub" style="opacity:${f(clamp(k * 2) * (1 - out))}">${words}</div>`;
+        }
+      }
+    }
+  }
+  return '';
+}
+
+// ---------- HUD ----------
+function hud(t, sc) {
+  const endCard = fade(t, A('s8', 1, 0) - 0.4, 0.5);
+  const intro = fade(t, 0.2, 0.6);
+  let dots = '';
+  TL.scenes.forEach((s, i) => {
+    const cls = i < sc.index ? 'done' : i === sc.index ? 'on' : '';
+    const k = i === sc.index ? eBack(prog(t, sc.start, sc.start + 0.4)) : 1;
+    dots += `<div class="dot ${cls}" style="transform:scale(${f(i === sc.index ? 0.8 + 0.3 * k : 1)})">${bn(i + 1)}</div>`;
+  });
+  const tk = prog(t, sc.start + 0.05, sc.start + 0.6);
+  return `<div style="opacity:${f(intro * (1 - endCard))}">
+    <div class="logo-badge"><img src="../assets/nooriyah-logo.jpg"></div>
+    <div class="dots">${dots}</div>
+    <div class="title" style="opacity:${f(clamp(tk * 2))};transform:translateX(${f((1 - eOut(tk)) * -60)}px)">
+      <div class="badge" style="transform:scale(${f(eBack(tk))})">${bn(sc.index + 1)}</div>
+      <div class="title-text">${sc.title}</div></div></div>`;
+}
+
+// ---------- ambient dust + grain ----------
+const dustCtx = document.getElementById('dust').getContext('2d');
+const dustR = rng(99), DUST = Array.from({ length: 90 }, () => ({ x: dustR() * 1080, y: dustR() * 1920, r: 0.8 + dustR() * 2.6, vx: (dustR() - 0.5) * 14, vy: -6 - dustR() * 18, ph: dustR() * TAU }));
+function drawDust(t, warm) {
+  dustCtx.clearRect(0, 0, 1080, 1920);
+  for (const p of DUST) {
+    const x = ((p.x + p.vx * t) % 1080 + 1080) % 1080, y = ((p.y + p.vy * t) % 1920 + 1920) % 1920;
+    const a = 0.15 + 0.35 * Math.abs(Math.sin(t * 0.8 + p.ph));
+    dustCtx.beginPath(); dustCtx.arc(x, y, p.r, 0, TAU);
+    dustCtx.fillStyle = `rgba(${warm ? '255,214,140' : '200,240,170'},${a})`; dustCtx.fill();
+  }
+}
+(function makeGrain() {
+  const c = document.createElement('canvas'); c.width = 540; c.height = 960;
+  const x = c.getContext('2d'), img = x.createImageData(540, 960), r = rng(5);
+  for (let i = 0; i < img.data.length; i += 4) { const v = r() * 255; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255; }
+  x.putImageData(img, 0, 0);
+  document.getElementById('grain').style.backgroundImage = `url(${c.toDataURL()})`;
+})();
+
+// ---------- frame composition ----------
+const TRANS = 0.55;
+function renderAt(t) {
+  const list = TL.scenes;
+  let cur = list.findIndex(s => t >= s.start && t < s.end);
+  if (cur < 0) cur = list.length - 1;
+  const sc = SC[list[cur].id];
+  let html = '';
+  for (let i = Math.max(0, cur - 1); i <= Math.min(list.length - 1, cur + 1); i++) {
+    const s = list[i];
+    const inK = i === 0 ? 1 : prog(t, s.start - TRANS / 2, s.start + TRANS / 2);
+    const outK = i === list.length - 1 ? 0 : prog(t, s.end - TRANS / 2, s.end + TRANS / 2);
+    const op = eInOut(inK) * (1 - eInOut(outK));
+    if (op <= 0.001) continue;
+    const scale = 1.06 - 0.06 * eOut(inK) - 0.04 * eInOut(outK);
+    const blur = (1 - inK) * 10 + outK * 10;
+    html += `<div class="layer" style="opacity:${f(op)};transform:scale(${f(scale)});${blur > 0.2 ? `filter:blur(${f(blur)}px);` : ''}">${SCENES[s.id](t)}</div>`;
+  }
+  document.getElementById('scene').innerHTML = html;
+  document.getElementById('hud').innerHTML = hud(t, sc);
+  document.getElementById('subs').innerHTML = subtitle(t);
+  drawDust(t, sc.id !== 's8');
+  const r = rng(Math.floor(t * FPS) + 1);
+  document.getElementById('grain').style.backgroundPosition = `${Math.floor(r() * 540)}px ${Math.floor(r() * 960)}px`;
+  document.getElementById('stage').style.opacity = f(clamp(t / 0.5));
+}
+window.renderAt = renderAt;
+window.DURATION = TL.duration;
+const q = new URLSearchParams(location.search);
+if (q.has('t')) renderAt(parseFloat(q.get('t')));
+else if (!q.has('render')) {
+  const t0 = performance.now();
+  (function loop() { renderAt(((performance.now() - t0) / 1000) % TL.duration); requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>
