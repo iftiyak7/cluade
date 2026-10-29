@@ -190,8 +190,8 @@ const Market = (() => {
     textLine(g, 'যা কিনছি,', t, { x: W / 2, y: 420, font: F.serif(600, 74), tIn: 6.05, tOut: 8.95 });
     textLine(g, [['সেটা ', C.ivory], ['কতটা ভালো?', C.gold]], t, { x: W / 2, y: 530, font: F.serif(700, 84), tIn: 7.42, tOut: 8.95 });
     accentLine(g, W / 2, 590, 220, t, 7.7, 8.9, { diamond: true });
-    textLine(g, 'কোনটা কিনব?', t, { x: W / 2, y: 470, font: F.serif(600, 72), tIn: 11.44, tOut: 12.7 });
-    textLine(g, [['কোনটা ', C.ivory], ['মানে ভালো?', C.gold]], t, { x: W / 2, y: 470, font: F.serif(600, 72), tIn: 12.88, tOut: 14.3 });
+    textLine(g, 'কোনটা কিনব?', t, { x: W / 2, y: 470, font: F.serif(600, 72), tIn: 11.44, tOut: 12.35 });
+    textLine(g, [['কোনটা ', C.ivory], ['মানে ভালো?', C.gold]], t, { x: W / 2, y: 470, font: F.serif(600, 72), tIn: 12.88, tOut: 13.95 });
     textLine(g, [['পরিবারের জন্য ', C.ivory], ['কোনটা?', C.gold]], t, { x: W / 2, y: 470, font: F.serif(600, 72), tIn: 14.48, tOut: 16.2 });
   }
 

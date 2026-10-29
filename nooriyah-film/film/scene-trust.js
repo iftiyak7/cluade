@@ -70,9 +70,9 @@ const Trust = (() => {
     g.restore();
     finish(g, t, { vignette: .5, grain: .06 });
 
-    textLine(g, 'আমরা জানি,', t, { x: W / 2, y: 340, font: F.sans(500, 54), color: C.gold, tIn: 54.75, tOut: 57.6 });
-    textLine(g, 'বিশ্বাস একদিনে', t, { x: W / 2, y: 470, font: F.serif(700, 88), tIn: 56.05, tOut: 57.6 });
-    textLine(g, 'তৈরি হয় না', t, { x: W / 2, y: 585, font: F.serif(700, 88), tIn: 56.7, tOut: 57.6 });
+    textLine(g, 'আমরা জানি,', t, { x: W / 2, y: 340, font: F.sans(500, 54), color: C.gold, tIn: 54.75, tOut: 57.3 });
+    textLine(g, 'বিশ্বাস একদিনে', t, { x: W / 2, y: 470, font: F.serif(700, 88), tIn: 56.05, tOut: 57.3 });
+    textLine(g, 'তৈরি হয় না', t, { x: W / 2, y: 585, font: F.serif(700, 88), tIn: 56.7, tOut: 57.3 });
 
     const KW = [[57.92, 'পণ্যের মান', 330], [59.48, 'ব্যবহারকারীর অভিজ্ঞতা', 455], [61.38, 'দায়িত্বশীলতা', 580]];
     for (const [a, s, y] of KW) {
