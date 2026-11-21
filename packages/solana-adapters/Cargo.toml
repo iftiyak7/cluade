@@ -1,6 +1,6 @@
 [package]
 name = "pf-solana"
-description = "Pump.fun bonding-curve math and Solana adapters"
+description = "Pump.fun bonding-curve math, event decoding and Solana adapters"
 edition.workspace = true
 version.workspace = true
 license.workspace = true
@@ -8,4 +8,11 @@ publish.workspace = true
 
 [dependencies]
 thiserror.workspace = true
+serde.workspace = true
+serde_json.workspace = true
 pf-types.workspace = true
+bs58 = "0.5"
+base64 = "0.22"
+
+[dev-dependencies]
+sha2 = "0.10"

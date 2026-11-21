@@ -44,7 +44,7 @@ impl Envelope {
 pub enum Event {
     TokenDiscovered(TokenDiscovered),
     TradeObserved(TradeObserved),
-    CurveCompleted { mint: Address, slot: u64 },
+    CurveCompleted { mint: Address, slot: u64, signature: String, migrated_pool: Option<Address> },
     MarketSnapshot(MarketSnapshot),
     TokenScored(TokenScored),
     EntryIntent(EntryIntent),
@@ -85,6 +85,15 @@ pub struct TokenDiscovered {
     pub symbol: String,
     pub uri: String,
     pub slot: u64,
+    pub signature: String,
+    /// `11111111111111111111111111111111` = native SOL; anything else is a
+    /// token-quoted curve (the bot holds SOL and should skip these).
+    pub quote_mint: Address,
+    /// Token program of the mint (Token-2022 mints need extension checks).
+    pub token_program: Option<Address>,
+    pub mayhem_mode: bool,
+    pub creator_fee_bps: Option<u64>,
+    pub block_time: Option<i64>,
     /// When the node saw the event vs. when we decoded it (latency metric).
     pub received_at_us: i64,
     pub decoded_at_us: i64,
@@ -96,11 +105,21 @@ pub struct TradeObserved {
     pub signature: String,
     pub trader: Address,
     pub side: Side,
-    pub sol_amount: Lamports,
+    /// Amount through the curve in *quote* units (lamports when SOL-quoted).
+    pub quote_amount: u64,
     pub token_amount: TokenAmount,
-    pub virtual_sol_reserves: u64,
+    /// Post-trade reserves, quote-denominated.
+    pub virtual_quote_reserves: u64,
     pub virtual_token_reserves: u64,
+    pub real_quote_reserves: u64,
+    pub real_token_reserves: u64,
+    pub quote_mint: Address,
+    pub fee_bps: u64,
+    pub creator_fee_bps: u64,
+    pub fees: u64,
+    pub ix_name: String,
     pub slot: u64,
+    pub block_time: Option<i64>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

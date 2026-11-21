@@ -10,11 +10,12 @@ use pf_config::TradingConfig;
 use pf_intel::{assess, MarketStats, TokenFacts};
 use pf_position::{ExitOrder, Position, Tick};
 use pf_risk::{BuyRequest, Portfolio, RiskState, SellFill, SellRequest};
-use pf_solana::curve::CurveState;
+use pf_solana::curve::{CurveState, FeeSchedule};
 use pf_types::{Bps, Lamports, TokenAmount, TradingMode};
 use std::collections::BTreeMap;
 
-pub const CURVE_FEE: Bps = Bps(100); // placeholder; real fee read from chain
+/// Protocol 95 bps + creator 30 bps, as observed on mainnet 2026-11-21.
+pub const CURVE_FEE: FeeSchedule = FeeSchedule::new(95, 30);
 pub const NETWORK_FEE: Lamports = Lamports(5_000 + 100_000); // base + priority (paper)
 
 /// External order flow for one tick: positive = buy SOL, negative = sell tokens fraction (bps of circulating held by others).

@@ -146,6 +146,12 @@ Implemented in `services/position-manager` (`pf-position`).
 * Telegram bot token + chat id.
 * A **dedicated** trading wallet funded with an amount you can afford to lose.
 
+## 9a. Verified mainnet constraints
+
+See `MAINNET_FINDINGS_2026-11-21.md`: non-SOL quote curves, per-curve fees,
+Token-2022 mints, log truncation (~2%), ~350 program tx/s with ~80% failing,
+and measured discovery latency per source. These override any assumption above.
+
 ## 10. Construction stages
 
 See `docs/architecture/BUILD_STATUS.md` for verified progress per building.

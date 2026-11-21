@@ -8,6 +8,7 @@ members = [
     "services/risk-engine",
     "services/position-manager",
     "services/token-intelligence",
+    "services/token-discovery",
     "tests/simulation",
 ]
 

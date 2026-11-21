@@ -1,0 +1,27 @@
+[package]
+name = "pf-discovery"
+description = "Real-time Pump.fun token discovery (Building 03)"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "pf-discovery"
+path = "src/main.rs"
+
+[dependencies]
+pf-types.workspace = true
+pf-events.workspace = true
+pf-solana.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
+anyhow = "1"
+thiserror.workspace = true
+futures-util = "0.3"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "signal", "sync", "io-util", "io-std", "fs"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "gzip", "rustls-tls-native-roots", "http2"] }
+tokio-tungstenite = { version = "0.24", features = ["rustls-tls-native-roots"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
