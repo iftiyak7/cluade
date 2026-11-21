@@ -1,0 +1,7 @@
+/target
+node_modules/
+.env
+*.key
+*.keypair.json
+secrets/
+.next/

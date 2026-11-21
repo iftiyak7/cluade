@@ -1,0 +1,12 @@
+[package]
+name = "pf-intel"
+description = "Token safety, momentum and liquidity scoring"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+serde.workspace = true
+pf-types.workspace = true
+pf-config.workspace = true

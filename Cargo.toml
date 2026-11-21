@@ -1,0 +1,37 @@
+[workspace]
+resolver = "2"
+members = [
+    "packages/shared-types",
+    "packages/configuration",
+    "packages/event-contracts",
+    "packages/solana-adapters",
+    "services/risk-engine",
+    "services/position-manager",
+    "services/token-intelligence",
+    "tests/simulation",
+]
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+license = "UNLICENSED"
+publish = false
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+uuid = { version = "1", features = ["v4", "serde"] }
+
+pf-types = { path = "packages/shared-types" }
+pf-config = { path = "packages/configuration" }
+pf-events = { path = "packages/event-contracts" }
+pf-solana = { path = "packages/solana-adapters" }
+pf-risk = { path = "services/risk-engine" }
+pf-position = { path = "services/position-manager" }
+pf-intel = { path = "services/token-intelligence" }
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+panic = "abort"

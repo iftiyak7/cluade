@@ -1,0 +1,15 @@
+[package]
+name = "pf-sim"
+description = "Paper-trading simulation exercising the full decision pipeline"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+pf-types.workspace = true
+pf-config.workspace = true
+pf-solana.workspace = true
+pf-risk.workspace = true
+pf-position.workspace = true
+pf-intel.workspace = true

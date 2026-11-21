@@ -1,0 +1,10 @@
+[package]
+name = "pf-types"
+description = "Shared domain types: integer money, basis points, ids"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+serde.workspace = true
