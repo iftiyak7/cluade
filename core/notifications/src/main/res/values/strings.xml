@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_alarms">Alarms</string>
+    <string name="channel_alarms_desc">Alarm-style reminders you chose, such as your wake-up alarm</string>
+    <string name="channel_medicine">Medicine</string>
+    <string name="channel_medicine_desc">Medicine doses and refill reminders</string>
+    <string name="channel_routine">Routines</string>
+    <string name="channel_routine_desc">Routine activities and timed tasks</string>
+    <string name="channel_water">Water</string>
+    <string name="channel_water_desc">Gentle reminders to drink water</string>
+    <string name="channel_ibadah">Ibadah</string>
+    <string name="channel_ibadah_desc">Prayer, zikr and Quran reminders</string>
+    <string name="channel_tasks">Tasks &amp; reminders</string>
+    <string name="channel_tasks_desc">Tasks, bills, events, study and other reminders</string>
+    <string name="channel_system">App updates</string>
+    <string name="channel_system_desc">Missed reminder summaries and backup results</string>
+
+    <string name="notif_action_done">Done</string>
+    <string name="notif_action_taken">Taken</string>
+    <string name="notif_action_snooze">Snooze</string>
+    <string name="notif_action_skip">Skip</string>
+    <string name="notif_action_reschedule">Reschedule</string>
+    <string name="notif_action_log_glass">Log a glass</string>
+    <string name="notif_public_text">You have a Hayat reminder</string>
+
+    <string name="notif_water_title">Time for some water</string>
+    <string name="notif_water_text">Log a glass when you drink.</string>
+    <string name="notif_bedtime_title">Bedtime is coming up</string>
+    <string name="notif_bedtime_text">Start winding down for a good night\'s sleep.</string>
+    <string name="notif_wake_title">Good morning</string>
+    <string name="notif_wake_text">Time to wake up.</string>
+    <string name="notif_medicine_title">Medicine: %1$s</string>
+    <string name="notif_refill_title">Refill soon: %1$s</string>
+    <string name="notif_refill_text">Your recorded stock is at or below your refill level.</string>
+    <string name="notif_prayer_title">%1$s time</string>
+    <string name="notif_focus_title">Focus session finished</string>
+    <string name="notif_missed_title">Missed reminders</string>
+    <plurals name="notif_missed_text">
+        <item quantity="one">%d reminder was missed while Hayat could not run.</item>
+        <item quantity="other">%d reminders were missed while Hayat could not run.</item>
+    </plurals>
+
+    <string name="prayer_fajr_n">Fajr</string>
+    <string name="prayer_dhuhr_n">Dhuhr</string>
+    <string name="prayer_asr_n">Asr</string>
+    <string name="prayer_maghrib_n">Maghrib</string>
+    <string name="prayer_isha_n">Isha</string>
+</resources>

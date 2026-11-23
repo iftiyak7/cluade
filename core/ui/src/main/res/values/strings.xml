@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common actions -->
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_add">Add</string>
+    <string name="action_done">Done</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_snooze">Snooze</string>
+    <string name="action_close">Close</string>
+    <string name="action_back">Back</string>
+    <string name="action_ok">OK</string>
+    <string name="action_undo">Undo</string>
+    <string name="action_archive">Archive</string>
+    <string name="action_unarchive">Unarchive</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_resume">Resume</string>
+    <string name="action_duplicate">Duplicate</string>
+    <string name="action_search">Search</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_retry">Try again</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_start">Start</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_open_settings">Open settings</string>
+    <string name="action_more">More options</string>
+    <string name="action_select_date">Select date</string>
+    <string name="action_select_time">Select time</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_log">Log</string>
+    <string name="action_view_all">View all</string>
+    <string name="action_continue">Continue</string>
+    <string name="copy_suffix">(copy)</string>
+
+    <!-- States -->
+    <string name="state_selected">Selected</string>
+    <string name="state_not_selected">Not selected</string>
+    <string name="state_loading">Loading…</string>
+    <string name="label_none">None</string>
+    <string name="label_optional">Optional</string>
+    <string name="label_today">Today</string>
+    <string name="label_tomorrow">Tomorrow</string>
+    <string name="label_yesterday">Yesterday</string>
+    <string name="label_date">Date</string>
+    <string name="label_time">Time</string>
+    <string name="label_title">Title</string>
+    <string name="label_name">Name</string>
+    <string name="label_description">Description</string>
+    <string name="label_notes">Notes</string>
+    <string name="label_color">Colour</string>
+    <string name="label_color_option">Colour %1$d</string>
+    <string name="label_repeat">Repeat</string>
+    <string name="label_days">Days</string>
+    <string name="label_start_date">Start date</string>
+    <string name="label_end_date">End date</string>
+    <string name="label_no_end_date">No end date</string>
+    <string name="label_reminder">Reminder</string>
+    <string name="label_priority">Priority</string>
+    <string name="label_status">Status</string>
+    <string name="label_minutes">%1$d min</string>
+    <string name="label_hours_minutes">%1$d h %2$d min</string>
+    <string name="label_percent">%1$d%%</string>
+    <string name="label_count_of">%1$s of %2$s</string>
+    <string name="label_every_n_days">Every %1$d days</string>
+    <string name="label_every_n_minutes">Every %1$d minutes</string>
+    <string name="label_archived">Archived</string>
+    <string name="label_paused">Paused</string>
+    <string name="label_week">This week</string>
+    <string name="label_month">This month</string>
+
+    <!-- Errors -->
+    <string name="error_required">This field is required</string>
+    <string name="error_too_long">This text is too long</string>
+    <string name="error_out_of_range">This value is outside the allowed range</string>
+    <string name="error_invalid_format">This value is not in a valid format</string>
+    <string name="error_end_before_start">The end must be after the start</string>
+    <string name="error_duplicate">This entry is duplicated</string>
+    <string name="error_empty_selection">Select at least one option</string>
+    <string name="error_generic">Something went wrong. Your data was not changed.</string>
+    <string name="error_not_found">This item no longer exists.</string>
+    <string name="error_storage">Could not save to device storage.</string>
+    <string name="msg_saved">Saved</string>
+    <string name="msg_deleted">Deleted</string>
+    <string name="confirm_delete_title">Delete this item?</string>
+    <string name="confirm_delete_message">This cannot be undone.</string>
+
+    <!-- Priority -->
+    <string name="priority_low">Low</string>
+    <string name="priority_medium">Medium</string>
+    <string name="priority_high">High</string>
+    <string name="priority_urgent">Urgent</string>
+
+    <!-- Repeat choices -->
+    <string name="repeat_once">Does not repeat</string>
+    <string name="repeat_daily">Every day</string>
+    <string name="repeat_weekly">Selected weekdays</string>
+    <string name="repeat_monthly">Monthly</string>
+    <string name="repeat_yearly">Yearly</string>
+    <string name="repeat_interval">At an interval</string>
+    <string name="repeat_every_n_days">Every few days</string>
+    <string name="month_overflow_clamp">In shorter months, use the last day</string>
+    <string name="month_overflow_skip">Skip months without this day</string>
+    <string name="label_day_of_month">Day of month</string>
+    <string name="label_interval_minutes">Interval (minutes)</string>
+    <string name="label_window_start">From</string>
+    <string name="label_window_end">Until</string>
+
+    <!-- Reminder categories -->
+    <string name="cat_water">Water</string>
+    <string name="cat_medicine">Medicine</string>
+    <string name="cat_meal">Meals</string>
+    <string name="cat_zikr">Zikr</string>
+    <string name="cat_prayer">Prayer</string>
+    <string name="cat_quran">Quran</string>
+    <string name="cat_work">Work</string>
+    <string name="cat_study">Study</string>
+    <string name="cat_exercise">Exercise</string>
+    <string name="cat_sleep">Sleep</string>
+    <string name="cat_bill">Bills</string>
+    <string name="cat_appointment">Appointments</string>
+    <string name="cat_event">Events</string>
+    <string name="cat_task">Tasks</string>
+    <string name="cat_routine">Routines</string>
+    <string name="cat_habit">Habits</string>
+    <string name="cat_custom">Custom</string>
+
+    <!-- Task categories (built-in) -->
+    <string name="taskcat_personal">Personal</string>
+    <string name="taskcat_work">Work</string>
+    <string name="taskcat_study">Study</string>
+    <string name="taskcat_health">Health</string>
+    <string name="taskcat_home">Home</string>
+    <string name="taskcat_finance">Finance</string>
+
+    <!-- Activity / dose / occurrence states -->
+    <string name="status_completed">Completed</string>
+    <string name="status_skipped">Skipped</string>
+    <string name="status_postponed">Postponed</string>
+    <string name="status_missed">Missed</string>
+    <string name="status_taken">Taken</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_scheduled">Scheduled</string>
+    <string name="status_snoozed">Snoozed</string>
+    <string name="status_delivered">Delivered</string>
+    <string name="status_cancelled">Cancelled</string>
+    <string name="status_overdue">Overdue</string>
+
+    <!-- Prayers -->
+    <string name="prayer_fajr">Fajr</string>
+    <string name="prayer_sunrise">Sunrise</string>
+    <string name="prayer_dhuhr">Dhuhr</string>
+    <string name="prayer_asr">Asr</string>
+    <string name="prayer_maghrib">Maghrib</string>
+    <string name="prayer_isha">Isha</string>
+    <string name="prayer_status_prayed">Prayed</string>
+    <string name="prayer_status_late">Prayed late</string>
+    <string name="prayer_status_qada">Made up (qada)</string>
+    <string name="prayer_status_missed">Missed</string>
+    <string name="prayer_status_excused">Not applicable</string>
+
+    <!-- Meals -->
+    <string name="meal_breakfast">Breakfast</string>
+    <string name="meal_lunch">Lunch</string>
+    <string name="meal_dinner">Dinner</string>
+    <string name="meal_snack">Snack</string>
+    <string name="meal_custom">Other meal</string>
+
+    <!-- Medicine -->
+    <string name="form_tablet">Tablet</string>
+    <string name="form_capsule">Capsule</string>
+    <string name="form_syrup">Syrup</string>
+    <string name="form_injection">Injection</string>
+    <string name="form_drops">Drops</string>
+    <string name="form_inhaler">Inhaler</string>
+    <string name="form_cream">Cream</string>
+    <string name="form_powder">Powder</string>
+    <string name="form_other">Other</string>
+    <string name="mealinst_none">No meal instruction</string>
+    <string name="mealinst_before">Before meal</string>
+    <string name="mealinst_with">With meal</string>
+    <string name="mealinst_after">After meal</string>
+    <string name="mealinst_empty">On an empty stomach</string>
+
+    <!-- Routine kinds -->
+    <string name="kind_general">General</string>
+    <string name="kind_workday">Workday</string>
+    <string name="kind_friday">Friday</string>
+    <string name="kind_holiday">Holiday</string>
+    <string name="kind_ramadan">Ramadan</string>
+    <string name="kind_study">Study</string>
+    <string name="kind_fitness">Fitness</string>
+
+    <!-- Finance kinds -->
+    <string name="fin_bill">Bill</string>
+    <string name="fin_rent">Rent</string>
+    <string name="fin_installment">Installment</string>
+    <string name="fin_subscription">Subscription</string>
+    <string name="fin_receivable">Money to receive</string>
+    <string name="fin_payable">Money to pay</string>
+    <string name="fin_other">Other</string>
+    <string name="fin_repeat_none">Once</string>
+    <string name="fin_repeat_weekly">Weekly</string>
+    <string name="fin_repeat_monthly">Monthly</string>
+    <string name="fin_repeat_yearly">Yearly</string>
+
+    <!-- Event kinds -->
+    <string name="event_birthday">Birthday</string>
+    <string name="event_anniversary">Anniversary</string>
+    <string name="event_appointment">Appointment</string>
+    <string name="event_travel">Travel</string>
+    <string name="event_document">Document expiry</string>
+    <string name="event_license">License renewal</string>
+    <string name="event_custom">Custom</string>
+
+    <!-- Fasting -->
+    <string name="fast_ramadan">Ramadan</string>
+    <string name="fast_sunnah">Sunnah</string>
+    <string name="fast_nafl">Voluntary (nafl)</string>
+    <string name="fast_qada">Make-up (qada)</string>
+    <string name="fast_other">Other</string>
+    <string name="fast_status_fasted">Fasted</string>
+    <string name="fast_status_not">Did not fast</string>
+    <string name="fast_status_planned">Planned</string>
+
+    <!-- Feature names (navigation, cards, search) -->
+    <string name="feature_home">Home</string>
+    <string name="feature_calendar">Calendar</string>
+    <string name="feature_add">Add</string>
+    <string name="feature_progress">Progress</string>
+    <string name="feature_settings">Settings</string>
+    <string name="feature_tasks">Tasks</string>
+    <string name="feature_routines">Routines</string>
+    <string name="feature_reminders">Reminders</string>
+    <string name="feature_water">Water</string>
+    <string name="feature_medicine">Medicine</string>
+    <string name="feature_diet">Diet &amp; meals</string>
+    <string name="feature_sleep">Sleep</string>
+    <string name="feature_fitness">Fitness</string>
+    <string name="feature_ibadah">Ibadah</string>
+    <string name="feature_habits">Habits</string>
+    <string name="feature_study">Study &amp; focus</string>
+    <string name="feature_finance">Finance reminders</string>
+    <string name="feature_events">Important dates</string>
+    <string name="feature_notes">Notes &amp; journal</string>
+    <string name="feature_templates">Routine templates</string>
+    <string name="feature_search">Search</string>
+    <string name="feature_backup">Backup &amp; restore</string>
+    <string name="feature_all">All features</string>
+</resources>

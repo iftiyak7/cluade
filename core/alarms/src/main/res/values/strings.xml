@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="alarm_screen_done">I\'m up / Done</string>
+    <string name="alarm_screen_snooze">Snooze</string>
+    <string name="alarm_screen_dismiss">Dismiss</string>
+</resources>

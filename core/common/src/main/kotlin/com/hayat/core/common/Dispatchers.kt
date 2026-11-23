@@ -8,3 +8,8 @@ data class HayatDispatchers(
     val io: CoroutineDispatcher = Dispatchers.IO,
     val default: CoroutineDispatcher = Dispatchers.Default,
 )
+
+/** Qualifier for the process-wide CoroutineScope that outlives screens (receivers, workers). */
+@javax.inject.Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ApplicationScope

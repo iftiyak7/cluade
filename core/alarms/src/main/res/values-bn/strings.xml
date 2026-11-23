@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="alarm_screen_done">উঠেছি / সম্পন্ন</string>
+    <string name="alarm_screen_snooze">পরে মনে করান</string>
+    <string name="alarm_screen_dismiss">বন্ধ করুন</string>
+</resources>

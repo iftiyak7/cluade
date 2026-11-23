@@ -36,3 +36,23 @@ interface ReminderTargetHandler {
 interface ReminderSyncContributor {
     suspend fun sync(now: Instant)
 }
+
+/** What the OS currently allows for reminders. Shown honestly in the UI. */
+data class ReminderCapabilities(
+    val notificationsEnabled: Boolean,
+    val exactAlarmsAllowed: Boolean,
+    val fullScreenAllowed: Boolean,
+    /** False when the app is subject to battery optimization (reminders may be delayed). */
+    val batteryUnrestricted: Boolean,
+    /** True on Android 13+ when POST_NOTIFICATIONS has not been granted yet. */
+    val needsNotificationPermission: Boolean,
+)
+
+enum class SystemSettingsTarget { APP_NOTIFICATIONS, EXACT_ALARMS, FULL_SCREEN_INTENT, BATTERY_OPTIMIZATION, APP_DETAILS }
+
+interface ReminderCapabilityChecker {
+    fun capabilities(): ReminderCapabilities
+    fun open(target: SystemSettingsTarget)
+    /** Asks the system to run reconciliation soon (e.g. after settings changed). */
+    fun requestReconcile()
+}

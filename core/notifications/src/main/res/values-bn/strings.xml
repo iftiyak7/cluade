@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_alarms">অ্যালার্ম</string>
+    <string name="channel_alarms_desc">আপনার বাছাই করা অ্যালার্ম ধরনের রিমাইন্ডার, যেমন ঘুম থেকে ওঠার অ্যালার্ম</string>
+    <string name="channel_medicine">ওষুধ</string>
+    <string name="channel_medicine_desc">ওষুধের ডোজ ও পুনরায় কেনার রিমাইন্ডার</string>
+    <string name="channel_routine">রুটিন</string>
+    <string name="channel_routine_desc">রুটিনের কাজ ও সময় নির্ধারিত কাজ</string>
+    <string name="channel_water">পানি</string>
+    <string name="channel_water_desc">পানি পান করার মৃদু রিমাইন্ডার</string>
+    <string name="channel_ibadah">ইবাদত</string>
+    <string name="channel_ibadah_desc">নামাজ, যিকির ও কুরআনের রিমাইন্ডার</string>
+    <string name="channel_tasks">কাজ ও রিমাইন্ডার</string>
+    <string name="channel_tasks_desc">কাজ, বিল, ইভেন্ট, পড়াশোনা ও অন্যান্য রিমাইন্ডার</string>
+    <string name="channel_system">অ্যাপের বার্তা</string>
+    <string name="channel_system_desc">মিস হওয়া রিমাইন্ডারের সারাংশ ও ব্যাকআপের ফলাফল</string>
+
+    <string name="notif_action_done">সম্পন্ন</string>
+    <string name="notif_action_taken">নিয়েছি</string>
+    <string name="notif_action_snooze">পরে মনে করান</string>
+    <string name="notif_action_skip">বাদ দিন</string>
+    <string name="notif_action_reschedule">সময় বদলান</string>
+    <string name="notif_action_log_glass">এক গ্লাস লিখুন</string>
+    <string name="notif_public_text">আপনার একটি হায়াত রিমাইন্ডার আছে</string>
+
+    <string name="notif_water_title">পানি পান করার সময়</string>
+    <string name="notif_water_text">পান করলে এক গ্লাস লিখে রাখুন।</string>
+    <string name="notif_bedtime_title">ঘুমানোর সময় হয়ে আসছে</string>
+    <string name="notif_bedtime_text">ভালো ঘুমের জন্য ধীরে ধীরে প্রস্তুতি নিন।</string>
+    <string name="notif_wake_title">শুভ সকাল</string>
+    <string name="notif_wake_text">ঘুম থেকে ওঠার সময় হয়েছে।</string>
+    <string name="notif_medicine_title">ওষুধ: %1$s</string>
+    <string name="notif_refill_title">শীঘ্রই কিনুন: %1$s</string>
+    <string name="notif_refill_text">আপনার লেখা মজুদ পুনরায় কেনার সীমায় পৌঁছেছে।</string>
+    <string name="notif_prayer_title">%1$s-এর সময়</string>
+    <string name="notif_focus_title">মনোযোগের সেশন শেষ</string>
+    <string name="notif_missed_title">মিস হওয়া রিমাইন্ডার</string>
+    <plurals name="notif_missed_text">
+        <item quantity="one">হায়াত চলতে না পারায় %dটি রিমাইন্ডার মিস হয়েছে।</item>
+        <item quantity="other">হায়াত চলতে না পারায় %dটি রিমাইন্ডার মিস হয়েছে।</item>
+    </plurals>
+
+    <string name="prayer_fajr_n">ফজর</string>
+    <string name="prayer_dhuhr_n">যোহর</string>
+    <string name="prayer_asr_n">আসর</string>
+    <string name="prayer_maghrib_n">মাগরিব</string>
+    <string name="prayer_isha_n">ইশা</string>
+</resources>
