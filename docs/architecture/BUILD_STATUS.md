@@ -2,7 +2,9 @@
 
 Only items marked **Done** are implemented *and* covered by passing tests in
 this repository. Read-only discovery has been run against Solana mainnet
-(see `MAINNET_FINDINGS_2026-11-21.md`); **no transaction has been sent**.
+(see `MAINNET_FINDINGS_2026-11-21.md`) and a 15-minute live paper-trading
+session has been run (`MAINNET_FINDINGS_2026-11-23.md`); **no transaction has
+ever been signed or sent**.
 
 Verify locally:
 
