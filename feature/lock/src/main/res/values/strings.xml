@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lock_title">Hayat is locked</string>
+    <string name="lock_enter_pin">Enter your PIN</string>
+    <string name="lock_wrong">Wrong PIN. %1$d attempts left before a pause.</string>
+    <string name="lock_locked_out">Too many attempts. Try again at %1$s.</string>
+    <string name="lock_unavailable">This PIN can no longer be verified on this device. You can reset Hayat from Android Settings → Apps → Hayat → Storage → Clear storage (this erases all data).</string>
+    <string name="lock_use_biometric">Use fingerprint or face</string>
+    <string name="lock_biometric_title">Unlock Hayat</string>
+    <string name="lock_digit">Digit %1$s</string>
+    <string name="lock_backspace">Delete last digit</string>
+    <string name="lock_submit">Unlock</string>
+</resources>

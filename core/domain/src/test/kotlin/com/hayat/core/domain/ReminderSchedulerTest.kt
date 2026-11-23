@@ -55,7 +55,7 @@ class ReminderSchedulerTest {
         override suspend fun onMissed(targetId: String, occurrence: ReminderOccurrence) { handled += "missed:$targetId" }
     }
     private val scheduler = ReminderScheduler(reminders, occurrences, alarms, notifier, log, prefs, time, ids,
-        mapOf(ReminderTargetType.TASK to handler), emptySet())
+        { mapOf(ReminderTargetType.TASK to handler) }, { emptySet() })
 
     init { occurrences.requiresCompletion = { id -> reminders.all.first { it.id == id }.requiresCompletion } }
 

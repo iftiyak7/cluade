@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lock_title">হায়াত লক করা আছে</string>
+    <string name="lock_enter_pin">আপনার পিন লিখুন</string>
+    <string name="lock_wrong">ভুল পিন। বিরতির আগে আর %1$d বার চেষ্টা করা যাবে।</string>
+    <string name="lock_locked_out">অনেকবার চেষ্টা হয়েছে। %1$s-এ আবার চেষ্টা করুন।</string>
+    <string name="lock_unavailable">এই পিন এই ডিভাইসে আর যাচাই করা যাচ্ছে না। অ্যান্ড্রয়েড সেটিংস → অ্যাপ → হায়াত → স্টোরেজ → স্টোরেজ মুছুন থেকে হায়াত রিসেট করতে পারেন (এতে সব তথ্য মুছে যাবে)।</string>
+    <string name="lock_use_biometric">আঙুলের ছাপ বা মুখ ব্যবহার করুন</string>
+    <string name="lock_biometric_title">হায়াত খুলুন</string>
+    <string name="lock_digit">অঙ্ক %1$s</string>
+    <string name="lock_backspace">শেষ অঙ্ক মুছুন</string>
+    <string name="lock_submit">খুলুন</string>
+</resources>

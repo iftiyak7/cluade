@@ -57,7 +57,7 @@ class BackupServiceTest {
     private fun db() = Room.inMemoryDatabaseBuilder(ctx, HayatDatabase::class.java).allowMainThreadQueries().build()
     private fun service(db: HayatDatabase, alarms: FakeAlarmScheduler = FakeAlarmScheduler()): HayatBackupService {
         val scheduler = ReminderScheduler(RoomReminderRepository(db, db.reminderDao()), RoomOccurrenceRepository(db.occurrenceDao(), ids), alarms, FakeNotifier(),
-            RoomDeliveryLogRepository(db.deliveryLogDao(), ids, time), FakePreferencesRepository(), time, ids, emptyMap(), emptySet())
+            RoomDeliveryLogRepository(db.deliveryLogDao(), ids, time), FakePreferencesRepository(), time, ids, { emptyMap() }, { emptySet() })
         return HayatBackupService(db, scheduler, alarms, time, ids, "1.0.0-test")
     }
 

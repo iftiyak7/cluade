@@ -55,7 +55,7 @@ class DataLayerTest {
         lateinit var s: ReminderScheduler
         val handlers = mutableMapOf<ReminderTargetType, com.hayat.core.domain.reminder.ReminderTargetHandler>()
         s = ReminderScheduler(reminders, occ, alarms, notifier, RoomDeliveryLogRepository(db.deliveryLogDao(), ids, time),
-            FakePreferencesRepository(), time, ids, handlers, emptySet())
+            FakePreferencesRepository(), time, ids, { handlers }, { emptySet() })
         val linker = ReminderLinker(reminders, s, time, ids)
         handlers[ReminderTargetType.TASK] = TaskReminderHandler(CompleteTaskUseCase(tasks, linker, time, ids))
         return Triple(s, reminders, occ)

@@ -26,6 +26,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 /**
@@ -45,9 +46,13 @@ class ReminderScheduler @Inject constructor(
     private val preferences: PreferencesRepository,
     private val time: TimeProvider,
     private val ids: IdGenerator,
-    private val handlers: Map<ReminderTargetType, @JvmSuppressWildcards ReminderTargetHandler>,
-    private val contributors: Set<@JvmSuppressWildcards ReminderSyncContributor>,
+    // Providers break the DI cycle scheduler -> handlers -> use cases -> linker -> scheduler.
+    private val handlersProvider: Provider<Map<ReminderTargetType, @JvmSuppressWildcards ReminderTargetHandler>>,
+    private val contributorsProvider: Provider<Set<@JvmSuppressWildcards ReminderSyncContributor>>,
 ) {
+    private val handlers: Map<ReminderTargetType, ReminderTargetHandler> get() = handlersProvider.get()
+    private val contributors: Set<ReminderSyncContributor> get() = contributorsProvider.get()
+
     private val mutex = Mutex()
 
     companion object {

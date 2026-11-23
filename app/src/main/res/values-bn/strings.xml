@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">হায়াত</string>
+    <string name="add_sheet_title">তৈরি করুন</string>
+    <string name="add_task">কাজ</string>
+    <string name="add_reminder">রিমাইন্ডার</string>
+    <string name="add_routine">রুটিন</string>
+    <string name="add_water">পানি লিখুন</string>
+    <string name="add_medicine">ওষুধ</string>
+    <string name="add_note">নোট</string>
+    <string name="add_journal">ডায়েরি</string>
+    <string name="add_event">গুরুত্বপূর্ণ তারিখ</string>
+    <string name="add_habit">অভ্যাস</string>
+    <string name="add_finance">বিল বা পেমেন্ট</string>
+    <string name="add_sleep">ঘুম লিখুন</string>
+    <string name="add_meal">খাবারের পরিকল্পনা</string>
+</resources>

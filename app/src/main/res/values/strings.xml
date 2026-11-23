@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hayat</string>
+    <string name="add_sheet_title">Create</string>
+    <string name="add_task">Task</string>
+    <string name="add_reminder">Reminder</string>
+    <string name="add_routine">Routine</string>
+    <string name="add_water">Log water</string>
+    <string name="add_medicine">Medicine</string>
+    <string name="add_note">Note</string>
+    <string name="add_journal">Journal entry</string>
+    <string name="add_event">Important date</string>
+    <string name="add_habit">Habit</string>
+    <string name="add_finance">Bill or payment</string>
+    <string name="add_sleep">Log sleep</string>
+    <string name="add_meal">Meal plan</string>
+</resources>
