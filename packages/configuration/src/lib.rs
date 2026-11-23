@@ -21,6 +21,8 @@ pub struct TradingConfig {
     pub sizing: Sizing,
     pub exits: ExitConfig,
     pub scoring: ScoringConfig,
+    pub entry: EntryConfig,
+    pub paper: PaperConfig,
 }
 
 impl Default for TradingConfig {
@@ -33,6 +35,99 @@ impl Default for TradingConfig {
             sizing: Sizing::default(),
             exits: ExitConfig::default(),
             scoring: ScoringConfig::default(),
+            entry: EntryConfig::default(),
+            paper: PaperConfig::default(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum BuyMode {
+    /// Act on the first eligible evaluation (fastest; most exposed to rugs).
+    InstantSniper,
+    /// Wait for `min_age_secs` and `min_trades` of real activity.
+    SmartEntry,
+    /// SmartEntry plus stricter scores (`conservative_*`) and half size.
+    Conservative,
+    /// SmartEntry plus a positive short-term trend and buyer acceleration.
+    MomentumConfirmation,
+    /// Produce intents but never execute without operator approval.
+    Manual,
+}
+
+/// Discovery / entry filters (Building 03 + 05 admin settings).
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct EntryConfig {
+    pub buy_mode: BuyMode,
+    pub new_launches: bool,
+    pub min_age_secs: u64,
+    pub max_age_secs: u64,
+    pub min_trades: u32,
+    pub min_unique_buyers: u32,
+    /// Real quote reserves in the curve.
+    pub min_liquidity: Lamports,
+    pub min_volume_1m: Lamports,
+    pub max_market_cap: Lamports,
+    /// Only SOL-quoted curves can be traded with a SOL wallet.
+    pub require_sol_quote: bool,
+    /// Mayhem-mode curves have different dynamics; excluded unless enabled.
+    pub allow_mayhem: bool,
+    pub conservative_min_safety: u8,
+    pub momentum_min_price_change_1m_bps: i64,
+    pub token_blacklist: Vec<String>,
+    pub creator_blacklist: Vec<String>,
+    /// Re-evaluate a token at most this often.
+    pub reevaluate_every_ms: u64,
+}
+
+impl Default for EntryConfig {
+    fn default() -> Self {
+        Self {
+            buy_mode: BuyMode::SmartEntry,
+            new_launches: true,
+            min_age_secs: 20,
+            max_age_secs: 15 * 60,
+            min_trades: 15,
+            min_unique_buyers: 8,
+            min_liquidity: Lamports::from_sol_milli(1_500),
+            min_volume_1m: Lamports::from_sol_milli(500),
+            max_market_cap: Lamports(400 * 1_000_000_000),
+            require_sol_quote: true,
+            allow_mayhem: false,
+            conservative_min_safety: 85,
+            momentum_min_price_change_1m_bps: 500,
+            token_blacklist: Vec::new(),
+            creator_blacklist: Vec::new(),
+            reevaluate_every_ms: 2_000,
+        }
+    }
+}
+
+/// How paper fills are modelled. Defaults are deliberately pessimistic.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(default)]
+pub struct PaperConfig {
+    pub starting_balance: Lamports,
+    /// Slots between our decision (at the current chain tip) and landing.
+    pub landing_slots: u64,
+    /// If no trade arrives to price the fill, fill at last state after this.
+    pub fill_timeout_ms: u64,
+    /// Base + priority fee per transaction (also charged on failed txs).
+    pub network_fee: Lamports,
+    /// Rent locked in the token account; refunded when the position closes.
+    pub token_account_rent: Lamports,
+}
+
+impl Default for PaperConfig {
+    fn default() -> Self {
+        Self {
+            starting_balance: Lamports::from_sol_milli(1_000),
+            landing_slots: 2,
+            fill_timeout_ms: 5_000,
+            network_fee: Lamports(105_000),
+            token_account_rent: Lamports(2_074_080),
         }
     }
 }
@@ -320,6 +415,13 @@ impl TradingConfig {
         for (n, v) in [("min_safety", s.min_safety), ("min_momentum", s.min_momentum), ("min_liquidity", s.min_liquidity), ("min_opportunity", s.min_opportunity)] {
             check(v <= 100, &format!("scoring.{n} must be <= 100"), &mut e);
         }
+
+        let en = &self.entry;
+        check(en.min_age_secs < en.max_age_secs, "entry.min_age_secs must be < max_age_secs", &mut e);
+        check(en.reevaluate_every_ms > 0, "entry.reevaluate_every_ms must be > 0", &mut e);
+        check(en.conservative_min_safety <= 100, "entry.conservative_min_safety must be <= 100", &mut e);
+        check(self.paper.starting_balance.0 > 0, "paper.starting_balance must be > 0", &mut e);
+        check(self.paper.fill_timeout_ms > 0, "paper.fill_timeout_ms must be > 0", &mut e);
 
         if e.is_empty() {
             Ok(())

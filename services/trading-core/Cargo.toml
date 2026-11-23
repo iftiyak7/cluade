@@ -1,0 +1,39 @@
+[package]
+name = "pf-trading-core"
+description = "Trading core: market book, strategy, risk, positions, paper execution"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "pf-trader"
+path = "src/main.rs"
+
+[dependencies]
+pf-types.workspace = true
+pf-config.workspace = true
+pf-events.workspace = true
+pf-solana.workspace = true
+pf-intel.workspace = true
+pf-market.workspace = true
+pf-strategy.workspace = true
+pf-risk.workspace = true
+pf-position.workspace = true
+pf-analytics.workspace = true
+pf-discovery.workspace = true
+pf-db.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
+anyhow = "1"
+base64 = "0.22"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "signal", "sync", "io-util", "fs"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+[dev-dependencies]
+flate2 = "1"

@@ -1,0 +1,24 @@
+{
+  "_comment": "RESEARCH ONLY - for replay comparisons. Looser concentration/safety filters than the defaults; not a recommendation. Paper mode.",
+  "mode": "paper",
+  "live_trading_enabled": false,
+  "switches": {
+    "master": true,
+    "auto_buy": true
+  },
+  "risk": {
+    "max_market_data_age_ms": 6000
+  },
+  "entry": {
+    "buy_mode": "smart_entry"
+  },
+  "scoring": {
+    "min_safety": 55,
+    "min_opportunity": 50,
+    "max_top10_concentration": 5000,
+    "max_creator_holding": 2000
+  },
+  "paper": {
+    "starting_balance": 1000000000
+  }
+}

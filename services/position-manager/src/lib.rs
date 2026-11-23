@@ -199,6 +199,12 @@ impl Position {
         Ok(())
     }
 
+    /// Intent ids of exits awaiting a fill/failure (needed for restart
+    /// recovery, where in-flight orders must be reconciled or failed).
+    pub fn pending_exit_intents(&self) -> Vec<String> {
+        self.pending.iter().map(|p| p.intent_id.clone()).collect()
+    }
+
     fn pending_tokens(&self) -> u64 {
         self.pending.iter().map(|p| p.tokens.0).sum()
     }

@@ -7,7 +7,7 @@ this repository. Read-only discovery has been run against Solana mainnet
 Verify locally:
 
 ```bash
-cargo test --workspace          # 82 tests (incl. real mainnet fixtures)
+TEST_DATABASE_URL=... cargo test --workspace   # 108 tests (real mainnet fixtures + replay, Postgres integration)
 cargo clippy --workspace --all-targets -- -D warnings
 scripts/test-migrations.sh      # applies schema to a throwaway Postgres + invariant checks
 docker compose --env-file .env.example config -q
@@ -16,17 +16,17 @@ docker compose --env-file .env.example config -q
 | # | Building | Status | Notes |
 |---|---|---|---|
 | 01 | Foundation | **Done** (architecture, schema, contracts, workspace) | `docs/architecture/ARCHITECTURE.md`, `database/migrations/0001_init.sql`, `packages/event-contracts` |
-| 02 | 24/7 VPS operations | Partial | Compose for Postgres/Redis with health checks + log rotation. Service supervision, failover, backups: not started |
+| 02 | 24/7 VPS operations | Partial | Compose for Postgres/Redis; RPC endpoint pool with health scoring, failover and pacing; **restart recovery from engine snapshots (verified)**. Supervision units, backups, alerting: not started |
 | 03 | Token discovery | **Partial — live-verified** | Decoder for current program (forward-compatible, logs + emit_cpi), exact curve math reproduced on 10 mainnet trades, `pf-discovery` service: block source run live on mainnet (0 decode errors, 0 rate-limit errors at 5 req/s, ~3.4 s lag); WS source unit-tested only; Geyser, persistence and Redis publishing not started |
-| 04 | Token intelligence | **Core done** | Scoring + hard rejects + explanations (`pf-intel`). On-chain fact collection (holders, clusters, creator history) not started |
-| 05 | Buy engine | Partial | Curve quoting matches chain exactly for `buy`, `buy_exact_quote_in`, buyout and sell (`pf-solana::curve`). Tx building, signing, submission, confirmation: not started |
-| 06 | Hold & sell engine | **Core done** | Lifecycle state machine, TP ladder, trailing stop, smart hold, mandatory exits, reconciliation (`pf-position`) |
-| 07 | Capital protection | **Core done** | Limits, clamping, breakers, profit target, restart persistence (`pf-risk`). DB persistence wiring not started |
+| 04 | Token intelligence | **Done for paper** | Scoring with explanations; live inputs from `pf-market` (holders/concentration from net curve flow, bundled-launch share, wash share, creator sold, in-session creator history); **mint inspection** (authorities, Token-2022 extensions, verified on real mints). Not measured: wallet-cluster funding graph, transfers outside the curve, cross-session creator history |
+| 05 | Buy engine | **Paper done** / live not started | Buy modes (sniper, smart entry, conservative, momentum confirmation, manual) in `pf-strategy`; paper fills with landing latency and slippage failures; exact curve quoting. Live tx building/signing/submission: not started |
+| 06 | Hold & sell engine | **Done for paper** | Lifecycle, TP ladder, trailing stop, smart hold, mandatory exits, creator-dump exit, failed-exit escalation to urgent, migration handling |
+| 07 | Capital protection | **Done for paper** | Risk engine is final authority on every paper order; state persisted in snapshots and restored on restart |
 | 08 | Wallet security | Not started | Design in ARCHITECTURE.md §1–2 |
 | 09 | Admin panel | Not started | Schema for users/sessions/config versions/audit log exists |
-| 10 | Analytics | Partial | Paper-trading simulation harness (`pf-sim`); no historical backtester yet |
+| 10 | Analytics | Partial | `pf-analytics` metrics; **deterministic replay of recorded mainnet sessions** for strategy comparison. Walk-forward tooling, dashboards: not started |
 | 11 | Telegram | Not started | |
-| 12 | Testing & deployment | Partial | Unit + simulation tests, migration tests, CI |
+| 12 | Testing & deployment | Partial | Unit, mainnet-fixture, replay, Postgres integration, migration tests; CI with Postgres service. Load/E2E/deployment scripts: not started |
 
 ## Verified behaviours (by test)
 

@@ -1,8 +1,9 @@
 # Pump.fun Trading Platform
 
 An autonomous Solana / Pump.fun trading platform built in 12 stages
-("buildings"). This repository currently contains the **foundation and the
-core decision logic**, not a live-trading bot. See
+("buildings"). This repository currently runs **live mainnet discovery and
+paper trading** (no transaction is ever signed or sent); live execution is
+not built yet. See
 [`docs/architecture/BUILD_STATUS.md`](docs/architecture/BUILD_STATUS.md) for
 exactly what is implemented and tested.
 
@@ -25,7 +26,13 @@ exactly what is implemented and tested.
 | `services/risk-engine` (`pf-risk`) | Final authority on every order |
 | `services/position-manager` (`pf-position`) | Lifecycle + exit logic |
 | `services/token-intelligence` (`pf-intel`) | Safety / momentum / liquidity scoring |
-| `tests/simulation` (`pf-sim`) | Paper-trading integration harness |
+| `services/token-discovery` (`pf-discovery`) | Live mainnet discovery (block / WebSocket sources) |
+| `services/market-data` (`pf-market`) | Per-token market state from the event stream |
+| `services/strategy-engine` (`pf-strategy`) | Entry decisions: buy modes, discovery filters |
+| `services/trading-core` (`pf-trader`) | Paper trading engine, replay, persistence, restart recovery |
+| `services/analytics` (`pf-analytics`) | Win rate, profit factor, drawdown, … |
+| `packages/database` (`pf-db`) | Postgres migrations runner and writes |
+| `tests/simulation` (`pf-sim`) | Synthetic paper-trading harness |
 | `apps/`, other `services/` | Placeholders with documented responsibilities |
 
 ## Quick start (development)
@@ -36,6 +43,8 @@ scripts/test-migrations.sh
 cp .env.example .env   # edit passwords
 docker compose up -d   # postgres + redis on 127.0.0.1 only
 ```
+
+Paper trading on live mainnet: see [`docs/operations/paper-trading.md`](docs/operations/paper-trading.md).
 
 ## Before any live trading
 

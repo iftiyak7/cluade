@@ -1,0 +1,18 @@
+[package]
+name = "pf-db"
+description = "Postgres persistence: migrations, batched writes, snapshots"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+anyhow = "1"
+tokio = { version = "1", features = ["rt", "macros", "time", "sync"] }
+tokio-postgres = { version = "0.7", features = ["with-serde_json-1"] }
+tracing = "0.1"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt", "macros"] }

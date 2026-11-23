@@ -17,7 +17,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./database/migrations:/docker-entrypoint-initdb.d:ro
+      # Migrations are applied by the application's migration runner
+      # (`pf-trader --migrate`), which records them in schema_migrations.
     networks: [internal]
     ports: ["127.0.0.1:5432:5432"]
     healthcheck:

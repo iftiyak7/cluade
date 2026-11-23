@@ -11,14 +11,10 @@
 //!   pf-discovery [--source ws|blocks] [--duration SECS] [--start-slot N]
 //!                [--stats-every SECS] [--creates-only]
 
-mod pipeline;
-mod redact;
-mod rpc;
-mod sources;
-mod stats;
 
 use anyhow::{bail, Result};
-use pipeline::{Pipeline, Received};
+use pf_discovery::pipeline::{Pipeline, Received};
+use pf_discovery::{env_list, redact, rpc, sources};
 use pf_events::Event;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
@@ -55,10 +51,6 @@ fn parse_args() -> Result<Args> {
         bail!("--source must be ws or blocks");
     }
     Ok(a)
-}
-
-fn env_list(keys: &[&str]) -> Vec<String> {
-    keys.iter().filter_map(|k| std::env::var(k).ok()).filter(|v| !v.trim().is_empty()).collect()
 }
 
 #[tokio::main]

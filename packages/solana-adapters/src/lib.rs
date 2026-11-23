@@ -9,5 +9,6 @@
 pub mod borsh;
 pub mod curve;
 pub mod pump;
+pub mod token;
 
 pub use pump::PROGRAM_ID as PUMP_FUN_PROGRAM_ID;

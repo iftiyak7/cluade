@@ -9,6 +9,11 @@ members = [
     "services/position-manager",
     "services/token-intelligence",
     "services/token-discovery",
+    "services/market-data",
+    "services/strategy-engine",
+    "services/analytics",
+    "packages/database",
+    "services/trading-core",
     "tests/simulation",
 ]
 
@@ -31,6 +36,11 @@ pf-solana = { path = "packages/solana-adapters" }
 pf-risk = { path = "services/risk-engine" }
 pf-position = { path = "services/position-manager" }
 pf-intel = { path = "services/token-intelligence" }
+pf-market = { path = "services/market-data" }
+pf-strategy = { path = "services/strategy-engine" }
+pf-analytics = { path = "services/analytics" }
+pf-discovery = { path = "services/token-discovery" }
+pf-db = { path = "packages/database" }
 
 [profile.release]
 lto = "fat"

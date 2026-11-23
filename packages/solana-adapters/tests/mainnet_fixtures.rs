@@ -209,3 +209,22 @@ fn create_events_flag_quote_mint_and_token_program() {
     assert!(!q.is_sol_quoted(), "non-SOL quoted curve must be detectable");
     assert_eq!(q.token_program().unwrap().to_string(), pf_solana::pump::TOKEN_2022_PROGRAM);
 }
+
+#[test]
+fn real_pump_mints_are_token2022_with_metadata_only() {
+    use pf_solana::token::decode_mint;
+    for (name, expect_name) in [("mint_token2022_a", "dutt and dutter"), ("mint_token2022_b", "Melmin"), ("mint_token2022_c", "")] {
+        let acct = load(name);
+        let v = &acct["result"]["value"];
+        assert_eq!(v["owner"].as_str().unwrap(), pf_solana::pump::TOKEN_2022_PROGRAM);
+        let data = base64::engine::general_purpose::STANDARD.decode(v["data"][0].as_str().unwrap()).unwrap();
+        let m = decode_mint(&data, true).unwrap();
+        assert_eq!(m.extensions, vec![18, 19], "{name}");
+        assert!(m.mint_authority.is_none() && m.freeze_authority.is_none(), "{name}");
+        assert_eq!(m.decimals, 6);
+        assert!(m.red_flags().is_empty(), "{name}: {:?}", m.red_flags());
+        if !expect_name.is_empty() {
+            assert_eq!(m.metadata_name.as_deref(), Some(expect_name));
+        }
+    }
+}

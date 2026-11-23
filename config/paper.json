@@ -1,0 +1,18 @@
+{
+  "_comment": "Paper-trading configuration. Live trading is impossible with this file (mode=paper) and not implemented in pf-trader. max_market_data_age_ms is raised to 6000 because the HTTP block source runs ~3.4 s behind the chain; keep the 3000 default for any faster feed.",
+  "mode": "paper",
+  "live_trading_enabled": false,
+  "switches": {
+    "master": true,
+    "auto_buy": true
+  },
+  "risk": {
+    "max_market_data_age_ms": 6000
+  },
+  "entry": {
+    "buy_mode": "smart_entry"
+  },
+  "paper": {
+    "starting_balance": 1000000000
+  }
+}
