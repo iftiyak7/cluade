@@ -1,0 +1,7 @@
+# For servers that already run CloudPanel (or another web server) on ports 80/443.
+# CloudPanel's nginx terminates HTTPS and proxies to the api on 127.0.0.1:8080; Caddy is not used.
+# Usage:  docker compose -f compose.yaml -f compose.cloudpanel.yaml up -d --build postgres api
+services:
+  api:
+    ports:
+      - "127.0.0.1:8080:8080"   # localhost only: not reachable from the internet directly

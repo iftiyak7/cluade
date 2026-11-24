@@ -87,6 +87,21 @@ mkdir -p /opt/hayat/backups
 Backups are gzip-compressed `pg_dump` files in `/opt/hayat/backups`, 14 days kept. Copy them off
 the server regularly. Restore: `./restore.sh ../backups/hayat-YYYYMMDD-HHMMSS.sql.gz`.
 
+## Servers with CloudPanel (Hostinger "Ubuntu + CloudPanel" image)
+
+CloudPanel already uses ports 80/443, so run without Caddy and let CloudPanel do HTTPS:
+
+```bash
+cd /opt/hayat/deploy
+docker compose -f compose.yaml -f compose.cloudpanel.yaml up -d --build postgres api
+curl -s http://127.0.0.1:8080/api/health      # {"service":"hayat","status":"ok",...}
+```
+
+Then in CloudPanel (`https://SERVER_IP:8443`): **Sites → Add Site → Create a Reverse Proxy**,
+Domain = your domain, Reverse Proxy URL = `http://127.0.0.1:8080`, any site user. Open the new site →
+**SSL/TLS → Actions → New Let's Encrypt Certificate**. The Hayat server trusts the proxy's
+`X-Forwarded-For`/`X-Forwarded-Host` only from local addresses.
+
 ## Update
 
 ```bash

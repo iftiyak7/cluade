@@ -224,14 +224,16 @@ func serve(cfg Config, log *slog.Logger) error {
 }
 
 // clientIP returns the address used for rate limiting. Only the right-most X-Forwarded-For
-// entry is used (the one our own proxy appended), and only when the peer is a loopback proxy.
+// entry is used (the one our own proxy appended), and only when the direct peer is a local proxy:
+// loopback, or a private address such as Caddy's container or the Docker gateway in front of a
+// host proxy (CloudPanel/nginx). The API port is never published publicly, so such peers are ours.
 func (app *App) clientIP(r *http.Request) string {
 	host, _, err := net.SplitHostPort(r.RemoteAddr)
 	if err != nil {
 		host = r.RemoteAddr
 	}
 	if app.cfg.TrustProxy {
-		if ip := net.ParseIP(host); ip != nil && ip.IsLoopback() {
+		if isLocalProxy(host) {
 			if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
 				parts := strings.Split(xff, ",")
 				if c := strings.TrimSpace(parts[len(parts)-1]); net.ParseIP(c) != nil {
@@ -241,4 +243,9 @@ func (app *App) clientIP(r *http.Request) string {
 		}
 	}
 	return host
+}
+
+func isLocalProxy(host string) bool {
+	ip := net.ParseIP(host)
+	return ip != nil && (ip.IsLoopback() || ip.IsPrivate())
 }

@@ -8,6 +8,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"errors"
+	"net"
 	"net/http"
 	"strings"
 	"sync"
@@ -258,6 +259,12 @@ func (app *App) sameOrigin(r *http.Request) bool {
 		scheme = "https://"
 	}
 	host := r.Host
+	// Behind a local reverse proxy that rewrites Host, trust its X-Forwarded-Host.
+	if fh := r.Header.Get("X-Forwarded-Host"); fh != "" && app.cfg.TrustProxy {
+		if peer, _, err := net.SplitHostPort(r.RemoteAddr); err == nil && isLocalProxy(peer) {
+			host = strings.TrimSpace(strings.Split(fh, ",")[0])
+		}
+	}
 	return origin == scheme+host || strings.HasPrefix(origin, scheme+host+"/")
 }
 

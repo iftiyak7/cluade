@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"net/http/httptest"
 	"strings"
 	"testing"
 	"time"
@@ -229,5 +230,39 @@ func TestAuthRateLimit(t *testing.T) {
 	}
 	if !limited {
 		t.Fatal("login was never rate limited")
+	}
+}
+
+func TestClientIPBehindProxies(t *testing.T) {
+	app := &App{cfg: Config{TrustProxy: true}}
+	cases := []struct{ remote, xff, want string }{
+		{"127.0.0.1:5000", "203.0.113.7", "203.0.113.7"},           // host proxy on loopback
+		{"172.18.0.3:5000", "1.1.1.1, 203.0.113.8", "203.0.113.8"}, // Caddy container / Docker gateway: right-most entry
+		{"198.51.100.9:5000", "203.0.113.9", "198.51.100.9"},       // public peer: header ignored (spoofing)
+		{"172.18.0.3:5000", "not-an-ip", "172.18.0.3"},
+	}
+	for _, c := range cases {
+		r := httptest.NewRequest("GET", "/", nil)
+		r.RemoteAddr = c.remote
+		r.Header.Set("X-Forwarded-For", c.xff)
+		if got := app.clientIP(r); got != c.want {
+			t.Errorf("%s + %q: got %s want %s", c.remote, c.xff, got, c.want)
+		}
+	}
+}
+
+func TestSameOriginWithForwardedHost(t *testing.T) {
+	app := &App{cfg: Config{TrustProxy: true, SecureCookies: true}}
+	r := httptest.NewRequest("POST", "/admin/login", nil)
+	r.Host = "127.0.0.1:8080"
+	r.RemoteAddr = "172.17.0.1:4000"
+	r.Header.Set("Origin", "https://hayat.example.com")
+	r.Header.Set("X-Forwarded-Host", "hayat.example.com")
+	if !app.sameOrigin(r) {
+		t.Fatal("forwarded host from local proxy should be accepted")
+	}
+	r.RemoteAddr = "198.51.100.9:4000" // public peer cannot spoof
+	if app.sameOrigin(r) {
+		t.Fatal("X-Forwarded-Host from a public peer must be ignored")
 	}
 }
