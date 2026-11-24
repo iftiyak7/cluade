@@ -63,10 +63,10 @@ echo
 
 say "4/7 CloudPanel reverse proxy for ${DOMAIN}"
 if clpctl site:add:reverse-proxy --domainName="${DOMAIN}" --reverseProxyUrl="http://127.0.0.1:${PORT}" \
-    --siteUser='hayat' --siteUserPassword="$(openssl rand -hex 16)"; then
+    --siteUser=hayat --siteUserPassword="Hy_$(openssl rand -hex 12)_A9"; then
   echo "Site created."
 else
-  echo "(Site may already exist — continuing.)"
+  echo "(Site not created — it may already exist. Check: ls /etc/nginx/sites-enabled/)"
 fi
 
 say "5/7 HTTPS certificate (Let's Encrypt)"
