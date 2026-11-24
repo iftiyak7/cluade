@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="an_title">অগ্রগতি</string>
+    <string name="an_7">৭ দিন</string>
+    <string name="an_30">৩০ দিন</string>
+    <string name="an_tasks">সম্পন্ন কাজ</string>
+    <string name="an_routines">রুটিনের কাজ সম্পন্ন</string>
+    <string name="an_water">পানির লক্ষ্য পূরণের দিন</string>
+    <string name="an_habits">ঠিক পথে থাকা অভ্যাসের দিন</string>
+    <string name="an_prayers">আদায় হিসেবে লেখা নামাজ</string>
+    <string name="an_medication">নেওয়া হিসেবে লেখা ডোজ</string>
+    <string name="an_study">মনোযোগের সময়</string>
+    <string name="an_workouts">ওয়ার্কআউট</string>
+    <string name="an_zikr">যিকিরের সংখ্যা</string>
+    <string name="an_quran">কুরআনের পৃষ্ঠা</string>
+    <string name="an_activity">কার্যকলাপ</string>
+    <string name="an_activity_summary">এই সময়ে %1$d দিন সক্রিয়</string>
+    <string name="an_no_data">এখনো কোনো রেকর্ড নেই</string>
+    <string name="an_ratio">%2$s এর মধ্যে %1$s</string>
+    <string name="an_minutes">%1$s মিনিট</string>
+    <string name="an_study_chart">দিনপ্রতি মনোযোগের মিনিট</string>
+    <string name="an_private">আপনার নিজের রেকর্ড থেকে এই ফোনেই হিসাব করা। কিছুই কোথাও পাঠানো হয় না।</string>
+</resources>

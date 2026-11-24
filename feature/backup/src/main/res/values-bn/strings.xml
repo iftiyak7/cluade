@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bk_title">ব্যাকআপ ও রিস্টোর</string>
+    <string name="bk_explain">আপনার তথ্য শুধু এই ফোনে আছে। নিয়মিত একটি ব্যাকআপ ফাইল এক্সপোর্ট করে নিরাপদ জায়গায়, যেমন ইউএসবি ড্রাইভ বা অন্য ডিভাইসে, রাখুন। অ্যাপ আনইনস্টল হলে বা ফোন হারালে ব্যাকআপ ছাড়া তথ্য ফেরত পাওয়া যায় না।</string>
+    <string name="bk_export">ব্যাকআপ এক্সপোর্ট</string>
+    <string name="bk_export_sub">সব তথ্য আপনার বাছাই করা ফাইলে সংরক্ষণ করুন</string>
+    <string name="bk_import">ব্যাকআপ থেকে রিস্টোর</string>
+    <string name="bk_import_sub">সব তথ্য একটি ব্যাকআপ ফাইল দিয়ে প্রতিস্থাপন করুন</string>
+    <string name="bk_encrypt">পাসফ্রেজ দিয়ে সুরক্ষিত করুন</string>
+    <string name="bk_encrypt_sub">সুপারিশকৃত। AES-256 এনক্রিপশন; পাসফ্রেজ ছাড়া ফাইলটি খোলা যাবে না।</string>
+    <string name="bk_passphrase">পাসফ্রেজ (অন্তত ৮ অক্ষর)</string>
+    <string name="bk_passphrase_confirm">পাসফ্রেজ আবার লিখুন</string>
+    <string name="bk_passphrase_enter">ব্যাকআপের পাসফ্রেজ লিখুন</string>
+    <string name="bk_passphrase_short">অন্তত ৮ অক্ষর ব্যবহার করুন</string>
+    <string name="bk_passphrase_mismatch">পাসফ্রেজ দুটি মেলেনি</string>
+    <string name="bk_passphrase_warning">ভুলে যাওয়া পাসফ্রেজ উদ্ধারের কোনো উপায় নেই।</string>
+    <string name="bk_exported">ব্যাকআপ সংরক্ষিত: %1$dটি রেকর্ড</string>
+    <string name="bk_working">কাজ চলছে…</string>
+    <string name="bk_preview_title">এই ব্যাকআপ রিস্টোর করবেন?</string>
+    <string name="bk_preview_created">তৈরি: %1$s</string>
+    <string name="bk_preview_records">রেকর্ড: %1$dটি</string>
+    <string name="bk_preview_encrypted">এনক্রিপ্ট করা</string>
+    <string name="bk_preview_warning">এই ফোনের বর্তমান সব তথ্য প্রতিস্থাপিত হবে। এটি আর ফেরানো যাবে না।</string>
+    <string name="bk_restore">রিস্টোর</string>
+    <string name="bk_restored">রিস্টোর সম্পন্ন: %1$dটি রেকর্ড</string>
+    <string name="bk_err_not_backup">এটি হায়াতের ব্যাকআপ ফাইল নয়।</string>
+    <string name="bk_err_version">এই ব্যাকআপটি হায়াতের নতুন বা অসমর্থিত সংস্করণে তৈরি।</string>
+    <string name="bk_err_passphrase">ভুল পাসফ্রেজ, অথবা ফাইলটি ক্ষতিগ্রস্ত।</string>
+    <string name="bk_err_corrupt">ব্যাকআপ ফাইলটি ক্ষতিগ্রস্ত বা অসম্পূর্ণ। কিছুই পরিবর্তন হয়নি।</string>
+    <string name="bk_err_large">ফাইলটি হায়াতের ব্যাকআপ হওয়ার জন্য অনেক বড়।</string>
+    <string name="bk_err_io">ফাইলটি পড়া বা লেখা যায়নি।</string>
+    <string name="bk_counts">বিষয়বস্তু</string>
+</resources>

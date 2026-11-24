@@ -90,6 +90,10 @@ dependencies {
     implementation(projects.feature.finance)
     implementation(projects.feature.events)
     implementation(projects.feature.notes)
+    implementation(projects.feature.dashboard)
+    implementation(projects.feature.analytics)
+    implementation(projects.feature.search)
+    implementation(projects.feature.backup)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)

@@ -18,6 +18,10 @@ import com.hayat.feature.study.studyGraph
 import com.hayat.feature.finance.financeGraph
 import com.hayat.feature.events.eventsGraph
 import com.hayat.feature.notes.notesGraph
+import com.hayat.feature.dashboard.dashboardGraph
+import com.hayat.feature.analytics.analyticsGraph
+import com.hayat.feature.search.searchGraph
+import com.hayat.feature.backup.backupGraph
 import com.hayat.feature.settings.settingsGraph
 
 /** Every feature registers its destinations here; features never reference each other. */
@@ -38,5 +42,9 @@ fun NavGraphBuilder.hayatGraphs(nav: NavController, appVersion: String) {
     financeGraph(nav)
     eventsGraph(nav)
     notesGraph(nav)
+    dashboardGraph(nav)
+    analyticsGraph(nav)
+    searchGraph(nav)
+    backupGraph(nav)
     settingsGraph(nav, appVersion)
 }

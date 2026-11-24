@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sr_title">খুঁজুন</string>
+    <string name="sr_hint">কাজ, নোট, রুটিন, ইভেন্ট খুঁজুন…</string>
+    <string name="sr_empty">কোনো ফলাফল নেই</string>
+    <string name="sr_start">এই ফোনে রাখা সবকিছু খুঁজতে লিখুন।</string>
+    <string name="sr_type_task">কাজ</string>
+    <string name="sr_type_routine">রুটিন</string>
+    <string name="sr_type_note">নোট</string>
+    <string name="sr_type_journal">ডায়েরি</string>
+    <string name="sr_type_event">ইভেন্ট</string>
+    <string name="sr_type_habit">অভ্যাস</string>
+    <string name="sr_type_reminder">রিমাইন্ডার</string>
+    <string name="sr_type_medicine">ওষুধ</string>
+    <string name="sr_type_finance">আর্থিক</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sr_title">Search</string>
+    <string name="sr_hint">Search tasks, notes, routines, events…</string>
+    <string name="sr_empty">No results</string>
+    <string name="sr_start">Type to search everything stored on this phone.</string>
+    <string name="sr_type_task">Task</string>
+    <string name="sr_type_routine">Routine</string>
+    <string name="sr_type_note">Note</string>
+    <string name="sr_type_journal">Journal</string>
+    <string name="sr_type_event">Event</string>
+    <string name="sr_type_habit">Habit</string>
+    <string name="sr_type_reminder">Reminder</string>
+    <string name="sr_type_medicine">Medicine</string>
+    <string name="sr_type_finance">Finance</string>
+</resources>

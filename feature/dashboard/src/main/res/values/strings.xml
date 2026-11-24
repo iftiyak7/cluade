@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="db_morning">Good morning</string>
+    <string name="db_afternoon">Good afternoon</string>
+    <string name="db_evening">Good evening</string>
+    <string name="db_night">Good night</string>
+    <string name="db_progress">Today\'s progress</string>
+    <string name="db_progress_text">%1$s of %2$s done</string>
+    <string name="db_progress_empty">Nothing planned yet today</string>
+    <string name="db_priorities">Today\'s priorities</string>
+    <string name="db_no_priorities">No high-priority tasks due</string>
+    <string name="db_next_task">Next task</string>
+    <string name="db_no_tasks">No open tasks for today</string>
+    <string name="db_upcoming">Upcoming reminders</string>
+    <string name="db_no_upcoming">No reminders coming up</string>
+    <string name="db_missed">Missed reminders</string>
+    <string name="db_missed_text">%1$d missed today</string>
+    <string name="db_missed_none">No missed reminders today</string>
+    <string name="db_water">Water</string>
+    <string name="db_water_add">Add %1$s ml</string>
+    <string name="db_medicine">Medicine</string>
+    <string name="db_med_next">Next: %1$s at %2$s</string>
+    <string name="db_med_done">All doses for today are logged</string>
+    <string name="db_med_none">No doses scheduled today</string>
+    <string name="db_prayer">Prayer</string>
+    <string name="db_prayer_logged">%1$d of 5 logged</string>
+    <string name="db_prayer_setup">Set your city for prayer times</string>
+    <string name="db_zikr">Zikr</string>
+    <string name="db_zikr_text">%1$s counts today</string>
+    <string name="db_habits">Habits</string>
+    <string name="db_habits_text">%1$d of %2$d on track today</string>
+    <string name="db_habits_none">No habits scheduled today</string>
+    <string name="db_diet">Meals</string>
+    <string name="db_diet_text">%1$d of %2$d planned meals logged</string>
+    <string name="db_diet_none">No meals planned today</string>
+    <string name="db_timeline">Today\'s routine</string>
+    <string name="db_timeline_none">No routine activities today</string>
+    <string name="db_all_features">All features</string>
+    <string name="db_customize">Customise home</string>
+    <string name="db_search">Search</string>
+    <string name="db_take">Taken</string>
+    <string name="db_welcome_empty">Start by adding a task, a routine or a reminder with the + button below.</string>
+</resources>

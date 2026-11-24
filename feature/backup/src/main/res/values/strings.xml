@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bk_title">Backup &amp; restore</string>
+    <string name="bk_explain">Your data exists only on this phone. Export a backup file regularly and keep it somewhere safe, such as a USB drive or another device. If the app is uninstalled or the phone is lost, data without a backup cannot be recovered.</string>
+    <string name="bk_export">Export backup</string>
+    <string name="bk_export_sub">Save all data to a file you choose</string>
+    <string name="bk_import">Restore from backup</string>
+    <string name="bk_import_sub">Replace all data with a backup file</string>
+    <string name="bk_encrypt">Protect with a passphrase</string>
+    <string name="bk_encrypt_sub">Recommended. AES-256 encryption; without the passphrase the file cannot be opened.</string>
+    <string name="bk_passphrase">Passphrase (at least 8 characters)</string>
+    <string name="bk_passphrase_confirm">Repeat passphrase</string>
+    <string name="bk_passphrase_enter">Enter the backup passphrase</string>
+    <string name="bk_passphrase_short">Use at least 8 characters</string>
+    <string name="bk_passphrase_mismatch">The passphrases do not match</string>
+    <string name="bk_passphrase_warning">There is no way to recover a forgotten passphrase.</string>
+    <string name="bk_exported">Backup saved: %1$d records</string>
+    <string name="bk_working">Working…</string>
+    <string name="bk_preview_title">Restore this backup?</string>
+    <string name="bk_preview_created">Created: %1$s</string>
+    <string name="bk_preview_records">Records: %1$d</string>
+    <string name="bk_preview_encrypted">Encrypted</string>
+    <string name="bk_preview_warning">All current data on this phone will be replaced. This cannot be undone.</string>
+    <string name="bk_restore">Restore</string>
+    <string name="bk_restored">Restore complete: %1$d records</string>
+    <string name="bk_err_not_backup">This file is not a Hayat backup.</string>
+    <string name="bk_err_version">This backup was made by a newer or unsupported version of Hayat.</string>
+    <string name="bk_err_passphrase">Wrong passphrase, or the file is damaged.</string>
+    <string name="bk_err_corrupt">The backup file is damaged or incomplete. Nothing was changed.</string>
+    <string name="bk_err_large">The file is too large to be a Hayat backup.</string>
+    <string name="bk_err_io">The file could not be read or written.</string>
+    <string name="bk_counts">Contents</string>
+</resources>

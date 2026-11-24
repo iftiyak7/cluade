@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="an_title">Progress</string>
+    <string name="an_7">7 days</string>
+    <string name="an_30">30 days</string>
+    <string name="an_tasks">Tasks completed</string>
+    <string name="an_routines">Routine activities done</string>
+    <string name="an_water">Days water goal met</string>
+    <string name="an_habits">Habit days on track</string>
+    <string name="an_prayers">Prayers logged as prayed</string>
+    <string name="an_medication">Doses logged as taken</string>
+    <string name="an_study">Focus time</string>
+    <string name="an_workouts">Workouts</string>
+    <string name="an_zikr">Zikr count</string>
+    <string name="an_quran">Quran pages</string>
+    <string name="an_activity">Activity</string>
+    <string name="an_activity_summary">%1$d active days in this period</string>
+    <string name="an_no_data">No records yet</string>
+    <string name="an_ratio">%1$s of %2$s</string>
+    <string name="an_minutes">%1$s min</string>
+    <string name="an_study_chart">Focus minutes per day</string>
+    <string name="an_private">Calculated on this phone from your own records. Nothing is sent anywhere.</string>
+</resources>
