@@ -4,4 +4,4 @@
 services:
   api:
     ports:
-      - "127.0.0.1:8080:8080"   # localhost only: not reachable from the internet directly
+      - "127.0.0.1:${HAYAT_PORT:-18090}:8080"   # localhost only (8080 is often used by CloudPanel itself)

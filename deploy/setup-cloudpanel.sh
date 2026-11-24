@@ -12,6 +12,11 @@ command -v clpctl >/dev/null || die "CloudPanel (clpctl) not found. Use the norm
 
 IP="$(curl -fsS4 https://api.ipify.org 2>/dev/null || hostname -I | awk '{print $1}')"
 DEFAULT_DOMAIN="${IP//./-}.sslip.io"
+PORT="${HAYAT_PORT:-18090}"   # host port for the API (localhost only); CloudPanel often uses 8080
+export HAYAT_PORT="$PORT"
+if ss -ltn | grep -q "127.0.0.1:${PORT} " && ! docker ps --format "{{.Names}}" 2>/dev/null | grep -q "^hayat-api-1$"; then
+  die "Port ${PORT} is busy. Run again with another one, e.g.  HAYAT_PORT=18095 bash $0"
+fi
 
 say "1/7 Docker"
 if ! docker compose version >/dev/null 2>&1; then
@@ -50,14 +55,14 @@ say "3/7 Starting database and Hayat server (first build takes a few minutes)"
 COMPOSE=(docker compose -f compose.yaml -f compose.cloudpanel.yaml)
 "${COMPOSE[@]}" up -d --build postgres api
 for _ in $(seq 1 60); do
-  curl -fsS http://127.0.0.1:8080/api/health >/dev/null 2>&1 && break
+  curl -fsS "http://127.0.0.1:${PORT}/api/health" >/dev/null 2>&1 && break
   sleep 2
 done
-curl -fsS http://127.0.0.1:8080/api/health || die "Server did not start. Logs: ${COMPOSE[*]} logs api"
+curl -fsS "http://127.0.0.1:${PORT}/api/health" || die "Server did not start. Logs: ${COMPOSE[*]} logs api"
 echo
 
 say "4/7 CloudPanel reverse proxy for ${DOMAIN}"
-if clpctl site:add:reverse-proxy --domainName="${DOMAIN}" --reverseProxyUrl='http://127.0.0.1:8080' \
+if clpctl site:add:reverse-proxy --domainName="${DOMAIN}" --reverseProxyUrl="http://127.0.0.1:${PORT}" \
     --siteUser='hayat' --siteUserPassword="$(openssl rand -hex 16)"; then
   echo "Site created."
 else
