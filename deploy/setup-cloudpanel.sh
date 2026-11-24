@@ -17,6 +17,16 @@ say "1/7 Docker"
 if ! docker compose version >/dev/null 2>&1; then
   curl -fsSL https://get.docker.com | sh
 fi
+# Docker may be installed but not running (e.g. an interrupted install).
+if ! docker info >/dev/null 2>&1; then
+  systemctl enable --now containerd docker 2>/dev/null || true
+  sleep 3
+fi
+if ! docker info >/dev/null 2>&1; then
+  curl -fsSL https://get.docker.com | sh
+  systemctl enable --now containerd docker
+fi
+docker info >/dev/null 2>&1 || die "Docker is not running. Check: systemctl status docker"
 docker compose version
 
 say "2/7 Settings (.env)"
