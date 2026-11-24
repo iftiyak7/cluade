@@ -100,8 +100,8 @@ fun HayatCard(
 }
 
 /** Translucent glass fill (top slightly brighter) and edge used for dark-theme cards and bars. */
-val GlassFill = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0x14FFFFFF), Color(0x0AFFFFFF)))
-val GlassEdge = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0x24FFFFFF), Color(0x0AFFFFFF)))
+val GlassFill = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0xFF162036), Color(0xFF131C2E)))
+val GlassEdge = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0x22FFFFFF), Color(0x0FFFFFFF)))
 
 /** Light theme: soft shadow (y 4, blur 16, ~6 %). Dark theme: 1 px border. */
 fun Modifier.softCard(shape: androidx.compose.ui.graphics.Shape): Modifier = composed {
@@ -119,8 +119,8 @@ fun Modifier.hayatBackdrop(): Modifier = composed {
     val base = MaterialTheme.colorScheme.background
     val emerald = ext.gradientStart
     val gold = ext.gold
-    val glowA = if (ext.isDark) 0.20f else 0.06f
-    val glowB = if (ext.isDark) 0.09f else 0.06f
+    val glowA = if (ext.isDark) 0.10f else 0.05f
+    val glowB = if (ext.isDark) 0.05f else 0.05f
     drawBehind {
         drawRect(base)
         val w = size.width

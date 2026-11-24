@@ -37,6 +37,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -74,7 +75,9 @@ import com.hayat.core.designsystem.theme.LocalReduceMotion
 fun InitialAvatar(name: String, modifier: Modifier = Modifier, size: Dp = 48.dp) {
     val ext = HayatThemeExt.colors
     Box(modifier.size(size).clip(CircleShape).background(Brush.linearGradient(listOf(ext.gradientStart, ext.gradientEnd))), contentAlignment = Alignment.Center) {
-        Text(name.trim().firstOrNull()?.uppercase() ?: "☺", style = MaterialTheme.typography.titleLarge, color = Color.White)
+        val initial = name.trim().firstOrNull()?.uppercase()
+        if (initial != null) Text(initial, style = MaterialTheme.typography.titleLarge, color = Color.White)
+        else Icon(Icons.Outlined.Person, null, tint = Color.White, modifier = Modifier.size(size * 0.5f))
     }
 }
 

@@ -89,7 +89,9 @@ fun HayatRoot(vm: MainViewModel, appVersion: String) {
                             p.serverSetupPending -> com.hayat.core.navigation.ConnectServerRoute(firstRun = true)
                             else -> HomeRoute
                         },
-                        modifier = Modifier.padding(bottom = pad.calculateBottomPadding()).consumeWindowInsets(pad),
+                        // Pad and consume only the bottom (bottom bar). Consuming the whole padding here would mark the
+                        // status bar as handled, and every screen would then draw underneath it.
+                        modifier = Modifier.padding(bottom = pad.calculateBottomPadding()).consumeWindowInsets(androidx.compose.foundation.layout.PaddingValues(bottom = pad.calculateBottomPadding())),
                         // Short, GPU-cheap transitions; none at all when the user asked for reduced motion.
                         enterTransition = { if (p.reduceMotion) EnterTransition.None else fadeIn(tween(200, delayMillis = 30, easing = LinearOutSlowInEasing)) + slideInHorizontally(tween(220, easing = LinearOutSlowInEasing)) { it / 16 } },
                         exitTransition = { if (p.reduceMotion) ExitTransition.None else fadeOut(tween(150)) },

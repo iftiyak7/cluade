@@ -16,14 +16,14 @@ internal object Palette {
     val LightText = Color(0xFF121614)
     val LightText2 = Color(0xFF5E6763)
     val LightBorder = Color(0xFFE6E2D8)
-    val DarkBg = Color(0xFF090B0A)
-    val DarkSurface = Color(0xFF121614)
-    val DarkRaised = Color(0xFF1A1F1D)
+    val DarkBg = Color(0xFF0B1220)
+    val DarkSurface = Color(0xFF131C2E)
+    val DarkRaised = Color(0xFF1A2438)
     val DarkEmerald = Color(0xFF2CC59B)
     val DarkGold = Color(0xFFD8B866)
-    val DarkText = Color(0xFFF3F5F4)
-    val DarkText2 = Color(0xFF8F9A96)
-    val DarkBorder = Color(0xFF232927)
+    val DarkText = Color(0xFFF2F5FA)
+    val DarkText2 = Color(0xFF94A0B8)
+    val DarkBorder = Color(0xFF24314A)
     val Error = Color(0xFFB3261E)
 }
 
@@ -65,7 +65,7 @@ internal val LightColors: ColorScheme = lightColorScheme(
 internal val DarkColors: ColorScheme = darkColorScheme(
     primary = Palette.DarkEmerald,
     onPrimary = Color(0xFF00382C),
-    primaryContainer = Color(0xFF14322A),
+    primaryContainer = Color(0xFF123A36),
     onPrimaryContainer = Color(0xFF7FE3C4),
     secondary = Palette.DarkText2,
     onSecondary = Palette.DarkBg,
@@ -73,7 +73,7 @@ internal val DarkColors: ColorScheme = darkColorScheme(
     onSecondaryContainer = Palette.DarkText,
     tertiary = Palette.DarkGold,
     onTertiary = Color(0xFF3A2C00),
-    tertiaryContainer = Color(0xFF2E2919),
+    tertiaryContainer = Color(0xFF2D281C),
     onTertiaryContainer = Palette.DarkGold,
     error = Color(0xFFFFB4AB),
     onError = Color(0xFF690005),
@@ -90,8 +90,8 @@ internal val DarkColors: ColorScheme = darkColorScheme(
     surfaceContainerLowest = Palette.DarkBg,
     surfaceContainerLow = Palette.DarkSurface,
     surfaceContainer = Palette.DarkRaised,
-    surfaceContainerHigh = Color(0xFF202623),
-    surfaceContainerHighest = Color(0xFF2A312E),
+    surfaceContainerHigh = Color(0xFF202B40),
+    surfaceContainerHighest = Color(0xFF2A3650),
     inverseSurface = Palette.DarkText,
     inverseOnSurface = Color(0xFF1B2321),
     inversePrimary = Palette.Emerald,
@@ -157,10 +157,10 @@ internal val LightExtended = HayatExtendedColors(
 )
 internal val DarkExtended = HayatExtendedColors(
     warning = Palette.DarkGold, onWarning = Color(0xFF3A2C00), warningContainer = Color(0xFF313122), onWarningContainer = Palette.DarkGold,
-    success = Palette.DarkEmerald, successContainer = Color(0xFF19322C), onSuccessContainer = Color(0xFF6FDDBF),
-    lavender = Color(0xFF292A39) to Color(0xFFC7B6FF), amber = Color(0xFF2B2619) to Palette.DarkGold,
-    mint = Color(0xFF19322C) to Color(0xFF6FDDBF), pink = Color(0xFF352A2E) to Color(0xFFFFB3C8),
-    sky = Color(0xFF1E2D39) to Color(0xFF9CC6FF),
+    success = Palette.DarkEmerald, successContainer = Color(0xFF123A36), onSuccessContainer = Color(0xFF6FDDBF),
+    lavender = Color(0xFF252848) to Color(0xFFC7B6FF), amber = Color(0xFF2D281C) to Palette.DarkGold,
+    mint = Color(0xFF123A36) to Color(0xFF6FDDBF), pink = Color(0xFF3A2232) to Color(0xFFFFB3C8),
+    sky = Color(0xFF1A2B45) to Color(0xFF9CC6FF),
     gradientStart = Color(0xFF2CC59B), gradientEnd = Color(0xFF1E9E7C),
     ink = Palette.DarkRaised, onInk = Palette.DarkText, inkAccent = Palette.DarkGold, hairline = Color(0x1AFFFFFF),
     gold = Palette.DarkGold, primaryPressed = Color(0xFF2AA889), shadow = Color.Transparent, isDark = true,

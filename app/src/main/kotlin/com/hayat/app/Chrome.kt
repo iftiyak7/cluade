@@ -63,66 +63,62 @@ import com.hayat.core.navigation.*
 import com.hayat.core.ui.R as UiR
 
 /**
- * Bottom navigation: light surface with a hairline top border, four tabs whose labels are always
- * visible, and a raised centre "+" that opens the create sheet.
+ * Floating rounded navigation bar: icon tiles, the active one filled (white on dark, ink on light),
+ * and a green "+" tile in the centre. Labels are announced to screen readers.
  */
 @Composable
 fun HayatBottomBar(current: TopLevel, onSelect: (TopLevel) -> Unit, onAdd: () -> Unit) {
-    val scheme = MaterialTheme.colorScheme
-    Box(Modifier.fillMaxWidth()) {
-        val dark = HayatThemeExt.colors.isDark
-        Column(Modifier.fillMaxWidth().padding(top = 14.dp).background(if (dark) Color(0xF00E1211) else scheme.surface)) {
-            Box(Modifier.fillMaxWidth().height(1.dp).background(HayatThemeExt.colors.hairline))
-            Row(
-                Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.navigationBars).height(64.dp).padding(horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                NavTab(current == TopLevel.HOME, Icons.Outlined.Home, stringResource(UiR.string.feature_home), Modifier.weight(1f)) { onSelect(TopLevel.HOME) }
-                NavTab(current == TopLevel.CALENDAR, Icons.Outlined.CalendarMonth, stringResource(UiR.string.feature_calendar), Modifier.weight(1f)) { onSelect(TopLevel.CALENDAR) }
-                Spacer(Modifier.width(72.dp))
-                NavTab(current == TopLevel.PROGRESS, Icons.Outlined.Insights, stringResource(UiR.string.feature_progress), Modifier.weight(1f)) { onSelect(TopLevel.PROGRESS) }
-                NavTab(current == TopLevel.SETTINGS, Icons.Outlined.Settings, stringResource(UiR.string.feature_settings), Modifier.weight(1f)) { onSelect(TopLevel.SETTINGS) }
-            }
+    val ext = HayatThemeExt.colors
+    val shape = RoundedCornerShape(30.dp)
+    Box(Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 16.dp, vertical = 10.dp)) {
+        Row(
+            Modifier.fillMaxWidth().height(72.dp)
+                .shadow(if (ext.isDark) 0.dp else 14.dp, shape, ambientColor = Color.Black.copy(0.08f), spotColor = Color.Black.copy(0.14f))
+                .clip(shape)
+                .background(if (ext.isDark) Color(0xF2172133) else MaterialTheme.colorScheme.surface)
+                .border(1.dp, ext.hairline, shape)
+                .padding(horizontal = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            NavTile(current == TopLevel.HOME, Icons.Outlined.Home, stringResource(UiR.string.feature_home)) { onSelect(TopLevel.HOME) }
+            NavTile(current == TopLevel.CALENDAR, Icons.Outlined.CalendarMonth, stringResource(UiR.string.feature_calendar)) { onSelect(TopLevel.CALENDAR) }
+            AddTile(stringResource(UiR.string.feature_add), onAdd)
+            NavTile(current == TopLevel.PROGRESS, Icons.Outlined.Insights, stringResource(UiR.string.feature_progress)) { onSelect(TopLevel.PROGRESS) }
+            NavTile(current == TopLevel.SETTINGS, Icons.Outlined.Settings, stringResource(UiR.string.feature_settings)) { onSelect(TopLevel.SETTINGS) }
         }
-        AddFab(stringResource(UiR.string.feature_add), onAdd, Modifier.align(Alignment.TopCenter))
     }
 }
 
 @Composable
-private fun NavTab(selected: Boolean, icon: ImageVector, label: String, modifier: Modifier, onClick: () -> Unit) {
+private fun NavTile(selected: Boolean, icon: ImageVector, label: String, onClick: () -> Unit) {
     val scheme = MaterialTheme.colorScheme
+    val ext = HayatThemeExt.colors
     val interaction = remember { MutableInteractionSource() }
-    val color by animateColorAsState(if (selected) scheme.primary else scheme.onSurfaceVariant, tween(180), label = "tab")
-    val pill by animateColorAsState(if (selected) scheme.primaryContainer else Color.Transparent, tween(180), label = "pill")
-    Column(
-        modifier.fillMaxHeight().clip(RoundedCornerShape(16.dp))
-            .selectable(selected, interaction, ripple(bounded = false), role = Role.Tab, onClick = onClick)
-            .semantics(mergeDescendants = true) { contentDescription = label },
-        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
-    ) {
-        Box(Modifier.size(width = 56.dp, height = 30.dp).clip(RoundedCornerShape(15.dp)).background(pill), contentAlignment = Alignment.Center) {
-            Icon(icon, null, tint = color, modifier = Modifier.size(24.dp))
-        }
-        Text(label, color = color, style = MaterialTheme.typography.labelMedium, maxLines = 1, modifier = Modifier.padding(top = 2.dp).clearAndSetSemantics { })
-    }
+    val activeBg = if (ext.isDark) Color.White else scheme.onSurface
+    val bg by animateColorAsState(if (selected) activeBg else Color.Transparent, tween(180), label = "tile")
+    val fg by animateColorAsState(if (selected) (if (ext.isDark) Color(0xFF0B1220) else scheme.surface) else scheme.onSurfaceVariant, tween(180), label = "tilefg")
+    Box(
+        Modifier.size(width = 58.dp, height = 52.dp).pressScale(interaction).clip(RoundedCornerShape(18.dp)).background(bg)
+            .selectable(selected, interaction, ripple(), role = Role.Tab, onClick = onClick)
+            .semantics { contentDescription = label },
+        contentAlignment = Alignment.Center,
+    ) { Icon(icon, null, tint = fg, modifier = Modifier.size(26.dp)) }
 }
 
 @Composable
-private fun AddFab(label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val scheme = MaterialTheme.colorScheme
+private fun AddTile(label: String, onClick: () -> Unit) {
+    val ext = HayatThemeExt.colors
     val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
     val interaction = remember { MutableInteractionSource() }
     Box(
-        modifier.size(60.dp).pressScale(interaction)
-            .shadow(8.dp, CircleShape, ambientColor = scheme.primary.copy(0.3f), spotColor = scheme.primary.copy(0.4f))
-            .clip(CircleShape)
-            .background(Brush.linearGradient(listOf(HayatThemeExt.colors.gradientStart, HayatThemeExt.colors.gradientEnd)))
-            .border(1.5.dp, HayatThemeExt.colors.gold.copy(alpha = 0.55f), CircleShape)
-            .clickable(interaction, ripple(color = scheme.onPrimary), role = Role.Button) {
+        Modifier.size(width = 64.dp, height = 52.dp).pressScale(interaction, 0.92f).clip(RoundedCornerShape(18.dp))
+            .background(Brush.linearGradient(listOf(ext.gradientStart, ext.gradientEnd)))
+            .clickable(interaction, ripple(color = Color.White), role = Role.Button) {
                 haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.VirtualKey); onClick()
             },
         contentAlignment = Alignment.Center,
-    ) { Icon(Icons.Outlined.Add, label, tint = scheme.onPrimary, modifier = Modifier.size(30.dp)) }
+    ) { Icon(Icons.Outlined.Add, label, tint = Color.White, modifier = Modifier.size(30.dp)) }
 }
 
 private data class AddAction(val icon: ImageVector, val label: Int, val route: Any)

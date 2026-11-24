@@ -459,6 +459,7 @@ private fun DashboardScreen(nav: NavController, vm: DashboardViewModel = hiltVie
     if (customWater) CustomWaterDialog(onDismiss = { customWater = false }, onAdd = { vm.addWater(it); customWater = false })
 }
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 private fun HomeHeader(s: DashboardState, nav: NavController, modifier: Modifier = Modifier) {
     val fmt = LocalFormatter.current
@@ -478,11 +479,13 @@ private fun HomeHeader(s: DashboardState, nav: NavController, modifier: Modifier
         }
         Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f)) {
-            Text(if (name.isBlank()) greeting else stringResource(R.string.db_greeting, greeting, name), style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 2.dp)) {
-                Text(fmt.dayMonth(s.today), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
+            Text(if (name.isBlank()) greeting else stringResource(R.string.db_greeting, greeting, name), style = MaterialTheme.typography.titleMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            androidx.compose.foundation.layout.FlowRow(
+                Modifier.padding(top = 4.dp), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                Text(fmt.dayMonth(s.today), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1,
+                    modifier = Modifier.align(Alignment.CenterVertically))
                 if (s.prefs.islamicModuleEnabled) HijriCalendar.fromGregorian(s.today, s.prefs.hijriOffsetDays)?.let { h ->
-                    Spacer(Modifier.width(6.dp))
                     Text(fmt.hijri(h.day, h.month, h.year), style = MaterialTheme.typography.labelSmall, color = ext.prayer.second, maxLines = 1,
                         modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(ext.prayer.first).padding(horizontal = 8.dp, vertical = 2.dp))
                 }
@@ -507,7 +510,7 @@ private fun HeroCard(s: DashboardState, nav: NavController, modifier: Modifier =
     val frac = if (s.totalCount == 0) 0f else s.doneCount.toFloat() / s.totalCount
     val pct = percentOf(frac)
     val text = if (s.totalCount == 0) stringResource(R.string.db_progress_empty) else stringResource(R.string.db_progress_text, fmt.number(s.doneCount), fmt.number(s.totalCount))
-    HayatCard(modifier, contentPadding = PaddingValues(18.dp)) {
+    HayatCard(modifier, onClick = { nav.navigate(CalendarRoute()) }, contentPadding = PaddingValues(18.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             ProgressRing(pct / 100f, size = 108.dp, stroke = 10.dp, description = stringResource(R.string.db_progress) + " " + fmt.number(pct) + "%",
                 color = if (ext.isDark) ext.gold else MaterialTheme.colorScheme.primary,
@@ -520,8 +523,11 @@ private fun HeroCard(s: DashboardState, nav: NavController, modifier: Modifier =
             Column(Modifier.weight(1f)) {
                 Text(stringResource(R.string.db_progress), style = MaterialTheme.typography.titleMedium)
                 Text(text, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Spacer(Modifier.height(10.dp))
-                HayatButton(stringResource(R.string.db_open_plan), { nav.navigate(CalendarRoute()) }, variant = ButtonVariant.TONAL, height = 44.dp, icon = Icons.Outlined.ViewTimeline)
+                Spacer(Modifier.height(8.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(stringResource(R.string.db_open_plan), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                    Icon(Icons.Outlined.ChevronRight, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.primary)
+                }
             }
         }
         Spacer(Modifier.height(14.dp))
