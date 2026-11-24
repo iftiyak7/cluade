@@ -12,6 +12,7 @@ the feature that needs it, and the app keeps working (with reduced capability) i
 | `VIBRATE` | Normal | ✅ | Install time | — |
 | `USE_BIOMETRIC` | Normal | ✅ (via androidx.biometric) | When enabling biometric unlock | PIN only. |
 | `WAKE_LOCK` | Normal | merged from WorkManager | — | — |
+| `USE_FINGERPRINT` | Normal (legacy) | merged from androidx.biometric for API < 28 | — | — |
 | `FOREGROUND_SERVICE` | — | ❌ not used | Focus timer uses a persisted start instant + a scheduled end alarm instead of a long-running service. | — |
 
 ## Explicitly **not** requested
@@ -22,7 +23,7 @@ the feature that needs it, and the app keeps working (with reduced capability) i
 
 * WorkManager merges `ACCESS_NETWORK_STATE` into the manifest by default; Hayat removes it with
   `tools:node="remove"` (Hayat never uses network constraints).
-* A build-time test (`ManifestPermissionTest`) fails the build if `INTERNET` or any forbidden
+* A build-time test (`ManifestPolicyTest`) fails the build if `INTERNET` or any forbidden
   permission appears in the merged manifest.
 * Prayer times use a manually chosen city or typed coordinates — no location permission.
 * Backups use the Storage Access Framework (`ACTION_CREATE_DOCUMENT` / `ACTION_OPEN_DOCUMENT`) —

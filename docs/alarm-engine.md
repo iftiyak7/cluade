@@ -25,14 +25,14 @@ an accurate record of what happened. It **cannot guarantee** delivery under all 
 | `ReminderScheduler` | `:core:domain` | Orchestration: materialise horizon, pick next due occurrence per reminder, call `AlarmScheduler`. |
 | `AlarmScheduler` (interface) | `:core:domain` | `schedule(reminderRequestCode, at, style) → Precision`, `cancel(requestCode)`. |
 | `AndroidAlarmScheduler` | `:core:alarms` | AlarmManager implementation (exact / alarm-clock / inexact). |
-| `AlarmPermissionCoordinator` | `:core:alarms` | `canScheduleExactAlarms`, notification permission & channel state, full-screen-intent capability, intents to the right Settings screens. |
+| `AndroidCapabilityChecker` (permission coordinator) | `:core:alarms` | `canScheduleExactAlarms`, notification permission & channel state, full-screen-intent capability, intents to the right Settings screens. |
 | `AlarmReceiver` | `:core:alarms` | Receives the OS alarm, delivers all due occurrences of that reminder, reschedules. |
 | `AlarmActionReceiver` | `:core:alarms` | Done / Snooze / Skip / dismissed (delete-intent) from notifications. |
 | `SystemEventReceiver` (BootReceiver) | `:core:alarms` | `BOOT_COMPLETED`, `MY_PACKAGE_REPLACED`, `TIME_SET`, `TIMEZONE_CHANGED`, exact-alarm permission state changed → enqueue reconciliation. |
 | `ScheduleReconciliationWorker` | `:core:alarms` | Periodic (6 h, battery-not-low not required) + expedited one-off. Idempotent. |
 | `NotificationChannelManager` | `:core:notifications` | Creates channels; maps reminder category → channel. |
 | `ReminderNotifier` | `:core:notifications` | Builds notifications with unique PendingIntents. |
-| `AlarmDeliveryLogger` | `:core:data` | Writes `alarm_delivery_logs` (IDs and event types only, no user content). Pruned after 30 days. |
+| `DeliveryLogRepository` (`RoomDeliveryLogRepository`) | `:core:data` | Writes `alarm_delivery_logs` (IDs and event types only, no user content). Pruned after 30 days. |
 | `ReminderTargetHandler` (multibound) | `:core:data` | Propagates Done/Skip to the owning feature (medicine → dose log, water → intake, task → complete, habit → completion). |
 
 ## Scheduling semantics

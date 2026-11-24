@@ -48,6 +48,12 @@ goal, fasting log, Hijri date).
 | ADR-13 | Religious text bundled is limited to short, universally known phrases (tasbih, takbir, tahlil, istighfar, a short durood) and the 114 surah names with verse counts (sum-checked = 6236 in tests). No Quran verses, hadith or long duas are bundled. | Avoids unverified religious text. Users can add their own adhkar. |
 | ADR-14 | Navigation Compose with type-safe `@Serializable` routes defined in `:core:navigation`. | Features navigate to each other without depending on each other. |
 | ADR-15 | Font: Hind Siliguri (SIL OFL 1.1), bundled locally, 5 weights. | Designed for Bengali + Latin together; no downloadable fonts (offline). |
+| ADR-16 | AGP 9 built-in Kotlin: Android modules apply no `kotlin-android` plugin; compiler options are set on `KotlinCompilationTask` in the convention plugin. | Required by AGP 9; one place configures every module. |
+| ADR-17 | `ReminderScheduler` receives feature handlers and sync contributors through `javax.inject.Provider`. | Breaks the real DI cycle scheduler → handlers → use cases → linker → scheduler; handlers run outside the scheduler mutex so they may call back into it. |
+| ADR-18 | Computed reminders (prayer times, annual events, water and sleep settings) are refreshed by `ReminderSyncContributor`s before every reconciliation. | Their times change daily or depend on preferences; contributors are idempotent (`ReminderLinker` skips unchanged specs). |
+| ADR-19 | Focus timer uses `SystemClock.elapsedRealtime` persisted in `SavedStateHandle`, plus a one-time reminder at the end. | Monotonic and process-death safe without a foreground service; the user is notified when backgrounded. |
+| ADR-20 | Locked notes/journal use `BIOMETRIC_WEAK or DEVICE_CREDENTIAL`; app unlock uses Hayat's PIN with optional `BIOMETRIC_STRONG`. | The combination works on API 26+; the app PIN is independent of the device lock. |
+| ADR-21 | Compose resource reads use `LocalResources`/`LocalConfiguration` (lint-enforced). | Strings stay correct after in-app language changes. |
 
 ## 3. Layering and dependency rules
 
