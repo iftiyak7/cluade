@@ -22,11 +22,12 @@ private fun style(size: Int, line: Int, weight: FontWeight, tracking: Double = 0
 
 /** Generous line heights (~1.45x body) leave room for Bengali conjuncts and vowel signs. */
 val HayatTypography = Typography(
-    displayLarge = style(48, 60, FontWeight.SemiBold),
-    displayMedium = style(40, 52, FontWeight.SemiBold),
-    displaySmall = style(34, 44, FontWeight.SemiBold),
-    headlineLarge = style(30, 40, FontWeight.SemiBold),
-    headlineMedium = style(26, 36, FontWeight.SemiBold),
+    // Large numbers and hero headlines use light weights with tight tracking for a calm, premium feel.
+    displayLarge = style(56, 64, FontWeight.Light, -1.5),
+    displayMedium = style(44, 52, FontWeight.Light, -1.0),
+    displaySmall = style(34, 42, FontWeight.Normal, -0.5),
+    headlineLarge = style(32, 42, FontWeight.Medium, -0.5),
+    headlineMedium = style(26, 36, FontWeight.Medium, -0.3),
     headlineSmall = style(22, 32, FontWeight.SemiBold),
     titleLarge = style(20, 28, FontWeight.SemiBold),
     titleMedium = style(16, 24, FontWeight.Medium, 0.1),

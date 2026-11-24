@@ -20,4 +20,17 @@
     <string name="an_minutes">%1$s মিনিট</string>
     <string name="an_study_chart">দিনপ্রতি মনোযোগের মিনিট</string>
     <string name="an_private">আপনার নিজের রেকর্ড থেকে এই ফোনেই হিসাব করা। কিছুই কোথাও পাঠানো হয় না।</string>
+    <string name="an_score">ধারাবাহিকতা স্কোর</string>
+    <string name="an_score_hint">এই সময়ে যা যা ট্র্যাক করেছেন তার গড়</string>
+    <string name="an_active_days">সক্রিয় দিন</string>
+    <string name="an_achievements">অর্জন</string>
+    <string name="an_ach_none">চালিয়ে গেলে এখানে অর্জন দেখা যাবে — সবই আপনার নিজের রেকর্ড থেকে।</string>
+    <string name="an_ach_active">৫+ সক্রিয় দিন</string>
+    <string name="an_ach_tasks">কাজ শেষকারী</string>
+    <string name="an_ach_water">পানি পানে সেরা</string>
+    <string name="an_ach_habits">অভ্যাস রক্ষাকারী</string>
+    <string name="an_ach_focus">গভীর মনোযোগ</string>
+    <string name="an_ach_meds">সময়মতো ওষুধ</string>
+    <string name="an_ach_prayer">নিয়মিত নামাজ</string>
+    <string name="an_breakdown">বিস্তারিত</string>
 </resources>

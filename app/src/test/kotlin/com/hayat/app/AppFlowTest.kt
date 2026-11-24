@@ -7,6 +7,7 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -65,7 +66,7 @@ class AppFlowTest {
     private fun waitForHome() = compose.waitUntil(10_000) { compose.onAllNodes(hasContentDescription("Customise home")).fetchSemanticsNodes().isNotEmpty() }
 
     private fun openAllFeatures() {
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("All features"))
+        compose.onAllNodes(hasScrollToNodeAction()).onFirst().performScrollToNode(hasText("All features"))
         compose.onNodeWithText("All features").performClick()
     }
 
@@ -84,13 +85,13 @@ class AppFlowTest {
 
         // Home dashboard with bottom navigation.
         waitForHome()
-        compose.onNodeWithText("Calendar").performClick()
+        compose.onNodeWithContentDescription("Calendar").performClick()
         waitForText("Day")
-        compose.onNodeWithText("Progress").performClick()
+        compose.onNodeWithContentDescription("Progress").performClick()
         waitForText("Tasks completed")
-        compose.onNodeWithText("Settings").performClick()
+        compose.onNodeWithContentDescription("Settings").performClick()
         waitForText("Privacy & security")
-        compose.onNodeWithText("Home").performClick()
+        compose.onNodeWithContentDescription("Home").performClick()
         waitForHome()
 
         // Open Tasks from the feature grid and create a task due today.
@@ -113,7 +114,7 @@ class AppFlowTest {
         waitForText("Skip")
         compose.onNodeWithText("Skip").performClick()
         waitForHome()
-        compose.onNodeWithText("Add").performClick()
+        compose.onNodeWithContentDescription("Add").performClick()
         waitForText("Create")
         compose.onNodeWithText("Task").performClick()
         waitForText("Save")

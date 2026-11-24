@@ -75,4 +75,8 @@ data class UserPreferences(
     val pomodoro: PomodoroSettings = PomodoroSettings(),
     val appLock: AppLockSettings = AppLockSettings(),
     val currency: String = "BDT",
+    /** Optional first name for the greeting; stays on the device. */
+    val userName: String = "",
+    /** Show in-app announcements fetched from the Hayat server (no personal data is sent). */
+    val announcementsEnabled: Boolean = true,
 )

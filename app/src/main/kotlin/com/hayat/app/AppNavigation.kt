@@ -25,7 +25,7 @@ import com.hayat.feature.backup.backupGraph
 import com.hayat.feature.settings.settingsGraph
 
 /** Every feature registers its destinations here; features never reference each other. */
-fun NavGraphBuilder.hayatGraphs(nav: NavController, appVersion: String) {
+fun NavGraphBuilder.hayatGraphs(nav: NavController, appVersion: String, onQuickAdd: () -> Unit = {}) {
     onboardingGraph(nav)
     tasksGraph(nav)
     routinesGraph(nav)
@@ -42,7 +42,7 @@ fun NavGraphBuilder.hayatGraphs(nav: NavController, appVersion: String) {
     financeGraph(nav)
     eventsGraph(nav)
     notesGraph(nav)
-    dashboardGraph(nav)
+    dashboardGraph(nav, onQuickAdd)
     analyticsGraph(nav)
     searchGraph(nav)
     backupGraph(nav)

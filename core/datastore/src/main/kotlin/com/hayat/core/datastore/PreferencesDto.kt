@@ -70,6 +70,8 @@ internal data class PreferencesDto(
     val lockTimeoutSeconds: Int = 60,
     val lockSecureScreen: Boolean = false,
     val currency: String = "BDT",
+    val userName: String = "",
+    val announcementsEnabled: Boolean = true,
 )
 
 @Serializable internal data class CardDto(val card: String, val visible: Boolean)
@@ -134,6 +136,8 @@ internal fun PreferencesDto.toModel(): UserPreferences {
         pomodoro = PomodoroSettings(pomodoroFocus.coerceIn(1, 180), pomodoroShort.coerceIn(1, 60), pomodoroLong.coerceIn(1, 120), pomodoroSessions.coerceIn(1, 12)),
         appLock = AppLockSettings(lockEnabled, lockBiometric, lockTimeoutSeconds.coerceIn(0, 3600), lockSecureScreen),
         currency = currency.takeIf { it.matches(Regex("[A-Z]{3}")) } ?: d.currency,
+        userName = userName.trim().take(40),
+        announcementsEnabled = announcementsEnabled,
     )
 }
 
@@ -175,4 +179,6 @@ internal fun UserPreferences.toDto(): PreferencesDto = PreferencesDto(
     pomodoroSessions = pomodoro.sessionsBeforeLongBreak,
     lockEnabled = appLock.enabled, lockBiometric = appLock.biometricEnabled, lockTimeoutSeconds = appLock.timeoutSeconds, lockSecureScreen = appLock.secureScreen,
     currency = currency,
+    userName = userName,
+    announcementsEnabled = announcementsEnabled,
 )

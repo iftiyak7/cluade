@@ -40,4 +40,21 @@
     <string name="db_search">খুঁজুন</string>
     <string name="db_take">নিয়েছি</string>
     <string name="db_welcome_empty">নিচের + বোতাম দিয়ে একটি কাজ, রুটিন বা রিমাইন্ডার যোগ করে শুরু করুন।</string>
+    <string name="db_friend">বন্ধু</string>
+    <string name="db_headline">আজকের দিনটা সুন্দর করি</string>
+    <string name="db_quick_add">দ্রুত যোগ করুন</string>
+    <string name="db_today">আজ</string>
+    <string name="db_all_done">সব শেষ</string>
+    <string name="db_done_label">সম্পন্ন</string>
+    <string name="db_metric_plan">পরিকল্পনা</string>
+    <string name="db_next_prayer">পরবর্তী: %1$s</string>
+    <string name="db_plan_today">আজকের পরিকল্পনা</string>
+    <string name="db_see_all">সব দেখুন</string>
+    <string name="db_tab_morning">সকাল</string>
+    <string name="db_tab_afternoon">দুপুর</string>
+    <string name="db_tab_evening">সন্ধ্যা</string>
+    <string name="db_tab_anytime">যেকোনো</string>
+    <string name="db_tab_empty">এখানে কিছু নেই — একটু বিশ্রাম নিন।</string>
+    <string name="db_mark_done">সম্পন্ন চিহ্নিত করুন</string>
+    <string name="db_brand">হায়াত</string>
 </resources>

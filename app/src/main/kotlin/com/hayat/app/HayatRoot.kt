@@ -1,5 +1,11 @@
 package com.hayat.app
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -74,8 +80,13 @@ fun HayatRoot(vm: MainViewModel, appVersion: String) {
                         navController = nav,
                         startDestination = if (p.onboardingCompleted) HomeRoute else OnboardingRoute,
                         modifier = Modifier.padding(bottom = pad.calculateBottomPadding()).consumeWindowInsets(pad),
+                        // Short, GPU-cheap transitions; none at all when the user asked for reduced motion.
+                        enterTransition = { if (p.reduceMotion) EnterTransition.None else fadeIn(tween(220, delayMillis = 40)) + slideInHorizontally(tween(260)) { it / 14 } },
+                        exitTransition = { if (p.reduceMotion) ExitTransition.None else fadeOut(tween(140)) },
+                        popEnterTransition = { if (p.reduceMotion) EnterTransition.None else fadeIn(tween(220, delayMillis = 40)) + slideInHorizontally(tween(260)) { -it / 14 } },
+                        popExitTransition = { if (p.reduceMotion) ExitTransition.None else fadeOut(tween(140)) },
                     ) {
-                        hayatGraphs(nav, appVersion)
+                        hayatGraphs(nav, appVersion, onQuickAdd = { showAdd = true })
                     }
                 }
                 if (showAdd) AddSheet(onDismiss = { showAdd = false }, onNavigate = { route -> showAdd = false; nav.navigate(route) }, islamic = p.islamicModuleEnabled)

@@ -43,6 +43,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.draw.shadow
+import androidx.compose.material3.ripple
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -70,19 +73,24 @@ fun HayatCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(16.dp),
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    val colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
-    val border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f))
-    if (onClick != null) {
-        Card(onClick = onClick, modifier = modifier.fillMaxWidth(), colors = colors, border = border, shape = MaterialTheme.shapes.large) {
-            Column(Modifier.padding(contentPadding), content = content)
-        }
-    } else {
-        Card(modifier = modifier.fillMaxWidth(), colors = colors, border = border, shape = MaterialTheme.shapes.large) {
-            Column(Modifier.padding(contentPadding), content = content)
-        }
-    }
+    val shape = MaterialTheme.shapes.large
+    val interaction = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    val shadowTint = MaterialTheme.colorScheme.primary
+    Column(
+        modifier
+            .fillMaxWidth()
+            .then(if (onClick != null) Modifier.pressScale(interaction) else Modifier)
+            .shadow(8.dp, shape, clip = false, ambientColor = shadowTint.copy(alpha = 0.06f), spotColor = shadowTint.copy(alpha = 0.10f))
+            .clip(shape)
+            .background(containerColor)
+            .border(1.dp, com.hayat.core.designsystem.theme.HayatThemeExt.colors.hairline, shape)
+            .then(if (onClick != null) Modifier.clickable(interaction, ripple(), role = Role.Button, onClick = onClick) else Modifier)
+            .padding(contentPadding),
+        content = content,
+    )
 }
 
 @Composable

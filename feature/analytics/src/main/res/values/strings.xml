@@ -20,4 +20,17 @@
     <string name="an_minutes">%1$s min</string>
     <string name="an_study_chart">Focus minutes per day</string>
     <string name="an_private">Calculated on this phone from your own records. Nothing is sent anywhere.</string>
+    <string name="an_score">Consistency score</string>
+    <string name="an_score_hint">Average of everything you tracked in this period</string>
+    <string name="an_active_days">Active days</string>
+    <string name="an_achievements">Achievements</string>
+    <string name="an_ach_none">Achievements appear here as you keep going — they are earned from your own records.</string>
+    <string name="an_ach_active">5+ active days</string>
+    <string name="an_ach_tasks">Task finisher</string>
+    <string name="an_ach_water">Hydration hero</string>
+    <string name="an_ach_habits">Habit keeper</string>
+    <string name="an_ach_focus">Deep focus</string>
+    <string name="an_ach_meds">On-time doses</string>
+    <string name="an_ach_prayer">Steady prayers</string>
+    <string name="an_breakdown">Breakdown</string>
 </resources>

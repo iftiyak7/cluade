@@ -1,6 +1,10 @@
 package com.hayat.core.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -38,16 +42,30 @@ fun HayatScreen(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     content: @Composable (PaddingValues) -> Unit,
 ) {
+    // The bar tints softly once content scrolls beneath it.
+    val scroll = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.nestedScroll(scroll.nestedScrollConnection),
         topBar = {
             TopAppBar(
-                title = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                title = { Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.titleLarge.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Medium)) },
                 navigationIcon = {
-                    if (onBack != null) IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, stringResource(R.string.action_back)) }
+                    if (onBack != null) {
+                        val ext = com.hayat.core.designsystem.theme.HayatThemeExt.colors
+                        IconButton(
+                            onClick = onBack,
+                            modifier = Modifier.padding(start = 8.dp(), end = 4.dp())
+                                .border(1.dp(), ext.hairline, CircleShape)
+                                .background(MaterialTheme.colorScheme.surfaceContainerLow, CircleShape),
+                        ) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, stringResource(R.string.action_back)) }
+                    }
                 },
                 actions = { actions() },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
+                scrollBehavior = scroll,
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                ),
             )
         },
         floatingActionButton = floatingActionButton,

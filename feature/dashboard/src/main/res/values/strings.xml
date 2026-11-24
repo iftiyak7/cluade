@@ -40,4 +40,21 @@
     <string name="db_search">Search</string>
     <string name="db_take">Taken</string>
     <string name="db_welcome_empty">Start by adding a task, a routine or a reminder with the + button below.</string>
+    <string name="db_friend">friend</string>
+    <string name="db_headline">Let\'s make today count</string>
+    <string name="db_quick_add">Quick add</string>
+    <string name="db_today">Today</string>
+    <string name="db_all_done">All done</string>
+    <string name="db_done_label">done</string>
+    <string name="db_metric_plan">Plan</string>
+    <string name="db_next_prayer">Next: %1$s</string>
+    <string name="db_plan_today">Today\'s plan</string>
+    <string name="db_see_all">See all</string>
+    <string name="db_tab_morning">Morning</string>
+    <string name="db_tab_afternoon">Afternoon</string>
+    <string name="db_tab_evening">Evening</string>
+    <string name="db_tab_anytime">Anytime</string>
+    <string name="db_tab_empty">Nothing planned here — enjoy the space.</string>
+    <string name="db_mark_done">Mark as done</string>
+    <string name="db_brand">Hayat</string>
 </resources>

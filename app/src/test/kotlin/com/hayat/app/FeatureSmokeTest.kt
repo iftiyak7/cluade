@@ -8,6 +8,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
@@ -92,11 +93,11 @@ class FeatureSmokeTest {
             "Important dates" to "New date", "Notes & journal" to "Journal", "Routine templates" to "Bundled templates",
             "Search" to "Type to search everything stored on this phone.", "Backup & restore" to "Export backup",
         )
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("All features"))
+        compose.onAllNodes(hasScrollToNodeAction()).onFirst().performScrollToNode(hasText("All features"))
         compose.onNodeWithText("All features").performClick()
         for ((tile, expected) in screens) {
             waitFor(tile)
-            compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText(tile))
+            compose.onAllNodes(hasScrollToNodeAction()).onFirst().performScrollToNode(hasText(tile))
             compose.onAllNodesWithText(tile).onFirst().performClick()
             waitFor(expected)
             back()
@@ -107,11 +108,11 @@ class FeatureSmokeTest {
         val actions = listOf(
             "Task" to "New task", "Reminder" to "New reminder", "Routine" to "New routine", "Medicine" to "Add medicine",
             "Habit" to "New habit", "Note" to "New note", "Journal entry" to "New journal entry", "Important date" to "New date",
-            "Bill or payment" to "New item", "Meal plan" to "Add meal", "Log sleep" to "Log sleep", "Log water" to "Quick add",
+            "Bill or payment" to "New item", "Meal plan" to "Add meal", "Log sleep" to "Log sleep", "Log water" to "250 ml",
         )
         for ((label, expected) in actions) {
             waitForHome()
-            compose.onNodeWithText("Add").performClick()
+            compose.onNodeWithContentDescription("Add").performClick()
             waitFor("Create")
             compose.onAllNodesWithText(label).onFirst().performClick()
             waitFor(expected)
@@ -121,7 +122,7 @@ class FeatureSmokeTest {
 
     @Test fun `logging water from the screen persists an entry`() {
         waitForHome()
-        compose.onNodeWithText("Add").performClick()
+        compose.onNodeWithContentDescription("Add").performClick()
         waitFor("Create")
         compose.onNodeWithText("Log water").performClick()
         waitFor("250 ml")
@@ -132,10 +133,10 @@ class FeatureSmokeTest {
 
     @Test fun `zikr counter increments today's count`() {
         waitForHome()
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("All features"))
+        compose.onAllNodes(hasScrollToNodeAction()).onFirst().performScrollToNode(hasText("All features"))
         compose.onNodeWithText("All features").performClick()
         waitFor("Ibadah")
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Ibadah"))
+        compose.onAllNodes(hasScrollToNodeAction()).onFirst().performScrollToNode(hasText("Ibadah"))
         compose.onNodeWithText("Ibadah").performClick()
         waitFor("Zikr")
         compose.onNodeWithText("Zikr").performClick()

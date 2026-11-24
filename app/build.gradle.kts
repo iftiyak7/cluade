@@ -118,3 +118,9 @@ dependencies {
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.test.ext.junit)
 }
+
+// Opt-in screenshot capture for the website: ./gradlew :app:testDebugUnitTest --tests '*ScreenshotCapture*' -PscreenshotsDir=/abs/path
+val screenshotsDir = providers.gradleProperty("screenshotsDir").orElse("")
+tasks.withType<Test>().configureEach {
+    systemProperty("hayat.screenshots.dir", screenshotsDir.get())
+}
