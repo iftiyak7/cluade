@@ -30,6 +30,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.hayat.core.designsystem.component.hayatBackdrop
 import com.hayat.core.designsystem.theme.HayatTheme
 import com.hayat.core.model.ThemeMode
 import com.hayat.core.navigation.CalendarRoute
@@ -60,11 +61,13 @@ fun HayatRoot(vm: MainViewModel, appVersion: String) {
             var showAdd by rememberSaveable { mutableStateOf(false) }
 
             val lockActive = locked && p.onboardingCompleted
-            Box(Modifier.fillMaxSize()) {
+            Box(Modifier.fillMaxSize().hayatBackdrop()) {
                 Scaffold(
                     // While locked, content behind the overlay is neither drawn nor exposed to accessibility services.
                     modifier = if (lockActive) Modifier.alpha(0f).clearAndSetSemantics { } else Modifier,
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = androidx.compose.ui.graphics.Color.Transparent,
+                    // Transparent containers have no "on" colour; set it explicitly or text falls back to black.
+                    contentColor = MaterialTheme.colorScheme.onBackground,
                     bottomBar = {
                         if (topLevel != null) HayatBottomBar(
                             current = topLevel,

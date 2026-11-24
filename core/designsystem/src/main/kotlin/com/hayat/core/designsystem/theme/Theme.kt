@@ -43,7 +43,7 @@ fun HayatTheme(
     highContrast: Boolean = false,
     dynamicColor: Boolean = false,
     reduceMotion: Boolean = false,
-    /** Bengali UI uses Hind Siliguri; English uses Inter. */
+    /** Bengali UI uses Noto Sans Bengali; English uses Plus Jakarta Sans. */
     bengali: Boolean = false,
     content: @Composable () -> Unit,
 ) {

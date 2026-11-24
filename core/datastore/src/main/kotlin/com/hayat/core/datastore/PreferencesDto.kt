@@ -32,7 +32,7 @@ internal data class PreferencesDto(
     val version: Int = 1,
     val onboardingCompleted: Boolean = false,
     val language: String = AppLanguage.SYSTEM.name,
-    val theme: String = ThemeMode.SYSTEM.name,
+    val theme: String = ThemeMode.DARK.name,
     val dynamicColor: Boolean = false,
     val highContrast: Boolean = false,
     val reduceMotion: Boolean = false,

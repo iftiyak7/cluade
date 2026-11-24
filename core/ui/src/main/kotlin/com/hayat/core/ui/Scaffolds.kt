@@ -63,14 +63,15 @@ fun HayatScreen(
                 actions = { actions() },
                 scrollBehavior = scroll,
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = androidx.compose.ui.graphics.Color.Transparent,
                     scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
                 ),
             )
         },
         floatingActionButton = floatingActionButton,
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = androidx.compose.ui.graphics.Color.Transparent, // the root backdrop shows through
+        contentColor = MaterialTheme.colorScheme.onBackground,
         content = content,
     )
 }

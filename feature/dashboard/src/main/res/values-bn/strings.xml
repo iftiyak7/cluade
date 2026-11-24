@@ -91,4 +91,9 @@
     <string name="db_swipe_done">সম্পন্ন</string>
     <string name="db_swipe_reset">রিসেট</string>
     <string name="db_habit_limit">সর্বোচ্চ %2$s-এর মধ্যে %1$s</string>
+    <string name="db_more_today">আজকের আরও</string>
+    <string name="db_show_more">আরও দেখুন</string>
+    <string name="db_show_less">কম দেখুন</string>
+    <string name="db_mark_prayed_short">%1$s আদায়</string>
+    <string name="db_prayed_short">%1$s ✓</string>
 </resources>

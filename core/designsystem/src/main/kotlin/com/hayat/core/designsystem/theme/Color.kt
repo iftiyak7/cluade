@@ -9,28 +9,28 @@ import androidx.compose.ui.graphics.Color
 
 /** Brand palette (design system v3). Screens use Material roles / [HayatExtendedColors], never these directly. */
 internal object Palette {
-    val Emerald = Color(0xFF0E7C66)
-    val EmeraldPressed = Color(0xFF0A5C4C)
-    val Gold = Color(0xFFC9A227)
-    val LightBg = Color(0xFFF7F6F2)
-    val LightText = Color(0xFF14181F)
-    val LightText2 = Color(0xFF5B6470)
-    val LightBorder = Color(0xFFE7E5DF)
-    val DarkBg = Color(0xFF0B0F0E)
-    val DarkSurface = Color(0xFF141A19)
-    val DarkRaised = Color(0xFF1B2321)
-    val DarkEmerald = Color(0xFF34C3A0)
-    val DarkGold = Color(0xFFE3BE5A)
-    val DarkText = Color(0xFFEEF2F1)
-    val DarkText2 = Color(0xFF9AA6A3)
-    val DarkBorder = Color(0xFF232D2B)
+    val Emerald = Color(0xFF0B6B57)
+    val EmeraldPressed = Color(0xFF08523F)
+    val Gold = Color(0xFFB08A2E)
+    val LightBg = Color(0xFFF5F3EE)
+    val LightText = Color(0xFF121614)
+    val LightText2 = Color(0xFF5E6763)
+    val LightBorder = Color(0xFFE6E2D8)
+    val DarkBg = Color(0xFF090B0A)
+    val DarkSurface = Color(0xFF121614)
+    val DarkRaised = Color(0xFF1A1F1D)
+    val DarkEmerald = Color(0xFF2CC59B)
+    val DarkGold = Color(0xFFD8B866)
+    val DarkText = Color(0xFFF3F5F4)
+    val DarkText2 = Color(0xFF8F9A96)
+    val DarkBorder = Color(0xFF232927)
     val Error = Color(0xFFB3261E)
 }
 
 internal val LightColors: ColorScheme = lightColorScheme(
     primary = Palette.Emerald,
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFE7F2F0),
+    primaryContainer = Color(0xFFE3EFEB),
     onPrimaryContainer = Palette.EmeraldPressed,
     secondary = Palette.LightText2,
     onSecondary = Color.White,
@@ -65,15 +65,15 @@ internal val LightColors: ColorScheme = lightColorScheme(
 internal val DarkColors: ColorScheme = darkColorScheme(
     primary = Palette.DarkEmerald,
     onPrimary = Color(0xFF00382C),
-    primaryContainer = Color(0xFF19322C),
-    onPrimaryContainer = Color(0xFF6FDDBF),
+    primaryContainer = Color(0xFF14322A),
+    onPrimaryContainer = Color(0xFF7FE3C4),
     secondary = Palette.DarkText2,
     onSecondary = Palette.DarkBg,
     secondaryContainer = Palette.DarkRaised,
     onSecondaryContainer = Palette.DarkText,
     tertiary = Palette.DarkGold,
     onTertiary = Color(0xFF3A2C00),
-    tertiaryContainer = Color(0xFF313122),
+    tertiaryContainer = Color(0xFF2E2919),
     onTertiaryContainer = Palette.DarkGold,
     error = Color(0xFFFFB4AB),
     onError = Color(0xFF690005),
@@ -90,8 +90,8 @@ internal val DarkColors: ColorScheme = darkColorScheme(
     surfaceContainerLowest = Palette.DarkBg,
     surfaceContainerLow = Palette.DarkSurface,
     surfaceContainer = Palette.DarkRaised,
-    surfaceContainerHigh = Color(0xFF212A28),
-    surfaceContainerHighest = Color(0xFF283230),
+    surfaceContainerHigh = Color(0xFF202623),
+    surfaceContainerHighest = Color(0xFF2A312E),
     inverseSurface = Palette.DarkText,
     inverseOnSurface = Color(0xFF1B2321),
     inversePrimary = Palette.Emerald,
@@ -151,18 +151,18 @@ internal val LightExtended = HayatExtendedColors(
     lavender = Color(0xFFF1EDFA) to Color(0xFF5B3FB8), amber = Color(0xFFF8F4E5) to Color(0xFF8A6D0F),
     mint = Color(0xFFE7F2F0) to Palette.EmeraldPressed, pink = Color(0xFFFAEDF1) to Color(0xFF9A2D4E),
     sky = Color(0xFFE8F1FC) to Color(0xFF1F5FB8),
-    gradientStart = Palette.Emerald, gradientEnd = Color(0xFF12927A),
+    gradientStart = Palette.Emerald, gradientEnd = Color(0xFF0F8A70),
     ink = Palette.EmeraldPressed, onInk = Color.White, inkAccent = Color(0xFFE9D48A), hairline = Palette.LightBorder,
     gold = Palette.Gold, primaryPressed = Palette.EmeraldPressed, shadow = Color(0x0F14181F), isDark = false,
 )
 internal val DarkExtended = HayatExtendedColors(
     warning = Palette.DarkGold, onWarning = Color(0xFF3A2C00), warningContainer = Color(0xFF313122), onWarningContainer = Palette.DarkGold,
     success = Palette.DarkEmerald, successContainer = Color(0xFF19322C), onSuccessContainer = Color(0xFF6FDDBF),
-    lavender = Color(0xFF292A39) to Color(0xFFC7B6FF), amber = Color(0xFF313122) to Palette.DarkGold,
+    lavender = Color(0xFF292A39) to Color(0xFFC7B6FF), amber = Color(0xFF2B2619) to Palette.DarkGold,
     mint = Color(0xFF19322C) to Color(0xFF6FDDBF), pink = Color(0xFF352A2E) to Color(0xFFFFB3C8),
     sky = Color(0xFF1E2D39) to Color(0xFF9CC6FF),
-    gradientStart = Palette.DarkEmerald, gradientEnd = Color(0xFF2AA889),
-    ink = Palette.DarkRaised, onInk = Palette.DarkText, inkAccent = Palette.DarkGold, hairline = Palette.DarkBorder,
+    gradientStart = Color(0xFF2CC59B), gradientEnd = Color(0xFF1E9E7C),
+    ink = Palette.DarkRaised, onInk = Palette.DarkText, inkAccent = Palette.DarkGold, hairline = Color(0x1AFFFFFF),
     gold = Palette.DarkGold, primaryPressed = Color(0xFF2AA889), shadow = Color.Transparent, isDark = true,
 )
 

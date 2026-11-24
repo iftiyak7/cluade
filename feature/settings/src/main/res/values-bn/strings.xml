@@ -140,7 +140,7 @@
     <string name="about_help_text">যোগ বোতাম দিয়ে কাজ, রিমাইন্ডার, রুটিন ও লগ তৈরি করুন। হোম → সব ফিচার থেকে যেকোনো ফিচার খুলুন। রিমাইন্ডার অ্যান্ড্রয়েডের সেটিংসের উপর নির্ভর করে — কোনো রিমাইন্ডার না এলে সেটিংস → রিমাইন্ডার ও নোটিফিকেশন দেখুন।</string>
     <string name="about_medical">ওষুধ, পানি, খাদ্য, ঘুম ও ফিটনেস ফিচারগুলো রিমাইন্ডার ও লগ রাখার সরঞ্জাম। এগুলো চিকিৎসা পরামর্শ নয় এবং ডোজ বা ওষুধের পারস্পরিক প্রতিক্রিয়া যাচাই করে না।</string>
     <string name="about_religious">নামাজের সময় ডিভাইসে হিসাব করা হয় এবং আপনার স্থানীয় মসজিদের সময় থেকে ভিন্ন হতে পারে। হিজরি তারিখ হিসাব করে বের করা এবং স্থানীয় চাঁদ দেখার সাথে মিল নাও থাকতে পারে।</string>
-    <string name="license_font">হিন্দ শিলিগুড়ি ফন্ট — SIL Open Font License 1.1 (Indian Type Foundry)</string>
+    <string name="license_font">ফন্ট: Plus Jakarta Sans ও Noto Sans Bengali — SIL Open Font License 1.1</string>
     <string name="license_adhan">আযান নামাজের সময় লাইব্রেরি — MIT License (Batoul Apps)</string>
     <string name="license_androidx">Android Jetpack (AndroidX), Kotlin, Dagger/Hilt — Apache License 2.0</string>
     <string name="pref_name">আপনার নাম</string>

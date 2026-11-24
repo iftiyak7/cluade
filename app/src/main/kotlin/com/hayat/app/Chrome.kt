@@ -70,7 +70,8 @@ import com.hayat.core.ui.R as UiR
 fun HayatBottomBar(current: TopLevel, onSelect: (TopLevel) -> Unit, onAdd: () -> Unit) {
     val scheme = MaterialTheme.colorScheme
     Box(Modifier.fillMaxWidth()) {
-        Column(Modifier.fillMaxWidth().padding(top = 14.dp).background(scheme.surface)) {
+        val dark = HayatThemeExt.colors.isDark
+        Column(Modifier.fillMaxWidth().padding(top = 14.dp).background(if (dark) Color(0xF00E1211) else scheme.surface)) {
             Box(Modifier.fillMaxWidth().height(1.dp).background(HayatThemeExt.colors.hairline))
             Row(
                 Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.navigationBars).height(64.dp).padding(horizontal = 8.dp),
@@ -114,7 +115,9 @@ private fun AddFab(label: String, onClick: () -> Unit, modifier: Modifier = Modi
     Box(
         modifier.size(60.dp).pressScale(interaction)
             .shadow(8.dp, CircleShape, ambientColor = scheme.primary.copy(0.3f), spotColor = scheme.primary.copy(0.4f))
-            .clip(CircleShape).background(scheme.primary)
+            .clip(CircleShape)
+            .background(Brush.linearGradient(listOf(HayatThemeExt.colors.gradientStart, HayatThemeExt.colors.gradientEnd)))
+            .border(1.5.dp, HayatThemeExt.colors.gold.copy(alpha = 0.55f), CircleShape)
             .clickable(interaction, ripple(color = scheme.onPrimary), role = Role.Button) {
                 haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.VirtualKey); onClick()
             },

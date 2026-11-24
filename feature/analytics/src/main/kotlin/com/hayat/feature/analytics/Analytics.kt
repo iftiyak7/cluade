@@ -179,8 +179,9 @@ private fun AnalyticsScreen(nav: NavController, vm: AnalyticsViewModel = hiltVie
             item {
                 HayatCard(Modifier.animateEnter(1), contentPadding = PaddingValues(18.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        ProgressRing(score / 100f, size = 116.dp, stroke = 12.dp, description = stringResource(R.string.an_score) + " " + fmt.number(score) + "%",
-                            trackColor = MaterialTheme.colorScheme.surfaceContainerHigh) {
+                        ProgressRing(score / 100f, size = 116.dp, stroke = 10.dp, description = stringResource(R.string.an_score) + " " + fmt.number(score) + "%",
+                            color = if (ext.isDark) ext.gold else MaterialTheme.colorScheme.primary,
+                            trackColor = if (ext.isDark) androidx.compose.ui.graphics.Color(0x14FFFFFF) else MaterialTheme.colorScheme.surfaceContainerHigh) {
                             AnimatedCount(score, MaterialTheme.typography.headlineMedium, format = { fmt.number(it) + "%" })
                         }
                         Spacer(Modifier.width(16.dp))

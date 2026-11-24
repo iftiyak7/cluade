@@ -46,6 +46,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.material3.ripple
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -80,24 +81,52 @@ fun HayatCard(
     val shape = MaterialTheme.shapes.large
     val ext = com.hayat.core.designsystem.theme.HayatThemeExt.colors
     val interaction = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    // Dark theme: frosted "glass" card — translucent fill and a light-catching edge over the backdrop glow.
+    val glass = ext.isDark && containerColor == MaterialTheme.colorScheme.surface
     Column(
         modifier
             .fillMaxWidth()
             .then(if (onClick != null) Modifier.pressScale(interaction) else Modifier)
-            .softCard(shape)
+            .then(if (glass) Modifier else Modifier.softCard(shape))
             .clip(shape)
-            .background(containerColor)
+            .then(
+                if (glass) Modifier.background(GlassFill).border(1.dp, GlassEdge, shape)
+                else Modifier.background(containerColor),
+            )
             .then(if (onClick != null) Modifier.clickable(interaction, ripple(), role = Role.Button, onClick = onClick) else Modifier)
             .padding(contentPadding),
         content = content,
     )
 }
 
+/** Translucent glass fill (top slightly brighter) and edge used for dark-theme cards and bars. */
+val GlassFill = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0x14FFFFFF), Color(0x0AFFFFFF)))
+val GlassEdge = androidx.compose.ui.graphics.Brush.verticalGradient(listOf(Color(0x24FFFFFF), Color(0x0AFFFFFF)))
+
 /** Light theme: soft shadow (y 4, blur 16, ~6 %). Dark theme: 1 px border. */
 fun Modifier.softCard(shape: androidx.compose.ui.graphics.Shape): Modifier = composed {
     val ext = com.hayat.core.designsystem.theme.HayatThemeExt.colors
     if (ext.isDark) border(1.dp, ext.hairline, shape)
     else shadow(6.dp, shape, clip = false, ambientColor = Color.Black.copy(alpha = 0.04f), spotColor = Color.Black.copy(alpha = 0.08f))
+}
+
+/**
+ * App backdrop drawn once behind every screen: solid base plus soft emerald and champagne glows.
+ * Gives the glass cards depth without any runtime blur (cheap to draw, no overdraw per card).
+ */
+fun Modifier.hayatBackdrop(): Modifier = composed {
+    val ext = com.hayat.core.designsystem.theme.HayatThemeExt.colors
+    val base = MaterialTheme.colorScheme.background
+    val emerald = ext.gradientStart
+    val gold = ext.gold
+    val glowA = if (ext.isDark) 0.20f else 0.06f
+    val glowB = if (ext.isDark) 0.09f else 0.06f
+    drawBehind {
+        drawRect(base)
+        val w = size.width
+        drawRect(androidx.compose.ui.graphics.Brush.radialGradient(listOf(emerald.copy(alpha = glowA), Color.Transparent), center = Offset(w * 0.05f, -w * 0.15f), radius = w * 1.05f))
+        drawRect(androidx.compose.ui.graphics.Brush.radialGradient(listOf(gold.copy(alpha = glowB), Color.Transparent), center = Offset(w * 1.05f, w * 0.05f), radius = w * 0.8f))
+    }
 }
 
 @Composable

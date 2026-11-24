@@ -99,7 +99,7 @@ class ScreenshotCapture {
         runBlocking {
             val now = time.now(); val today = time.today()
             ibadah.ensurePresets(ZikrPresets.presets(now))
-            prefs.update { it.copy(onboardingCompleted = true, userName = "Ayesha", islamicModuleEnabled = true, prayer = it.prayer.copy(location = PrayerCities.all.first())) }
+            prefs.update { it.copy(onboardingCompleted = true, theme = ThemeMode.LIGHT, userName = "Ayesha", islamicModuleEnabled = true, prayer = it.prayer.copy(location = PrayerCities.all.first())) }
             val taskIds = listOf("Submit project report" to Priority.HIGH, "Call Ammu" to Priority.MEDIUM, "Pay electricity bill" to Priority.URGENT).mapIndexed { i, (t, p) ->
                 val id = ids.newId()
                 saveTask(Task(id, t, priority = p, dueDate = today, dueTime = LocalTime.of(8 + i * 4, 0), createdAt = now, updatedAt = now))
@@ -155,7 +155,7 @@ class ScreenshotCapture {
 
     @Test @Config(qualifiers = "+en") fun english_light() {
         home(); settle(); shot("en-home")
-        scrollTo("Today's habits"); settle(); shot("en-home-2")
+        scrollTo("More for today"); compose.onNodeWithText("More for today").performClick(); settle(); shot("en-home-2")
         openFeature("All features", "Ibadah", "Fajr"); shot("en-ibadah")
     }
 
@@ -186,11 +186,12 @@ class ScreenshotCapture {
     @Test @Config(qualifiers = "+en-night") fun english_dark() {
         runBlocking { prefs.update { it.copy(theme = ThemeMode.DARK) } }
         home(); settle(); shot("en-home-dark")
+        scrollTo("Today's habits"); settle(); shot("en-home-dark-2")
         compose.onNodeWithContentDescription("Progress").performClick(); waitText("Consistency score"); settle(); shot("en-progress-dark")
     }
 
     @Test @Config(qualifiers = "+bn") fun bengali() {
-        runBlocking { prefs.update { it.copy(language = AppLanguage.BENGALI) } }
+        runBlocking { prefs.update { it.copy(language = AppLanguage.BENGALI, theme = ThemeMode.DARK) } }
         home(); settle(); shot("bn-home")
         scrollTo("আজকের অভ্যাস"); settle(); shot("bn-home-2")
         compose.onNodeWithContentDescription("অগ্রগতি").performClick(); waitText("ধারাবাহিকতা স্কোর"); settle(); shot("bn-progress")

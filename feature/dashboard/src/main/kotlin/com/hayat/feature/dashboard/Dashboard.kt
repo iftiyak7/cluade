@@ -55,6 +55,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -336,12 +338,12 @@ private fun DashboardScreen(nav: NavController, vm: DashboardViewModel = hiltVie
     val host = remember { SnackbarHostState() }
     MessageEffect(vm.messages, host)
     val fmt = LocalFormatter.current
-    val ext = HayatThemeExt.colors
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     val scope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
     var customWater by rememberSaveable { mutableStateOf(false) }
-    Scaffold(snackbarHost = { SnackbarHost(host) }, containerColor = MaterialTheme.colorScheme.background) { pad ->
+    var moreOpen by rememberSaveable { mutableStateOf(false) }
+    Scaffold(snackbarHost = { SnackbarHost(host) }, containerColor = Color.Transparent, contentColor = MaterialTheme.colorScheme.onBackground) { pad ->
         if (s.loading) { SkeletonPage(Modifier.padding(pad)); return@Scaffold }
         val visible = s.prefs.dashboardCards.filter { it.visible && (s.prefs.islamicModuleEnabled || it.card !in setOf(DashboardCard.PRAYER, DashboardCard.ZIKR)) }.map { it.card }
         val heroCards = setOf(DashboardCard.TODAY_PROGRESS, DashboardCard.TIMELINE, DashboardCard.WATER, DashboardCard.PRAYER, DashboardCard.HABITS)
@@ -350,6 +352,8 @@ private fun DashboardScreen(nav: NavController, vm: DashboardViewModel = hiltVie
             (s.timeline.map { PlanEntry.Activity(it) } + s.todayTasks.map { PlanEntry.TaskEntry(it) }).sortedWith(compareBy(nullsLast()) { it.time })
         }
         val shown = entries.filter { partOf(it.time).ordinal == part }
+        val extraCards = visible.filter { it !in heroCards }
+        val showPlan = DashboardCard.TIMELINE in visible
         var index = 0
         PullToRefreshBox(
             isRefreshing = refreshing,
@@ -379,8 +383,15 @@ private fun DashboardScreen(nav: NavController, vm: DashboardViewModel = hiltVie
                     )
                 }
             }
-            if (s.prefs.islamicModuleEnabled && DashboardCard.PRAYER in visible) item("prayer") { PrayerCard(s, nav, vm, Modifier.animateEnter(index++)) }
-            if (DashboardCard.WATER in visible) s.water?.let { w -> item("water") { WaterCard(s, w, vm, onCustom = { customWater = true }, onOpen = { nav.navigate(WaterRoute) }, modifier = Modifier.animateEnter(index++)) } }
+            // Prayer and water side by side: the two things people tap most, in one glance.
+            val showPrayer = s.prefs.islamicModuleEnabled && DashboardCard.PRAYER in visible
+            val water = s.water.takeIf { DashboardCard.WATER in visible }
+            if (showPrayer || water != null) item("pair") {
+                Row(Modifier.animateEnter(index++).fillMaxWidth().height(IntrinsicSize.Max), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    if (showPrayer) PrayerCard(s, nav, vm, Modifier.weight(1f).fillMaxHeight())
+                    if (water != null) WaterCard(s, water, vm, onCustom = { customWater = true }, onOpen = { nav.navigate(WaterRoute) }, modifier = Modifier.weight(1f).fillMaxHeight())
+                }
+            }
             if (DashboardCard.HABITS in visible) {
                 item("habits-h") {
                     SectionHeader(stringResource(R.string.db_habits_today), Modifier.animateEnter(index++), action = { TextButton(onClick = { nav.navigate(HabitsRoute) }) { Text(stringResource(R.string.db_see_all)) } })
@@ -392,15 +403,24 @@ private fun DashboardScreen(nav: NavController, vm: DashboardViewModel = hiltVie
                         }
                     }
                 }
-                items(s.habits, key = { "h" + it.habit.id }) { r -> HabitItem(r, vm, Modifier.animateItem()) }
+                items(s.habits.take(3), key = { "h" + it.habit.id }) { r -> HabitItem(r, vm, Modifier.animateItem()) }
             }
-            if (DashboardCard.TIMELINE in visible) {
-                item("plan-header") {
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        SectionHeader(stringResource(R.string.db_plan_today), action = { TextButton(onClick = { nav.navigate(CalendarRoute()) }) { Text(stringResource(R.string.db_see_all)) } })
-                        PillTabs(PlanPart.entries.map { stringResource(it.label) }, part, { part = it })
-                    }
+            // Everything else lives behind one tap, so Home stays calm.
+            if (showPlan || extraCards.isNotEmpty()) item("more-h") {
+                val count = (if (showPlan) entries.count { !it.done } else 0) + extraCards.size
+                Row(
+                    Modifier.fillMaxWidth().clip(MaterialTheme.shapes.medium).clickable(role = Role.Button) { moreOpen = !moreOpen }.padding(vertical = 10.dp, horizontal = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(stringResource(R.string.db_more_today), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                    if (!moreOpen && count > 0) Text(fmt.number(count), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(end = 6.dp).clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.surfaceContainerHigh).padding(horizontal = 8.dp, vertical = 2.dp))
+                    val rot by androidx.compose.animation.core.animateFloatAsState(if (moreOpen) 180f else 0f, androidx.compose.animation.core.tween(200), label = "chev")
+                    Icon(Icons.Outlined.ExpandMore, stringResource(if (moreOpen) R.string.db_show_less else R.string.db_show_more), Modifier.graphicsLayer { rotationZ = rot })
                 }
+            }
+            if (moreOpen && showPlan) {
+                item("plan-tabs") { PillTabs(PlanPart.entries.map { stringResource(it.label) }, part, { part = it }, Modifier.animateItem()) }
                 if (shown.isEmpty()) item("plan-empty") {
                     Text(stringResource(R.string.db_tab_empty), color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp), textAlign = TextAlign.Center)
                 }
@@ -412,11 +432,9 @@ private fun DashboardScreen(nav: NavController, vm: DashboardViewModel = hiltVie
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Column(Modifier.weight(1f).clickable { when (e) { is PlanEntry.Activity -> nav.navigate(RoutinesRoute); is PlanEntry.TaskEntry -> nav.navigate(TaskDetailRoute(e.task.id)) } }) {
-                                Text(
-                                    e.title, style = MaterialTheme.typography.titleSmall, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                                Text(e.title, style = MaterialTheme.typography.titleSmall, maxLines = 2, overflow = TextOverflow.Ellipsis,
                                     textDecoration = if (e.done) TextDecoration.LineThrough else null,
-                                    color = if (e.done) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface,
-                                )
+                                    color = if (e.done) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface)
                                 Text(stringResource(when (e) { is PlanEntry.Activity -> UiR.string.feature_routines; is PlanEntry.TaskEntry -> UiR.string.feature_tasks }),
                                     style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
@@ -425,11 +443,11 @@ private fun DashboardScreen(nav: NavController, vm: DashboardViewModel = hiltVie
                     }
                 }
             }
-            items(visible.filter { it !in heroCards }, key = { it.name }) { card -> DashboardCardView(card, s, nav, vm) }
+            if (moreOpen) items(extraCards, key = { it.name }) { card -> Box(Modifier.animateItem()) { DashboardCardView(card, s, nav, vm) } }
             item("all") {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    HayatButton(stringResource(R.string.db_all_features), { nav.navigate(AllFeaturesRoute) }, Modifier.weight(1f), variant = ButtonVariant.TONAL, icon = Icons.Outlined.Apps)
-                    HayatButton(stringResource(R.string.db_customize), { nav.navigate(DashboardSettingsRoute) }, Modifier.weight(1f), variant = ButtonVariant.TEXT, icon = Icons.Outlined.Tune)
+                    HayatButton(stringResource(R.string.db_all_features), { nav.navigate(AllFeaturesRoute) }, Modifier.weight(1f), variant = ButtonVariant.TONAL, icon = Icons.Outlined.Apps, height = 48.dp)
+                    HayatButton(stringResource(R.string.db_customize), { nav.navigate(DashboardSettingsRoute) }, Modifier.weight(1f), variant = ButtonVariant.TEXT, icon = Icons.Outlined.Tune, height = 48.dp)
                 }
             }
             if (s.totalCount == 0 && s.upcoming.isEmpty() && s.habits.isEmpty()) item("welcome") {
@@ -491,8 +509,9 @@ private fun HeroCard(s: DashboardState, nav: NavController, modifier: Modifier =
     val text = if (s.totalCount == 0) stringResource(R.string.db_progress_empty) else stringResource(R.string.db_progress_text, fmt.number(s.doneCount), fmt.number(s.totalCount))
     HayatCard(modifier, contentPadding = PaddingValues(18.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            ProgressRing(pct / 100f, size = 108.dp, stroke = 11.dp, description = stringResource(R.string.db_progress) + " " + fmt.number(pct) + "%",
-                trackColor = MaterialTheme.colorScheme.surfaceContainerHigh) {
+            ProgressRing(pct / 100f, size = 108.dp, stroke = 10.dp, description = stringResource(R.string.db_progress) + " " + fmt.number(pct) + "%",
+                color = if (ext.isDark) ext.gold else MaterialTheme.colorScheme.primary,
+                trackColor = if (ext.isDark) Color(0x14FFFFFF) else MaterialTheme.colorScheme.surfaceContainerHigh) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     AnimatedCount(pct, MaterialTheme.typography.headlineMedium, format = { fmt.number(it) + "%" })
                 }
@@ -520,30 +539,32 @@ private fun PrayerCard(s: DashboardState, nav: NavController, vm: DashboardViewM
     val fmt = LocalFormatter.current
     val ext = HayatThemeExt.colors
     val p = s.prayer
-    HayatCard(modifier, onClick = { nav.navigate(IbadahRoute) }) {
-        if (p == null) {
-            InlineEmpty(Icons.Outlined.Mosque, stringResource(R.string.db_prayer), stringResource(R.string.db_prayer_setup)) {
-                HayatButton(stringResource(R.string.db_set_city), { nav.navigate(IbadahRoute) }, variant = ButtonVariant.TONAL, height = 44.dp)
+    HayatCard(modifier, onClick = { nav.navigate(IbadahRoute) }, contentPadding = PaddingValues(14.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(32.dp).clip(CircleShape).background(ext.prayer.first), contentAlignment = Alignment.Center) {
+                Icon(Icons.Outlined.Mosque, null, Modifier.size(18.dp), tint = ext.prayer.second)
             }
+            Spacer(Modifier.width(8.dp))
+            Text(stringResource(R.string.db_next_prayer_title), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        }
+        if (p == null) {
+            Spacer(Modifier.height(10.dp))
+            Text(stringResource(R.string.db_prayer_setup), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.weight(1f))
+            HayatButton(stringResource(R.string.db_set_city), { nav.navigate(IbadahRoute) }, Modifier.fillMaxWidth().padding(top = 10.dp), variant = ButtonVariant.TONAL, height = 44.dp)
             return@HayatCard
         }
-        CardTitle(Icons.Outlined.Mosque, stringResource(R.string.db_next_prayer_title), ext.prayer)
-        Spacer(Modifier.height(12.dp))
-        Row(verticalAlignment = Alignment.Bottom) {
-            Column(Modifier.weight(1f)) {
-                Text(stringResource(p.next.labelRes()), style = MaterialTheme.typography.headlineSmall)
-                Text(fmt.time(p.nextAt.toLocalTime()), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-            val mins = Duration.between(s.now, p.nextAt.toInstant()).toMinutes().coerceAtLeast(0)
-            Text(fmt.countdown(mins), style = MaterialTheme.typography.titleMedium, color = ext.prayer.second,
-                modifier = Modifier.clip(RoundedCornerShape(10.dp)).background(ext.prayer.first).padding(horizontal = 10.dp, vertical = 4.dp))
-        }
+        Spacer(Modifier.height(10.dp))
+        Text(stringResource(p.next.labelRes()), style = MaterialTheme.typography.headlineSmall, maxLines = 1)
+        Text(fmt.time(p.nextAt.toLocalTime()), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        val mins = Duration.between(s.now, p.nextAt.toInstant()).toMinutes().coerceAtLeast(0)
+        Text(fmt.countdown(mins), style = MaterialTheme.typography.labelLarge, color = ext.gold, modifier = Modifier.padding(top = 4.dp), maxLines = 1)
+        Spacer(Modifier.weight(1f))
         p.current?.let { cur ->
-            Spacer(Modifier.height(12.dp))
             val prayed = p.currentStatus == PrayerStatus.PRAYED || p.currentStatus == PrayerStatus.PRAYED_LATE
             HayatButton(
-                if (prayed) stringResource(R.string.db_prayed, stringResource(cur.labelRes())) else stringResource(R.string.db_mark_prayed, stringResource(cur.labelRes())),
-                { vm.markPrayed(cur) }, Modifier.fillMaxWidth(), variant = if (prayed) ButtonVariant.TONAL else ButtonVariant.PRIMARY,
+                if (prayed) stringResource(R.string.db_prayed_short, stringResource(cur.labelRes())) else stringResource(R.string.db_mark_prayed_short, stringResource(cur.labelRes())),
+                { vm.markPrayed(cur) }, Modifier.fillMaxWidth().padding(top = 10.dp), variant = ButtonVariant.TONAL, height = 44.dp,
                 icon = if (prayed) Icons.Outlined.CheckCircle else Icons.Outlined.Done, enabled = !prayed,
             )
         }
@@ -556,24 +577,25 @@ private fun WaterCard(s: DashboardState, w: WaterDay, vm: DashboardViewModel, on
     val ext = HayatThemeExt.colors
     val glass = s.prefs.water.defaultGlassMl
     val pct = percentOf(w.progress)
-    HayatCard(modifier, onClick = onOpen) {
-        CardTitle(Icons.Outlined.WaterDrop, stringResource(R.string.db_water), ext.water, trailing = {
-            Text(fmt.number(pct) + "%", style = MaterialTheme.typography.titleMedium, color = ext.water.second)
-        })
-        Spacer(Modifier.height(12.dp))
-        Row(verticalAlignment = Alignment.Bottom) {
-            AnimatedCount(w.totalMl, MaterialTheme.typography.displaySmall, format = { fmt.number(it) })
-            Text(" / " + fmt.ml(w.goalMl), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 4.dp))
+    HayatCard(modifier, onClick = onOpen, contentPadding = PaddingValues(14.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(32.dp).clip(CircleShape).background(ext.water.first), contentAlignment = Alignment.Center) {
+                Icon(Icons.Outlined.WaterDrop, null, Modifier.size(18.dp), tint = ext.water.second)
+            }
+            Spacer(Modifier.width(8.dp))
+            Text(stringResource(R.string.db_water), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
+            Text(fmt.number(pct) + "%", style = MaterialTheme.typography.labelLarge, color = ext.water.second)
         }
         Spacer(Modifier.height(10.dp))
-        LinearMeter(pct / 100f, description = stringResource(R.string.db_water) + " " + fmt.number(pct) + "%", height = 12.dp, color = ext.water.second, trackColor = ext.water.first)
-        Spacer(Modifier.height(14.dp))
+        AnimatedCount(w.totalMl, MaterialTheme.typography.headlineSmall, format = { fmt.ml(it) })
+        Text("/ " + fmt.ml(w.goalMl), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(Modifier.height(8.dp))
+        LinearMeter(pct / 100f, description = stringResource(R.string.db_water) + " " + fmt.number(pct) + "%", height = 6.dp, color = ext.water.second, trackColor = ext.water.first)
+        Spacer(Modifier.weight(1f))
         HayatButton(
-            "+" + fmt.ml(glass), { vm.addWater(glass) }, Modifier.fillMaxWidth(), icon = Icons.Outlined.WaterDrop,
+            "+" + fmt.ml(glass), { vm.addWater(glass) }, Modifier.fillMaxWidth().padding(top = 10.dp), height = 44.dp,
             onLongClick = onCustom, onLongClickLabel = stringResource(R.string.db_water_custom),
         )
-        Text(stringResource(R.string.db_water_long_press), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.fillMaxWidth().padding(top = 6.dp), textAlign = TextAlign.Center)
     }
 }
 
@@ -615,6 +637,7 @@ private fun HabitItem(r: HabitRow, vm: DashboardViewModel, modifier: Modifier = 
     SwipeToDismissBox(
         state = state, modifier = modifier,
         backgroundContent = {
+            if (state.dismissDirection == SwipeToDismissBoxValue.Settled) return@SwipeToDismissBox
             val toDone = state.dismissDirection == SwipeToDismissBoxValue.StartToEnd
             Row(
                 Modifier.fillMaxSize().clip(MaterialTheme.shapes.large).background(if (toDone) ext.success.copy(alpha = 0.18f) else MaterialTheme.colorScheme.surfaceContainerHigh).padding(horizontal = 20.dp),
@@ -626,7 +649,7 @@ private fun HabitItem(r: HabitRow, vm: DashboardViewModel, modifier: Modifier = 
             }
         },
     ) {
-        HayatCard(contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)) {
+        HayatCard(Modifier.background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.large), contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)) {
             Row(Modifier.heightIn(min = 56.dp), verticalAlignment = Alignment.CenterVertically) {
                 val target = r.habit.targetPerDay.coerceAtLeast(1)
                 if (r.habit.kind == HabitKind.BUILD && target == 1) {

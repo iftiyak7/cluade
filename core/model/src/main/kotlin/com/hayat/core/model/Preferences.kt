@@ -46,7 +46,8 @@ data class QuietHours(val enabled: Boolean = false, val start: LocalTime = Local
 data class UserPreferences(
     val onboardingCompleted: Boolean = false,
     val language: AppLanguage = AppLanguage.SYSTEM,
-    val theme: ThemeMode = ThemeMode.SYSTEM,
+    /** Dark luxury is the signature look; users can switch in Settings → Appearance. */
+    val theme: ThemeMode = ThemeMode.DARK,
     val dynamicColor: Boolean = false,
     val highContrast: Boolean = false,
     val reduceMotion: Boolean = false,

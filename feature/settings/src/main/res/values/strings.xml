@@ -140,7 +140,7 @@
     <string name="about_help_text">Use the Add button to create tasks, reminders, routines and logs. Open any feature from Home → All features. Reminders depend on Android settings — see Settings → Reminders &amp; notifications if a reminder does not appear.</string>
     <string name="about_medical">Medicine, water, diet, sleep and fitness features are reminder and logging tools. They are not medical advice and do not check doses or drug interactions.</string>
     <string name="about_religious">Prayer times are calculated on the device and may differ from your local mosque. Hijri dates are calculated and may differ from local moon sighting.</string>
-    <string name="license_font">Hind Siliguri font — SIL Open Font License 1.1 (Indian Type Foundry)</string>
+    <string name="license_font">Fonts: Plus Jakarta Sans and Noto Sans Bengali — SIL Open Font License 1.1</string>
     <string name="license_adhan">Adhan prayer time library — MIT License (Batoul Apps)</string>
     <string name="license_androidx">Android Jetpack (AndroidX), Kotlin, Dagger/Hilt — Apache License 2.0</string>
     <string name="pref_name">Your name</string>

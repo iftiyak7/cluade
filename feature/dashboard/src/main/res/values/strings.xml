@@ -91,4 +91,9 @@
     <string name="db_swipe_done">Done</string>
     <string name="db_swipe_reset">Reset</string>
     <string name="db_habit_limit">%1$s of max %2$s</string>
+    <string name="db_more_today">More for today</string>
+    <string name="db_show_more">Show more</string>
+    <string name="db_show_less">Show less</string>
+    <string name="db_mark_prayed_short">Mark %1$s</string>
+    <string name="db_prayed_short">%1$s ✓</string>
 </resources>

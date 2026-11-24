@@ -26,7 +26,7 @@ class PreferencesStoreTest {
         val repo = DataStorePreferencesRepository(createPreferencesStore({ file }, scope1.backgroundScope))
         repo.update {
             it.copy(
-                language = AppLanguage.BENGALI, theme = ThemeMode.DARK, wakeTime = LocalTime.of(5, 15), islamicModuleEnabled = true,
+                language = AppLanguage.BENGALI, theme = ThemeMode.LIGHT, wakeTime = LocalTime.of(5, 15), islamicModuleEnabled = true,
                 prayer = it.prayer.copy(location = PrayerLocation("Dhaka", 23.81, 90.41, "Asia/Dhaka"), remindersEnabled = setOf(Prayer.FAJR)),
                 dashboardCards = it.dashboardCards.reversed().map { c -> if (c.card == DashboardCard.WATER) c.copy(visible = false) else c },
             )
@@ -43,13 +43,13 @@ class PreferencesStoreTest {
     @Test fun `corrupt file falls back to defaults`() = runTest(UnconfinedTestDispatcher()) {
         val file = tmp.newFile("bad.json").apply { writeText("{not json") }
         val repo = DataStorePreferencesRepository(createPreferencesStore({ file }, backgroundScope))
-        assertEquals(ThemeMode.SYSTEM, repo.preferences.first().theme)
+        assertEquals(ThemeMode.DARK, repo.preferences.first().theme)
     }
 
     @Test fun `unknown enum values are tolerated`() {
         val dto = PreferencesDto(theme = "PURPLE", language = "xx", dashboardCards = listOf(CardDto("REMOVED_CARD", true)))
         val m = dto.toModel()
-        assertEquals(ThemeMode.SYSTEM, m.theme)
+        assertEquals(ThemeMode.DARK, m.theme)
         assertEquals(DashboardCard.entries.size, m.dashboardCards.size)
     }
 }
