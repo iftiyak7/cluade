@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>{{.Title}} · Hayat Admin</title>
+<link rel="stylesheet" href="/admin/static/admin.css">
+<script src="/admin/static/admin.js" defer></script>
+</head>
+<body>
+{{if .Session}}
+<header class="top">
+  <a class="brand" href="/admin"><span class="logo">H</span> Hayat <small>Admin</small></a>
+  <nav>
+    <a href="/admin">Announcements</a>
+    <a href="/admin/password">Password</a>
+    <form method="post" action="/admin/logout" class="inline">
+      <input type="hidden" name="csrf" value="{{.CSRF}}">
+      <button class="ghost">Sign out</button>
+    </form>
+  </nav>
+</header>
+{{end}}
+<main class="{{if .Session}}page{{else}}center{{end}}">
+  {{if .Notice}}<div class="notice" role="status">{{.Notice}}</div>{{end}}
+  {{if .Error}}<div class="error" role="alert">{{.Error}}</div>{{end}}
+  {{template "content" .}}
+</main>
+</body>
+</html>

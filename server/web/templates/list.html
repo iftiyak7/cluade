@@ -1,0 +1,44 @@
+{{define "content"}}
+<div class="head">
+  <div>
+    <h1>Announcements</h1>
+    <p class="muted">Banners appear on the app's Home screen; notifications are shown once. Apps that have
+      announcements turned on check about once an hour. Times are in {{tzname}}.</p>
+  </div>
+  <a class="primary" href="/admin/new">+ New</a>
+</div>
+{{if not .Items}}
+<section class="card empty"><h2>Nothing yet</h2><p class="muted">Create your first banner or notification.</p></section>
+{{end}}
+<div class="grid">
+{{range .Items}}
+  <article class="card item">
+    <div class="row">
+      <span class="chip {{status .}}">{{status .}}</span>
+      <span class="chip kind">{{.Kind}}</span>
+      {{if ne .Lang "all"}}<span class="chip kind">{{.Lang}}</span>{{end}}
+      <span class="spacer"></span>
+      <span class="muted small">P{{.Priority}}</span>
+    </div>
+    <h3>{{if .TitleEn}}{{.TitleEn}}{{else}}{{.TitleBn}}{{end}}</h3>
+    <p class="muted clamp">{{if .BodyEn}}{{.BodyEn}}{{else}}{{.BodyBn}}{{end}}</p>
+    <p class="small muted">{{local .StartsAt}}{{if .EndsAt}} → {{local .EndsAt}}{{else}} → no end{{end}}</p>
+    <div class="row actions">
+      <a class="ghost" href="/admin/a/{{.ID}}">Edit</a>
+      {{if .Published}}
+      <form method="post" action="/admin/a/{{.ID}}/unpublish" class="inline"><input type="hidden" name="csrf" value="{{$.CSRF}}"><button class="ghost">Unpublish</button></form>
+      {{else}}
+      <form method="post" action="/admin/a/{{.ID}}/publish" class="inline"><input type="hidden" name="csrf" value="{{$.CSRF}}"><button class="ghost accent">Publish</button></form>
+      {{end}}
+      <form method="post" action="/admin/a/{{.ID}}/delete" class="inline" data-confirm="Delete this announcement? This cannot be undone."><input type="hidden" name="csrf" value="{{$.CSRF}}"><button class="ghost danger">Delete</button></form>
+    </div>
+  </article>
+{{end}}
+</div>
+{{if .Audit}}
+<section class="card audit">
+  <h2>Recent activity</h2>
+  <ul>{{range .Audit}}<li><span class="muted small">{{local .At}}</span> <b>{{.Username}}</b> {{.Action}} {{.Target}}</li>{{end}}</ul>
+</section>
+{{end}}
+{{end}}

@@ -1,0 +1,79 @@
+{{define "content"}}
+<div class="head"><h1>{{.Title}}</h1><a class="ghost" href="/admin">← Back</a></div>
+<div class="editor">
+<form method="post" class="card form" id="ann-form" novalidate>
+  <input type="hidden" name="csrf" value="{{.CSRF}}">
+  <fieldset>
+    <legend>Type &amp; audience</legend>
+    <div class="cols">
+      <label>Show as
+        <select name="kind">
+          <option value="banner" {{if eq .Item.Kind "banner"}}selected{{end}}>Banner on Home</option>
+          <option value="notification" {{if eq .Item.Kind "notification"}}selected{{end}}>Notification</option>
+          <option value="both" {{if eq .Item.Kind "both"}}selected{{end}}>Both</option>
+        </select>
+        {{with index .Errors "kind"}}<em>{{.}}</em>{{end}}
+      </label>
+      <label>Language
+        <select name="lang">
+          <option value="all" {{if eq .Item.Lang "all"}}selected{{end}}>Everyone (English + বাংলা)</option>
+          <option value="en" {{if eq .Item.Lang "en"}}selected{{end}}>English app only</option>
+          <option value="bn" {{if eq .Item.Lang "bn"}}selected{{end}}>বাংলা app only</option>
+        </select>
+        {{with index .Errors "lang"}}<em>{{.}}</em>{{end}}
+      </label>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>English</legend>
+    <label>Title <input name="title_en" value="{{.Item.TitleEn}}" maxlength="80" data-preview="title_en">{{with index .Errors "title_en"}}<em>{{.}}</em>{{end}}</label>
+    <label>Message <textarea name="body_en" rows="3" maxlength="400" data-preview="body_en">{{.Item.BodyEn}}</textarea>{{with index .Errors "body_en"}}<em>{{.}}</em>{{end}}</label>
+    <label>Button label <input name="cta_label_en" value="{{.Item.CtaLabelEn}}" maxlength="30" data-preview="cta_en">{{with index .Errors "cta_label_en"}}<em>{{.}}</em>{{end}}</label>
+  </fieldset>
+  <fieldset>
+    <legend>বাংলা</legend>
+    <label>শিরোনাম <input name="title_bn" value="{{.Item.TitleBn}}" maxlength="80" lang="bn">{{with index .Errors "title_bn"}}<em>{{.}}</em>{{end}}</label>
+    <label>বার্তা <textarea name="body_bn" rows="3" maxlength="400" lang="bn">{{.Item.BodyBn}}</textarea>{{with index .Errors "body_bn"}}<em>{{.}}</em>{{end}}</label>
+    <label>বাটনের লেখা <input name="cta_label_bn" value="{{.Item.CtaLabelBn}}" maxlength="30" lang="bn">{{with index .Errors "cta_label_bn"}}<em>{{.}}</em>{{end}}</label>
+  </fieldset>
+  <fieldset>
+    <legend>Link &amp; image (optional)</legend>
+    <label>Button link
+      <input name="cta_url" value="{{.Item.CtaURL}}" list="deeplinks" placeholder="https://… or hayat://water" maxlength="500">
+      <datalist id="deeplinks">{{range deeplinks}}<option value="{{.}}">{{end}}</datalist>
+      <small class="muted">https:// opens the browser; hayat:// opens a screen in the app.</small>
+      {{with index .Errors "cta_url"}}<em>{{.}}</em>{{end}}
+    </label>
+    <label>Image URL <input name="image_url" value="{{.Item.ImageURL}}" placeholder="https://…" maxlength="500" data-preview="image">{{with index .Errors "image_url"}}<em>{{.}}</em>{{end}}</label>
+  </fieldset>
+  <fieldset>
+    <legend>Schedule</legend>
+    <div class="cols">
+      <label>Starts ({{tzname}}) <input type="datetime-local" name="starts_at" value="{{inputdt .Item.StartsAt}}" required>{{with index .Errors "starts_at"}}<em>{{.}}</em>{{end}}</label>
+      <label>Ends (optional) <input type="datetime-local" name="ends_at" value="{{.EndsInput}}">{{with index .Errors "ends_at"}}<em>{{.}}</em>{{end}}</label>
+    </div>
+    <div class="cols">
+      <label>Priority (0–100) <input type="number" name="priority" min="0" max="100" value="{{.Item.Priority}}">{{with index .Errors "priority"}}<em>{{.}}</em>{{end}}</label>
+      <label>Minimum app version code <input type="number" name="min_version" min="0" value="{{.Item.MinVersion}}">{{with index .Errors "min_version"}}<em>{{.}}</em>{{end}}</label>
+    </div>
+  </fieldset>
+  <div class="row actions sticky">
+    <button class="ghost" name="action" value="save">{{if .Item.Published}}Save{{else}}Save draft{{end}}</button>
+    {{if not .Item.Published}}<button class="primary" name="action" value="publish">Save &amp; publish</button>{{end}}
+  </div>
+</form>
+<aside class="preview" aria-label="Preview">
+  <div class="phone">
+    <div class="pv-banner">
+      <img class="pv-img" alt="" hidden>
+      <div class="pv-tag">NEW</div>
+      <h3 class="pv-title">{{.Item.TitleEn}}</h3>
+      <p class="pv-body">{{.Item.BodyEn}}</p>
+      <span class="pv-cta" {{if not .Item.CtaLabelEn}}hidden{{end}}>{{.Item.CtaLabelEn}}</span>
+    </div>
+    <div class="pv-note"><b>Hayat</b> · now<br><span class="pv-title">{{.Item.TitleEn}}</span><br><span class="pv-body muted">{{.Item.BodyEn}}</span></div>
+  </div>
+  <p class="muted small">Live preview (English). The app shows plain text only.</p>
+</aside>
+</div>
+{{end}}

@@ -1,0 +1,12 @@
+{{define "content"}}
+<section class="card login">
+  <div class="logo big">H</div>
+  <h1>Hayat Admin</h1>
+  <p class="muted">Sign in to publish announcements.</p>
+  <form method="post" action="/admin/login" autocomplete="on">
+    <label>Username <input name="username" value="{{.Username}}" required autocomplete="username" maxlength="32" autofocus></label>
+    <label>Password <input name="password" type="password" required autocomplete="current-password" maxlength="72"></label>
+    <button class="primary wide">Sign in</button>
+  </form>
+</section>
+{{end}}
