@@ -103,12 +103,12 @@ fun OnboardingScreen(onDone: () -> Unit, vm: OnboardingViewModel = hiltViewModel
     val prefs by vm.preferences.collectAsStateWithLifecycle()
     var step by rememberSaveable { mutableIntStateOf(0) }
     var templateId by rememberSaveable { mutableStateOf<String?>(null) }
-    val context = LocalContext.current
+    val res = androidx.compose.ui.platform.LocalResources.current
     val p = prefs ?: return LoadingBox()
 
     val template = templateId?.let(BuiltInTemplates::byId)
     val templateName = template?.systemKey?.let(TemplateStrings::name)?.let { stringResource(it) }
-    val itemTitles = template?.items?.map { item -> TemplateStrings.item(item.title)?.let { context.getString(it) } ?: item.title }.orEmpty()
+    val itemTitles = template?.items?.map { item -> TemplateStrings.item(item.title)?.let { res.getString(it) } ?: item.title }.orEmpty()
     val finish = { vm.finish(template, templateName, itemTitles, onDone) }
 
     Column(Modifier.fillMaxSize().systemBarsPadding().padding(24.dp)) {

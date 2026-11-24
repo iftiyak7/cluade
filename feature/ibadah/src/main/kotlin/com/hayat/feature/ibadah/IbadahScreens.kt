@@ -437,7 +437,7 @@ private fun PrayerSettingsScreen(onBack: () -> Unit, vm: PrayerSettingsViewModel
                 SwitchRow(stringResource(pr.labelRes()), pr in p.remindersEnabled, { on -> vm.update { it.copy(remindersEnabled = if (on) it.remindersEnabled + pr else it.remindersEnabled - pr) } })
             }
             Text(stringResource(R.string.ps_offset), style = MaterialTheme.typography.titleSmall)
-            val ctx = androidx.compose.ui.platform.LocalContext.current
+            val ctx = androidx.compose.ui.platform.LocalResources.current
             ChoiceChips(listOf(0, 5, 10, 15, 30), p.reminderOffsetMinutes, { fmt.digits(ctx.getString(UiR.string.label_minutes, it)) }, { m -> vm.update { it.copy(reminderOffsetMinutes = m) } })
             Spacer(Modifier.height(32.dp))
         }

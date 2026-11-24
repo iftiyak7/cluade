@@ -15,6 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -48,8 +50,11 @@ fun HayatRoot(vm: MainViewModel, appVersion: String) {
             val topLevel = TopLevel.entries.firstOrNull { t -> destination?.hasRoute(t.route::class) == true }
             var showAdd by rememberSaveable { mutableStateOf(false) }
 
+            val lockActive = locked && p.onboardingCompleted
             Box(Modifier.fillMaxSize()) {
                 Scaffold(
+                    // While locked, content behind the overlay is neither drawn nor exposed to accessibility services.
+                    modifier = if (lockActive) Modifier.alpha(0f).clearAndSetSemantics { } else Modifier,
                     containerColor = MaterialTheme.colorScheme.background,
                     bottomBar = {
                         if (topLevel != null) HayatBottomBar(
@@ -74,7 +79,7 @@ fun HayatRoot(vm: MainViewModel, appVersion: String) {
                     }
                 }
                 if (showAdd) AddSheet(onDismiss = { showAdd = false }, onNavigate = { route -> showAdd = false; nav.navigate(route) }, islamic = p.islamicModuleEnabled)
-                if (locked && p.onboardingCompleted) LockScreen(biometricEnabled = p.appLock.biometricEnabled, onUnlocked = vm::unlock)
+                if (lockActive) LockScreen(biometricEnabled = p.appLock.biometricEnabled, onUnlocked = vm::unlock)
             }
 
             LaunchedEffect(pending, locked) {

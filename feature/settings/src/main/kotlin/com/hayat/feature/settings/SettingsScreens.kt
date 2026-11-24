@@ -181,7 +181,7 @@ private fun ReminderSettingsScreen(onBack: () -> Unit) {
         }
         chips(R.string.pref_snooze) {
             val fmt = LocalFormatter.current
-            val res = LocalContext.current.resources
+            val res = androidx.compose.ui.platform.LocalResources.current
             ChoiceChips(listOf(5, 10, 15, 30, 60), p.defaultSnoozeMinutes, { minutesLabel(res, it, fmt) }, { m -> svm.update { it.copy(defaultSnoozeMinutes = m) } })
         }
         item { SwitchRow(stringResource(R.string.pref_quiet_hours), p.quietHours.enabled, { v -> svm.update { it.copy(quietHours = it.quietHours.copy(enabled = v)) } }, subtitle = stringResource(R.string.pref_quiet_hours_sub), icon = Icons.Outlined.DoNotDisturbOn) }
@@ -241,7 +241,7 @@ private fun LifestyleSettingsScreen(onBack: () -> Unit, openPrayerSettings: () -
     item { SwitchRow(stringResource(R.string.pref_water_reminders), p.water.reminderEnabled, { v -> vm.update(true) { it.copy(water = it.water.copy(reminderEnabled = v)) } }, icon = Icons.Outlined.WaterDrop) }
     if (p.water.reminderEnabled) chips(R.string.pref_water_interval) {
         val fmt = LocalFormatter.current
-        val res = LocalContext.current.resources
+        val res = androidx.compose.ui.platform.LocalResources.current
         ChoiceChips(listOf(15, 30, 60, 90, 120, 180), p.water.reminderIntervalMinutes, { minutesLabel(res, it, fmt) }, { m -> vm.update(true) { it.copy(water = it.water.copy(reminderIntervalMinutes = m)) } })
     }
     item { HorizontalDivider(Modifier.padding(vertical = 8.dp)); SectionHeader(stringResource(R.string.section_sleep), Modifier.padding(horizontal = 16.dp)) }
@@ -260,17 +260,17 @@ private fun LifestyleSettingsScreen(onBack: () -> Unit, openPrayerSettings: () -
     item { HorizontalDivider(Modifier.padding(vertical = 8.dp)); SectionHeader(stringResource(R.string.section_focus), Modifier.padding(horizontal = 16.dp)) }
     chips(R.string.pref_focus_minutes) {
         val fmt = LocalFormatter.current
-        val res = LocalContext.current.resources
+        val res = androidx.compose.ui.platform.LocalResources.current
         ChoiceChips(listOf(15, 20, 25, 30, 45, 50, 60), p.pomodoro.focusMinutes, { minutesLabel(res, it, fmt) }, { m -> vm.update { it.copy(pomodoro = it.pomodoro.copy(focusMinutes = m)) } })
     }
     chips(R.string.pref_short_break) {
         val fmt = LocalFormatter.current
-        val res = LocalContext.current.resources
+        val res = androidx.compose.ui.platform.LocalResources.current
         ChoiceChips(listOf(3, 5, 10), p.pomodoro.shortBreakMinutes, { minutesLabel(res, it, fmt) }, { m -> vm.update { it.copy(pomodoro = it.pomodoro.copy(shortBreakMinutes = m)) } })
     }
     chips(R.string.pref_long_break) {
         val fmt = LocalFormatter.current
-        val res = LocalContext.current.resources
+        val res = androidx.compose.ui.platform.LocalResources.current
         ChoiceChips(listOf(10, 15, 20, 30), p.pomodoro.longBreakMinutes, { minutesLabel(res, it, fmt) }, { m -> vm.update { it.copy(pomodoro = it.pomodoro.copy(longBreakMinutes = m)) } })
     }
     item { HorizontalDivider(Modifier.padding(vertical = 8.dp)); SectionHeader(stringResource(R.string.section_finance), Modifier.padding(horizontal = 16.dp)) }

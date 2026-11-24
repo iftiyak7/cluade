@@ -196,7 +196,7 @@ private fun RoutineEditScreen(onBack: () -> Unit, vm: RoutineEditViewModel = hil
             val kindLabels = RoutineKind.entries.associateWith { stringResource(it.labelRes()) }
             ChoiceChips(RoutineKind.entries, r.kind, { kindLabels.getValue(it) }, { k -> vm.edit { it.copy(kind = k, dateRule = if (f.isNew) k.defaultRule() else it.dateRule) } })
             SectionHeader(stringResource(UiR.string.label_color))
-            val ctx = LocalContext.current
+            val ctx = androidx.compose.ui.platform.LocalResources.current
             ColorSwatchPicker(UserColorChoices, r.color, { c -> vm.edit { it.copy(color = c) } }, { i -> fmt.digits(ctx.getString(UiR.string.label_color_option, i + 1)) })
             SectionHeader(stringResource(UiR.string.label_repeat))
             DateRuleEditor(r.dateRule, r.startDate, { rule -> vm.edit { it.copy(dateRule = rule) } }, firstDay)
@@ -301,7 +301,7 @@ private fun TemplatesScreen(nav: NavController, vm: TemplatesViewModel = hiltVie
     val host = remember { SnackbarHostState() }
     MessageEffect(vm.messages, host)
     var preview by remember { mutableStateOf<RoutineTemplate?>(null) }
-    val context = LocalContext.current
+    val res = androidx.compose.ui.platform.LocalResources.current
     HayatScreen(title = stringResource(R.string.tpl_title), onBack = nav::popBackStack, snackbarHostState = host) { pad ->
         LazyColumn(Modifier.padding(pad), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item { SectionHeader(stringResource(R.string.tpl_builtin)) }
@@ -314,7 +314,7 @@ private fun TemplatesScreen(nav: NavController, vm: TemplatesViewModel = hiltVie
     }
     preview?.let { t ->
         val name = templateName(t)
-        val titles = t.items.map { item -> TemplateStrings.item(item.title)?.let(context::getString) ?: item.title }
+        val titles = t.items.map { item -> TemplateStrings.item(item.title)?.let(res::getString) ?: item.title }
         val fmt = LocalFormatter.current
         AlertDialog(
             onDismissRequest = { preview = null },

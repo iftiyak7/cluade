@@ -120,7 +120,7 @@ private fun WaterScreen(nav: NavController, vm: WaterViewModel = hiltViewModel()
                             if (today.totalMl >= today.goalMl) StatusChip(stringResource(R.string.water_goal_reached), StatusTone.SUCCESS, icon = Icons.Outlined.CheckCircle)
                             val w = s.prefs.water
                             TextButton(onClick = { nav.navigate(LifestyleSettingsRoute) }) {
-                                Text(if (w.reminderEnabled) stringResource(R.string.water_reminders, fmt.digits(androidx.compose.ui.platform.LocalContext.current.getString(UiR.string.label_minutes, w.reminderIntervalMinutes)),
+                                Text(if (w.reminderEnabled) stringResource(R.string.water_reminders, fmt.digits(androidx.compose.ui.platform.LocalResources.current.getString(UiR.string.label_minutes, w.reminderIntervalMinutes)),
                                     fmt.time(s.prefs.wakeTime), fmt.time(s.prefs.sleepTime)) else stringResource(R.string.water_reminders_off), style = MaterialTheme.typography.bodySmall)
                             }
                         }

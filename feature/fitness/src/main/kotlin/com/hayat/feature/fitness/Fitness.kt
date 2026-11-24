@@ -187,7 +187,7 @@ private fun FitnessScreen(nav: NavController, vm: FitnessViewModel = hiltViewMod
                     Icon(Icons.Outlined.FitnessCenter, null, tint = MaterialTheme.colorScheme.primary)
                     Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) {
-                        Text(fmt.dayMonth(ses.date) + " · " + fmt.digits(androidx.compose.ui.platform.LocalContext.current.getString(UiR.string.label_minutes, ses.durationMinutes)))
+                        Text(fmt.dayMonth(ses.date) + " · " + fmt.digits(androidx.compose.ui.platform.LocalResources.current.getString(UiR.string.label_minutes, ses.durationMinutes)))
                         Text((s.plans.firstOrNull { it.id == ses.planId }?.name ?: stringResource(R.string.fit_plan_none)) + (ses.steps?.let { " · " + fmt.number(it) + " 👣" } ?: ""), style = MaterialTheme.typography.bodySmall)
                     }
                     IconButton(onClick = { vm.deleteSession(ses) }) { Icon(Icons.Outlined.Delete, stringResource(UiR.string.action_delete)) }

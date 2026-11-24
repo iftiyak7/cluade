@@ -158,7 +158,7 @@ private fun SleepScreen(nav: NavController, vm: SleepViewModel = hiltViewModel()
                     Column(Modifier.weight(1f)) {
                         Text(fmt.dayMonth(e.date) + " · " + durationLabel(e.duration.toMinutes()), style = MaterialTheme.typography.bodyLarge)
                         Text(fmt.time(e.bedAt.atZone(zone).toLocalTime()) + " → " + fmt.time(e.wakeAt.atZone(zone).toLocalTime()) +
-                            (e.quality?.let { " · " + fmt.digits(androidx.compose.ui.platform.LocalContext.current.getString(R.string.sleep_quality_n, it)) } ?: ""), style = MaterialTheme.typography.bodySmall)
+                            (e.quality?.let { " · " + fmt.digits(androidx.compose.ui.platform.LocalResources.current.getString(R.string.sleep_quality_n, it)) } ?: ""), style = MaterialTheme.typography.bodySmall)
                     }
                     IconButton(onClick = { vm.delete(e) }) { Icon(Icons.Outlined.Delete, stringResource(UiR.string.action_delete)) }
                 }

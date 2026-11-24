@@ -281,7 +281,7 @@ private fun SubjectDialog(existing: StudySubject?, onDismiss: () -> Unit, onDele
     var exam by remember { mutableStateOf(existing?.examDate) }
     var color by remember { mutableStateOf(existing?.color ?: UserColorChoices[1]) }
     val fmt = LocalFormatter.current
-    val ctx = androidx.compose.ui.platform.LocalContext.current
+    val ctx = androidx.compose.ui.platform.LocalResources.current
     AlertDialog(onDismissRequest = onDismiss, title = { Text(stringResource(if (existing == null) R.string.st_add_subject else R.string.st_edit_subject)) },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {

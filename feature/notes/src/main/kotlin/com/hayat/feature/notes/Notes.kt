@@ -205,7 +205,7 @@ private fun NotesScreen(nav: NavController, vm: NotesViewModel = hiltViewModel()
     val host = remember { SnackbarHostState() }
     MessageEffect(vm.messages, host)
     var tab by rememberSaveable { mutableIntStateOf(0) }
-    val activity = LocalContext.current as? FragmentActivity
+    val activity = androidx.activity.compose.LocalActivity.current as? FragmentActivity
     val unlockTitle = stringResource(R.string.nt_unlock_title)
     val fmt = LocalFormatter.current
     HayatScreen(title = stringResource(R.string.nt_title), onBack = nav::popBackStack, snackbarHostState = host,

@@ -75,6 +75,7 @@ class LockViewModel @Inject constructor(private val lock: AppLockManager) : Haya
 @Composable
 fun LockScreen(biometricEnabled: Boolean, onUnlocked: () -> Unit, vm: LockViewModel = hiltViewModel()) {
     val context = LocalContext.current
+    val hostActivity = androidx.activity.compose.LocalActivity.current as? FragmentActivity
     var pin by remember { mutableStateOf("") }
     val result by vm.result.collectAsStateWithLifecycle()
     val canBiometric = remember {
@@ -83,7 +84,7 @@ fun LockScreen(biometricEnabled: Boolean, onUnlocked: () -> Unit, vm: LockViewMo
     val bioTitle = stringResource(R.string.lock_biometric_title)
     val bioNegative = stringResource(com.hayat.core.ui.R.string.action_cancel)
     fun showBiometric() {
-        val activity = context as? FragmentActivity ?: return
+        val activity = hostActivity ?: return
         val prompt = BiometricPrompt(activity, ContextCompat.getMainExecutor(context), object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) = onUnlocked()
         })

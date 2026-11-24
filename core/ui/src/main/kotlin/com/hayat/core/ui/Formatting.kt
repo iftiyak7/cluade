@@ -7,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.os.ConfigurationCompat
 import com.hayat.core.model.DateFormatPref
 import com.hayat.core.model.DigitStyle
 import com.hayat.core.model.TimeFormatPref
@@ -81,7 +80,7 @@ val LocalFormatter = staticCompositionLocalOf { HayatFormatter.Default }
 fun rememberHayatFormatter(timeFormat: TimeFormatPref, dateFormat: DateFormatPref, digitStyle: DigitStyle): HayatFormatter {
     val context = LocalContext.current
     val config = LocalConfiguration.current
-    val locale = ConfigurationCompat.getLocales(config)[0] ?: Locale.getDefault()
+    val locale: Locale = config.locales.get(0) ?: Locale.ENGLISH
     val use24 = when (timeFormat) {
         TimeFormatPref.H24 -> true
         TimeFormatPref.H12 -> false

@@ -28,6 +28,8 @@ internal fun Project.configureAndroidCommon(extension: CommonExtension) {
     configureKotlin()
     tasks.withType<Test>().configureEach {
         maxHeapSize = "2g"
+        // Feature presentation modules are exercised by the app-level end-to-end tests.
+        failOnNoDiscoveredTests.set(false)
         systemProperty("robolectric.logging.enabled", "false")
     }
     dependencies {

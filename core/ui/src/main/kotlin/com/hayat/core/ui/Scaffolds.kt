@@ -22,7 +22,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.coroutines.flow.Flow
@@ -68,9 +67,9 @@ private fun Int.dp() = androidx.compose.ui.unit.Dp(this.toFloat())
 /** Collects one-off UI messages (string resource ids) into the snackbar. */
 @Composable
 fun MessageEffect(messages: Flow<UiMessage>, host: SnackbarHostState) {
-    val context = LocalContext.current
-    LaunchedEffect(messages) {
-        messages.collect { host.showSnackbar(context.getString(it.res, *it.args.toTypedArray())) }
+    val resources = androidx.compose.ui.platform.LocalResources.current
+    LaunchedEffect(messages, resources) {
+        messages.collect { host.showSnackbar(resources.getString(it.res, *it.args.toTypedArray())) }
     }
 }
 

@@ -236,7 +236,7 @@ private fun HabitEditScreen(onBack: () -> Unit, vm: HabitEditViewModel = hiltVie
     MessageEffect(vm.messages, host)
     LaunchedEffect(Unit) { vm.events.collect { if (it is UiEvent.NavigateBack) onBack() } }
     val fmt = LocalFormatter.current
-    val ctx = LocalContext.current
+    val ctx = androidx.compose.ui.platform.LocalResources.current
     val f = form
     HayatScreen(title = stringResource(if (f?.isNew != false) R.string.hb_new else R.string.hb_edit), onBack = onBack, snackbarHostState = host,
         actions = { TextButton(onClick = vm::save) { Text(stringResource(UiR.string.action_save)) } }) { pad ->

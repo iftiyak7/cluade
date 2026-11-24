@@ -202,7 +202,7 @@ private fun FinanceEditScreen(onBack: () -> Unit, vm: FinanceEditViewModel = hil
     LaunchedEffect(Unit) { vm.events.collect { if (it is UiEvent.NavigateBack) onBack() } }
     var confirm by rememberSaveable { mutableStateOf(false) }
     val fmt = LocalFormatter.current
-    val ctx = LocalContext.current
+    val ctx = androidx.compose.ui.platform.LocalResources.current
     val f = form
     HayatScreen(title = stringResource(if (f?.isNew != false) R.string.fn_new else R.string.fn_edit), onBack = onBack, snackbarHostState = host,
         actions = {
