@@ -58,6 +58,7 @@ import com.hayat.core.model.AppLanguage
 import com.hayat.core.model.RoutineTemplate
 import com.hayat.core.model.ThemeMode
 import com.hayat.core.model.UserPreferences
+import com.hayat.core.navigation.ConnectServerRoute
 import com.hayat.core.navigation.HomeRoute
 import com.hayat.core.navigation.OnboardingRoute
 import com.hayat.core.ui.HayatViewModel
@@ -84,7 +85,7 @@ class OnboardingViewModel @Inject constructor(
             val localized = template.copy(items = template.items.mapIndexed { i, item -> item.copy(title = itemTitles.getOrElse(i) { item.title }) })
             routines.applyTemplate(localized, name, time.today(), UserColorChoices.first())
         }
-        prefs.update { it.copy(onboardingCompleted = true) }
+        prefs.update { it.copy(onboardingCompleted = true, serverSetupPending = true) }
         capabilities.requestReconcile()
         onDone()
     }
@@ -92,7 +93,7 @@ class OnboardingViewModel @Inject constructor(
 
 fun NavGraphBuilder.onboardingGraph(nav: NavController) {
     composable<OnboardingRoute> {
-        OnboardingScreen(onDone = { nav.navigate(HomeRoute) { popUpTo<OnboardingRoute> { inclusive = true } } })
+        OnboardingScreen(onDone = { nav.navigate(ConnectServerRoute(firstRun = true)) { popUpTo<OnboardingRoute> { inclusive = true } } })
     }
 }
 

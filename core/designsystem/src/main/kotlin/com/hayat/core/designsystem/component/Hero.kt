@@ -198,10 +198,13 @@ fun DayStrip(days: List<DayChip>, onSelect: (String) -> Unit, modifier: Modifier
 /** Pill-shaped segmented control with an animated sliding indicator. */
 @Composable
 fun PillTabs(options: List<String>, selected: Int, onSelect: (Int) -> Unit, modifier: Modifier = Modifier) {
-    BoxWithConstraints(modifier.fillMaxWidth().clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.surfaceContainerHigh).padding(4.dp)) {
+    val dark = HayatThemeExt.colors.isDark
+    val track = if (dark) MaterialTheme.colorScheme.surfaceContainer else MaterialTheme.colorScheme.surfaceContainerHigh
+    val thumb = if (dark) MaterialTheme.colorScheme.surfaceContainerHighest else MaterialTheme.colorScheme.surface
+    BoxWithConstraints(modifier.fillMaxWidth().clip(RoundedCornerShape(50)).background(track).padding(4.dp)) {
         val segment = maxWidth / options.size.coerceAtLeast(1)
-        val offset by animateDpAsState(segment * selected, spring(dampingRatio = Spring.DampingRatioLowBouncy, stiffness = Spring.StiffnessMediumLow), label = "tab")
-        Box(Modifier.offset(x = offset).width(segment).height(40.dp).shadow(4.dp, RoundedCornerShape(50)).clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.surfaceContainerLowest))
+        val offset by animateDpAsState(segment * selected, tween(220, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "tab")
+        Box(Modifier.offset(x = offset).width(segment).height(40.dp).shadow(if (dark) 0.dp else 3.dp, RoundedCornerShape(50)).clip(RoundedCornerShape(50)).background(thumb))
         Row(Modifier.fillMaxWidth()) {
             options.forEachIndexed { i, label ->
                 Box(
@@ -276,10 +279,8 @@ fun SmoothLineChart(values: List<Float>, labels: List<String>, summary: String, 
             repeat(4) { r -> val y = size.height * (r + 1) / 5f; drawLine(grid, Offset(0f, y), Offset(size.width, y), strokeWidth = 1f) }
             val path = Path().apply {
                 moveTo(pts.first().x, pts.first().y)
-                for (i in 1 until pts.size) {
-                    val p0 = pts[i - 1]; val p1 = pts[i]; val cx = (p0.x + p1.x) / 2
-                    cubicTo(cx, p0.y, cx, p1.y, p1.x, p1.y)
-                }
+                // Straight segments: a curve could overshoot and suggest values that were never recorded.
+                for (i in 1 until pts.size) lineTo(pts[i].x, pts[i].y)
             }
             val area = Path().apply { addPath(path); lineTo(pts.last().x, size.height); lineTo(pts.first().x, size.height); close() }
             drawPath(area, Brush.verticalGradient(listOf(line.copy(alpha = 0.25f), Color.Transparent)))

@@ -27,11 +27,7 @@ type harness struct {
 
 func newHarness(t *testing.T) *harness {
 	t.Helper()
-	st, err := OpenStore(filepath.Join(t.TempDir(), "test.db"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { st.Close() })
+	st := newTestStore(t)
 	cfg := Config{SecureCookies: false, TrustProxy: false}
 	app, err := NewApp(cfg, st, slog.New(slog.NewTextHandler(io.Discard, nil)))
 	if err != nil {
@@ -365,6 +361,9 @@ func TestSiteHandlerHidesDotfilesAndListings(t *testing.T) {
 
 func TestBackupSnapshot(t *testing.T) {
 	h := newHarness(t)
+	if h.store.pg {
+		t.Skip("PostgreSQL backups use pg_dump (deploy/backup.sh)")
+	}
 	a := Announcement{Kind: KindBanner, Lang: "en", TitleEn: "Kept", BodyEn: "x", StartsAt: h.now}
 	h.store.SaveAnnouncement(context.Background(), &a, h.now)
 	out := filepath.Join(t.TempDir(), "backup.db")

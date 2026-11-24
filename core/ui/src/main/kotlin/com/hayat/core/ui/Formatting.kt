@@ -50,14 +50,55 @@ class HayatFormatter(
     }
     fun percent(fraction: Float): String = digits((fraction * 100).toInt().coerceIn(0, 100).toString()) + "%"
 
-    private val timeFmt = DateTimeFormatter.ofPattern(if (use24h) "HH:mm" else "h:mm a", locale)
+    private val bengali = locale.language == "bn"
+    private val timeFmt = DateTimeFormatter.ofPattern(if (use24h) "HH:mm" else if (bengali) "h:mm" else "h:mm a", locale)
     private val dateFmt = DateTimeFormatter.ofLocalizedDate(
         when (dateStyle) { DateFormatPref.SHORT -> FormatStyle.SHORT; DateFormatPref.MEDIUM -> FormatStyle.MEDIUM; DateFormatPref.LONG -> FormatStyle.LONG },
     ).withLocale(locale)
     private val dayMonthFmt = DateTimeFormatter.ofPattern("EEE, d MMM", locale)
     private val monthYearFmt = DateTimeFormatter.ofPattern("MMMM yyyy", locale)
 
-    fun time(t: LocalTime): String = digits(timeFmt.format(t))
+    /** English "11:46 AM"; Bengali uses a day-period word: "সকাল ১১:৪৬", "রাত ৯:০৫". */
+    fun time(t: LocalTime): String = if (bengali && !use24h) bengaliDayPeriod(t.hour) + " " + digits(timeFmt.format(t)) else digits(timeFmt.format(t))
+
+    /** "250 ml" / "২৫০ মিলি". */
+    fun ml(amount: Int): String = if (bengali) number(amount) + " মিলি" else "$amount ml"
+    /** "45 min" / "৪৫ মিনিট". */
+    fun minutes(m: Int): String = if (bengali) number(m) + " মিনিট" else "$m min"
+
+    /** "14 Jumada II 1448" / "১৪ জমাদিউস সানি ১৪৪৮". */
+    fun hijri(day: Int, month: Int, year: Int): String =
+        number(day) + " " + com.hayat.core.time.HijriMonths.name(month, bengali) + " " + number(year)
+
+    /** Countdown such as "in 4h 21m" / "৪ ঘণ্টা ২১ মিনিট পর". */
+    fun countdown(totalMinutes: Long): String {
+        val h = (totalMinutes / 60).toInt(); val m = (totalMinutes % 60).toInt()
+        return if (bengali) buildString {
+            if (h > 0) append(number(h)).append(" ঘণ্টা ")
+            append(number(m)).append(" মিনিট পর")
+        } else buildString {
+            append("in ")
+            if (h > 0) append(h).append("h ")
+            append(m).append("m")
+        }
+    }
+
+    /** "just now", "2 min ago", "3 h ago", "2 days ago" (and Bengali equivalents). */
+    fun ago(minutes: Long): String = when {
+        minutes < 1 -> if (bengali) "এইমাত্র" else "just now"
+        minutes < 60 -> if (bengali) number(minutes) + " মিনিট আগে" else "$minutes min ago"
+        minutes < 60 * 24 -> if (bengali) number(minutes / 60) + " ঘণ্টা আগে" else "${minutes / 60} h ago"
+        else -> if (bengali) number(minutes / 1440) + " দিন আগে" else "${minutes / 1440} days ago"
+    }
+
+    private fun bengaliDayPeriod(hour: Int): String = when (hour) {
+        in 4..5 -> "ভোর"
+        in 6..11 -> "সকাল"
+        in 12..14 -> "দুপুর"
+        in 15..17 -> "বিকাল"
+        in 18..19 -> "সন্ধ্যা"
+        else -> "রাত"
+    }
     fun date(d: LocalDate): String = digits(dateFmt.format(d))
     fun dayMonth(d: LocalDate): String = digits(dayMonthFmt.format(d))
     fun dateTime(dt: LocalDateTime): String = date(dt.toLocalDate()) + ", " + time(dt.toLocalTime())

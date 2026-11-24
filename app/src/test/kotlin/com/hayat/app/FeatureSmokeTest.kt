@@ -76,7 +76,7 @@ class FeatureSmokeTest {
         throw AssertionError("'$text' not shown. Tree:\n" + compose.onRoot(useUnmergedTree = true).printToString().lines().filter { "Text =" in it || "ContentDescription" in it }.joinToString("\n").take(3000), e)
     }
 
-    private fun waitForHome() = compose.waitUntil(10_000) { compose.onAllNodes(hasContentDescription("Customise home")).fetchSemanticsNodes().isNotEmpty() }
+    private fun waitForHome() = compose.waitUntil(10_000) { compose.onAllNodes(androidx.compose.ui.test.hasTestTag("home-screen")).fetchSemanticsNodes().isNotEmpty() }
 
     private fun back() {
         compose.onAllNodesWithContentDescription("Back").onFirst().performClick()

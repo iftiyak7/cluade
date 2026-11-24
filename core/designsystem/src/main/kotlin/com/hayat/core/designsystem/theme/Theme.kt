@@ -21,19 +21,20 @@ import androidx.compose.ui.unit.dp
 data class Spacing(
     val xxs: Dp = 2.dp, val xs: Dp = 4.dp, val sm: Dp = 8.dp, val md: Dp = 12.dp, val lg: Dp = 16.dp,
     val xl: Dp = 24.dp, val xxl: Dp = 32.dp, val xxxl: Dp = 48.dp,
-    val gutter: Dp = 16.dp, val minTouch: Dp = 48.dp,
+    val gutter: Dp = 20.dp, val minTouch: Dp = 48.dp,
 )
 
 val LocalSpacing = staticCompositionLocalOf { Spacing() }
 /** True when animations should be skipped (system setting or in-app Reduce motion). */
 val LocalReduceMotion = staticCompositionLocalOf { false }
 
+/** Cards use `large` (20 dp); buttons and inputs use `medium` (16 dp). */
 val HayatShapes = Shapes(
     extraSmall = RoundedCornerShape(8.dp),
     small = RoundedCornerShape(12.dp),
-    medium = RoundedCornerShape(18.dp),
-    large = RoundedCornerShape(24.dp),
-    extraLarge = RoundedCornerShape(32.dp),
+    medium = RoundedCornerShape(16.dp),
+    large = RoundedCornerShape(20.dp),
+    extraLarge = RoundedCornerShape(28.dp),
 )
 
 @Composable
@@ -42,6 +43,8 @@ fun HayatTheme(
     highContrast: Boolean = false,
     dynamicColor: Boolean = false,
     reduceMotion: Boolean = false,
+    /** Bengali UI uses Hind Siliguri; English uses Inter. */
+    bengali: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val base = when {
@@ -58,7 +61,7 @@ fun HayatTheme(
         LocalSpacing provides Spacing(),
         LocalReduceMotion provides reduceMotion,
     ) {
-        MaterialTheme(colorScheme = scheme, typography = HayatTypography, shapes = HayatShapes, content = content)
+        MaterialTheme(colorScheme = scheme, typography = if (bengali) HayatTypographyBengali else HayatTypography, shapes = HayatShapes, content = content)
     }
 }
 

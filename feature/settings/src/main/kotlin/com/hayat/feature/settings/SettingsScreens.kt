@@ -49,6 +49,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.hayat.core.designsystem.component.ChoiceChips
 import com.hayat.core.designsystem.component.ConfirmDialog
 import com.hayat.core.designsystem.component.HayatCard
@@ -80,12 +81,24 @@ fun NavGraphBuilder.settingsGraph(nav: NavController, appVersion: String) {
     composable<PrivacySettingsRoute> { PrivacySettingsScreen(nav::popBackStack) }
     composable<DashboardSettingsRoute> { DashboardSettingsScreen(nav::popBackStack) }
     composable<AboutRoute> { AboutScreen(nav::popBackStack, appVersion) }
+    composable<ServerSettingsRoute> { ServerSettingsScreen(nav::popBackStack, onChangeServer = { nav.navigate(ConnectServerRoute()) }) }
+    composable<ConnectServerRoute> { entry ->
+        val firstRun = entry.toRoute<ConnectServerRoute>().firstRun
+        ConnectServerScreen(
+            firstRun = firstRun,
+            onBack = nav::popBackStack,
+            onConnected = {
+                if (firstRun) nav.navigate(HomeRoute) { popUpTo(0) { inclusive = true } } else nav.popBackStack()
+            },
+        )
+    }
 }
 
 @Composable
 private fun SettingsHomeScreen(nav: NavController) {
     HayatScreen(title = stringResource(UiR.string.feature_settings), onBack = null) { pad ->
         LazyColumn(contentPadding = pad) {
+            item { SettingsRow(stringResource(R.string.srv_title), subtitle = stringResource(R.string.srv_settings_sub), icon = Icons.Outlined.Cloud, onClick = { nav.navigate(ServerSettingsRoute) }) }
             item { SettingsRow(stringResource(R.string.settings_general), subtitle = stringResource(R.string.settings_general_sub), icon = Icons.Outlined.Language, onClick = { nav.navigate(GeneralSettingsRoute) }) }
             item { SettingsRow(stringResource(R.string.settings_appearance), subtitle = stringResource(R.string.settings_appearance_sub), icon = Icons.Outlined.Palette, onClick = { nav.navigate(AppearanceSettingsRoute) }) }
             item { SettingsRow(stringResource(R.string.settings_reminders), subtitle = stringResource(R.string.settings_reminders_sub), icon = Icons.Outlined.NotificationsActive, onClick = { nav.navigate(NotificationSettingsRoute) }) }

@@ -9,6 +9,8 @@ import kotlinx.serialization.Serializable
 // ---- top level (bottom bar)
 @Serializable data object HomeRoute
 @Serializable data object AnnouncementsRoute
+@Serializable data object ServerSettingsRoute
+@Serializable data class ConnectServerRoute(val firstRun: Boolean = false)
 @Serializable data class CalendarRoute(val date: String? = null)
 @Serializable data object ProgressRoute
 @Serializable data object SettingsRoute

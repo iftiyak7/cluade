@@ -16,6 +16,8 @@ interface AppConfig {
     val versionCode: Int
     /** Language of the device locale (used when the in-app language is "system"). */
     val systemLanguage: String
+    /** Server URL pre-filled on the connect screen (build property hayatServerUrl), may be blank. */
+    val defaultServerUrl: String get() = ""
 }
 
 interface AnnouncementRepository {

@@ -77,7 +77,8 @@ fun HayatScreen(
 
 @Composable
 fun LoadingBox(modifier: Modifier = Modifier) {
-    Box(modifier.fillMaxSize().padding(32.dp()), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+    // Skeleton placeholders instead of a spinner: the layout does not jump when content arrives.
+    com.hayat.core.designsystem.component.SkeletonPage(modifier)
 }
 
 private fun Int.dp() = androidx.compose.ui.unit.Dp(this.toFloat())

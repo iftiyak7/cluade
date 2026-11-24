@@ -20,12 +20,12 @@ import androidx.compose.ui.text.TextStyle
 import com.hayat.core.designsystem.theme.LocalReduceMotion
 
 /** Subtle spring scale-down while pressed. Pass the same [interaction] to the clickable. */
-fun Modifier.pressScale(interaction: MutableInteractionSource, pressedScale: Float = 0.96f): Modifier = composed {
+fun Modifier.pressScale(interaction: MutableInteractionSource, pressedScale: Float = 0.97f): Modifier = composed {
     val reduce = LocalReduceMotion.current
     val pressed by interaction.collectIsPressedAsState()
     val scale by animateFloatAsState(
         if (pressed && !reduce) pressedScale else 1f,
-        spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium), label = "press",
+        tween(durationMillis = if (pressed) 120 else 180, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "press",
     )
     graphicsLayer { scaleX = scale; scaleY = scale }
 }
@@ -38,11 +38,11 @@ fun Modifier.animateEnter(index: Int = 0): Modifier = composed {
     val reduce = LocalReduceMotion.current
     val progress = remember { Animatable(if (reduce) 1f else 0f) }
     LaunchedEffect(Unit) {
-        if (!reduce) progress.animateTo(1f, tween(durationMillis = 420, delayMillis = (index.coerceAtMost(8)) * 45))
+        if (!reduce) progress.animateTo(1f, tween(durationMillis = 220, delayMillis = (index.coerceAtMost(6)) * 30, easing = androidx.compose.animation.core.LinearOutSlowInEasing))
     }
     graphicsLayer {
         alpha = progress.value
-        translationY = (1f - progress.value) * 36f
+        translationY = (1f - progress.value) * 16f
     }
 }
 
@@ -50,6 +50,6 @@ fun Modifier.animateEnter(index: Int = 0): Modifier = composed {
 @Composable
 fun AnimatedCount(value: Int, style: TextStyle, format: (Int) -> String = { it.toString() }, modifier: Modifier = Modifier) {
     val reduce = LocalReduceMotion.current
-    val shown by animateIntAsState(value, tween(if (reduce) 0 else 700), label = "count")
+    val shown by animateIntAsState(value, tween(if (reduce) 0 else 500, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "count")
     Text(format(shown), style = style, modifier = modifier)
 }

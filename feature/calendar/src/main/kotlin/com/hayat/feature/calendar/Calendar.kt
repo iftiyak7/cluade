@@ -179,18 +179,12 @@ fun NavGraphBuilder.calendarGraph(nav: NavController) {
     composable<CalendarRoute> { CalendarScreen(nav) }
 }
 
-@StringRes private fun hijriMonth(m: Int) = when (m) {
-    1 -> R.string.hijri_month_1; 2 -> R.string.hijri_month_2; 3 -> R.string.hijri_month_3; 4 -> R.string.hijri_month_4
-    5 -> R.string.hijri_month_5; 6 -> R.string.hijri_month_6; 7 -> R.string.hijri_month_7; 8 -> R.string.hijri_month_8
-    9 -> R.string.hijri_month_9; 10 -> R.string.hijri_month_10; 11 -> R.string.hijri_month_11; else -> R.string.hijri_month_12
-}
-
 /** Localized Hijri date string, or null if outside the supported range. */
 @Composable
 fun hijriLabel(date: LocalDate, offset: Int): String? {
     val h = HijriCalendar.fromGregorian(date, offset) ?: return null
     val fmt = LocalFormatter.current
-    return stringResource(R.string.cal_hijri, fmt.number(h.day), stringResource(hijriMonth(h.month)), fmt.number(h.year))
+    return fmt.hijri(h.day, h.month, h.year) // "14 Jumada II 1448" / "১৪ জমাদিউস সানি ১৪৪৮"
 }
 
 @Composable

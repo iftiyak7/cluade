@@ -65,11 +65,11 @@ class AppLockFlowTest {
     @Test fun `locked app hides content and unlocks only with the right pin`() {
         compose.waitUntil(10_000) { compose.onAllNodesWithText("Hayat is locked").fetchSemanticsNodes().isNotEmpty() }
         assertTrue("home content must not be exposed while locked",
-            compose.onAllNodes(hasContentDescription("Customise home")).fetchSemanticsNodes().isEmpty())
+            compose.onAllNodes(androidx.compose.ui.test.hasTestTag("home-screen")).fetchSemanticsNodes().isEmpty())
         enter("1111")
         compose.waitUntil(10_000) { compose.onAllNodesWithText("Wrong PIN", substring = true).fetchSemanticsNodes().isNotEmpty() }
         enter("2580")
-        compose.waitUntil(10_000) { compose.onAllNodes(hasContentDescription("Customise home")).fetchSemanticsNodes().isNotEmpty() }
+        compose.waitUntil(10_000) { compose.onAllNodes(androidx.compose.ui.test.hasTestTag("home-screen")).fetchSemanticsNodes().isNotEmpty() }
         assertTrue(compose.onAllNodesWithText("Hayat is locked").fetchSemanticsNodes().isEmpty())
     }
 }

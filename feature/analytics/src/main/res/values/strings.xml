@@ -33,4 +33,13 @@
     <string name="an_ach_meds">On-time doses</string>
     <string name="an_ach_prayer">Steady prayers</string>
     <string name="an_breakdown">Breakdown</string>
+    <string name="an_active_of">%1$s of %2$s days active</string>
+    <string name="an_streak_current">Current streak (days)</string>
+    <string name="an_streak_best">Best streak (days)</string>
+    <string name="an_locked">Not earned yet</string>
+    <string name="an_start">Start</string>
+    <string name="an_focus_empty_title">No focus sessions yet</string>
+    <string name="an_focus_empty_text">Try a 25-minute focus timer.</string>
+    <string name="an_workout_empty_title">No workouts yet</string>
+    <string name="an_workout_empty_text">Log a walk or a quick session.</string>
 </resources>

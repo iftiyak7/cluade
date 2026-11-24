@@ -1,5 +1,12 @@
 # Hayat server
 
+> v3: PostgreSQL (production) or SQLite (dev/tests), app accounts with JWT + rotating refresh tokens,
+> and offline-first snapshot sync. Deploy with Docker Compose — see `../deploy/README.md`.
+>
+> App API: `GET /api/health` · `POST /api/auth/{register,login,key,refresh,logout}` · `GET|DELETE /api/me`
+> · `GET|PUT /api/sync/snapshot` (ETag / If-Match revisions, 10 MB max, last 5 kept).
+> Admin: `/admin` (announcements), `/admin/users` (accounts, access keys).
+
 One Go binary that serves:
 
 * the landing page (static files from `HAYAT_SITE_DIR`),

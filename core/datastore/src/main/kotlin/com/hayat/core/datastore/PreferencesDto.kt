@@ -72,6 +72,7 @@ internal data class PreferencesDto(
     val currency: String = "BDT",
     val userName: String = "",
     val announcementsEnabled: Boolean = true,
+    val serverSetupPending: Boolean = false,
 )
 
 @Serializable internal data class CardDto(val card: String, val visible: Boolean)
@@ -138,6 +139,7 @@ internal fun PreferencesDto.toModel(): UserPreferences {
         currency = currency.takeIf { it.matches(Regex("[A-Z]{3}")) } ?: d.currency,
         userName = userName.trim().take(40),
         announcementsEnabled = announcementsEnabled,
+        serverSetupPending = serverSetupPending,
     )
 }
 
@@ -181,4 +183,5 @@ internal fun UserPreferences.toDto(): PreferencesDto = PreferencesDto(
     currency = currency,
     userName = userName,
     announcementsEnabled = announcementsEnabled,
+    serverSetupPending = serverSetupPending,
 )

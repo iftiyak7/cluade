@@ -63,7 +63,18 @@ class AppFlowTest {
 
     @Before fun inject() = hilt.inject()
 
-    private fun waitForHome() = compose.waitUntil(10_000) { compose.onAllNodes(hasContentDescription("Customise home")).fetchSemanticsNodes().isNotEmpty() }
+    /** First launch: onboarding → "Connect to your server" (fake server) → Home. */
+    private fun connectToServer(url: String = "https://hayat.test") {
+        waitForText("Connect to your server")
+        compose.onNode(hasSetTextAction() and hasText("Server URL")).performTextInput(url)
+        compose.onNodeWithText("Test connection").performClick()
+        waitForText("Connected · 42 ms")
+        compose.onNode(hasSetTextAction() and hasText("Email")).performTextInput("ayesha@example.com")
+        compose.onNode(hasSetTextAction() and hasText("Password")).performTextInput("a long password 1")
+        compose.onNodeWithText("Sign in").performClick()
+    }
+
+    private fun waitForHome() = compose.waitUntil(10_000) { compose.onAllNodes(androidx.compose.ui.test.hasTestTag("home-screen")).fetchSemanticsNodes().isNotEmpty() }
 
     private fun openAllFeatures() {
         compose.onAllNodes(hasScrollToNodeAction()).onFirst().performScrollToNode(hasText("All features"))
@@ -82,13 +93,14 @@ class AppFlowTest {
     @Test fun `skip onboarding, navigate tabs, create a task and see it persisted`() {
         waitForText("Skip")
         compose.onNodeWithText("Skip").performClick()
+        connectToServer()
 
         // Home dashboard with bottom navigation.
         waitForHome()
         compose.onNodeWithContentDescription("Calendar").performClick()
         waitForText("Day")
         compose.onNodeWithContentDescription("Progress").performClick()
-        waitForText("Tasks completed")
+        waitForText("Consistency score")
         compose.onNodeWithContentDescription("Settings").performClick()
         waitForText("Privacy & security")
         compose.onNodeWithContentDescription("Home").performClick()
@@ -113,6 +125,7 @@ class AppFlowTest {
     @Test fun `empty title is rejected with a validation message`() {
         waitForText("Skip")
         compose.onNodeWithText("Skip").performClick()
+        connectToServer()
         waitForHome()
         compose.onNodeWithContentDescription("Add").performClick()
         waitForText("Create")
@@ -121,5 +134,26 @@ class AppFlowTest {
         compose.onNodeWithText("Save").performClick()
         waitForText("This field is required")
         assertEquals(0, runBlocking { tasks.observeTasks().first() }.size)
+    }
+
+    @Test fun `connect screen explains SSL errors and blocks sign-in until the test succeeds`() {
+        waitForText("Skip")
+        compose.onNodeWithText("Skip").performClick()
+        waitForText("Connect to your server")
+        compose.onNode(hasSetTextAction() and hasText("Server URL")).performTextInput("https://badcert.example")
+        compose.onNodeWithText("Test connection").performClick()
+        waitForText("Secure connection failed (SSL certificate problem). Make sure HTTPS is set up correctly on the server.")
+        // Sign-in stays locked.
+        waitForText("Test the connection first.")
+        assertEquals(0, compose.onAllNodes(hasSetTextAction() and hasText("Password")).fetchSemanticsNodes().size)
+    }
+
+    @Test fun `http addresses are rejected before any request`() {
+        waitForText("Skip")
+        compose.onNodeWithText("Skip").performClick()
+        waitForText("Connect to your server")
+        compose.onNode(hasSetTextAction() and hasText("Server URL")).performTextInput("http://plain.example")
+        compose.onNodeWithText("Test connection").performClick()
+        waitForText("Only secure https:// addresses are allowed.")
     }
 }

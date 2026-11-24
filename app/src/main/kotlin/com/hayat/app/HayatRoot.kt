@@ -2,6 +2,7 @@ package com.hayat.app
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -48,7 +49,9 @@ fun HayatRoot(vm: MainViewModel, appVersion: String) {
     val p = prefs ?: return // splash screen stays until preferences are loaded
 
     val dark = when (p.theme) { ThemeMode.SYSTEM -> isSystemInDarkTheme(); ThemeMode.LIGHT -> false; ThemeMode.DARK -> true }
-    HayatTheme(darkTheme = dark, highContrast = p.highContrast, dynamicColor = p.dynamicColor, reduceMotion = p.reduceMotion) {
+    // Per-app language is applied to the configuration, so this also covers "system" language.
+    val bengali = androidx.compose.ui.platform.LocalConfiguration.current.locales.get(0)?.language == "bn"
+    HayatTheme(darkTheme = dark, highContrast = p.highContrast, dynamicColor = p.dynamicColor, reduceMotion = p.reduceMotion, bengali = bengali) {
         CompositionLocalProvider(LocalFormatter provides rememberHayatFormatter(p.timeFormat, p.dateFormat, p.digitStyle)) {
             val nav = rememberNavController()
             val entry by nav.currentBackStackEntryAsState()
@@ -78,15 +81,19 @@ fun HayatRoot(vm: MainViewModel, appVersion: String) {
                 ) { pad ->
                     NavHost(
                         navController = nav,
-                        startDestination = if (p.onboardingCompleted) HomeRoute else OnboardingRoute,
+                        startDestination = when {
+                            !p.onboardingCompleted -> OnboardingRoute
+                            p.serverSetupPending -> com.hayat.core.navigation.ConnectServerRoute(firstRun = true)
+                            else -> HomeRoute
+                        },
                         modifier = Modifier.padding(bottom = pad.calculateBottomPadding()).consumeWindowInsets(pad),
                         // Short, GPU-cheap transitions; none at all when the user asked for reduced motion.
-                        enterTransition = { if (p.reduceMotion) EnterTransition.None else fadeIn(tween(220, delayMillis = 40)) + slideInHorizontally(tween(260)) { it / 14 } },
-                        exitTransition = { if (p.reduceMotion) ExitTransition.None else fadeOut(tween(140)) },
-                        popEnterTransition = { if (p.reduceMotion) EnterTransition.None else fadeIn(tween(220, delayMillis = 40)) + slideInHorizontally(tween(260)) { -it / 14 } },
-                        popExitTransition = { if (p.reduceMotion) ExitTransition.None else fadeOut(tween(140)) },
+                        enterTransition = { if (p.reduceMotion) EnterTransition.None else fadeIn(tween(200, delayMillis = 30, easing = LinearOutSlowInEasing)) + slideInHorizontally(tween(220, easing = LinearOutSlowInEasing)) { it / 16 } },
+                        exitTransition = { if (p.reduceMotion) ExitTransition.None else fadeOut(tween(150)) },
+                        popEnterTransition = { if (p.reduceMotion) EnterTransition.None else fadeIn(tween(200, delayMillis = 30, easing = LinearOutSlowInEasing)) + slideInHorizontally(tween(220, easing = LinearOutSlowInEasing)) { -it / 16 } },
+                        popExitTransition = { if (p.reduceMotion) ExitTransition.None else fadeOut(tween(150)) },
                     ) {
-                        hayatGraphs(nav, appVersion, onQuickAdd = { showAdd = true })
+                        hayatGraphs(nav, appVersion)
                     }
                 }
                 if (showAdd) AddSheet(onDismiss = { showAdd = false }, onNavigate = { route -> showAdd = false; nav.navigate(route) }, islamic = p.islamicModuleEnabled)

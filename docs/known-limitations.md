@@ -51,6 +51,16 @@ Honest list of what is not done, not verified, or limited by Android itself.
     announcement may appear up to ~1–2 hours after publishing, later on devices with strict
     battery management.
 
+## Server sync (v3)
+27. Sync is snapshot-based: if two phones edit data at the same time, the last upload wins
+    (the server keeps the previous 5 revisions for manual recovery). There is no per-record merge.
+28. Data on the server is protected by TLS in transit and the server's own security; it is not
+    end-to-end encrypted.
+29. New installs must connect to a server before first use (as requested), so the app cannot be
+    tried without a server. Existing installs are not forced.
+30. Performance targets (cold start < 1.5 s, 60 fps) were designed for (skeletons, off-main
+    aggregation, cached prayer times, R8) but **not measured**: no device or emulator here.
+
 ## Data durability
 21. Data exists only on the device. Uninstalling the app or losing the phone deletes it unless
     the user exported a backup file. This is stated in onboarding-adjacent screens (Privacy,

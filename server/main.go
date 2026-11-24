@@ -41,7 +41,7 @@ func envOr(k, def string) string {
 func loadConfig() Config {
 	return Config{
 		Addr:          envOr("HAYAT_ADDR", "127.0.0.1:8080"),
-		DBPath:        envOr("HAYAT_DB", "hayat.db"),
+		DBPath:        envOr("HAYAT_DATABASE_URL", envOr("HAYAT_DB", "hayat.db")),
 		SiteDir:       envOr("HAYAT_SITE_DIR", ""),
 		SecureCookies: envOr("HAYAT_INSECURE_DEV", "") != "1",
 		TrustProxy:    envOr("HAYAT_TRUST_PROXY", "1") == "1",
@@ -88,7 +88,11 @@ func usage() {
 
 environment:
   HAYAT_ADDR          listen address (default 127.0.0.1:8080 — put a TLS proxy in front)
-  HAYAT_DB            SQLite database path (default hayat.db)
+  HAYAT_DATABASE_URL  PostgreSQL URL (postgres://user:pass@host:5432/db?sslmode=disable)
+  HAYAT_DB            SQLite database path when HAYAT_DATABASE_URL is not set (default hayat.db)
+  HAYAT_JWT_SECRET    secret for app access tokens (min 32 characters)
+  HAYAT_SIGNUP        open (default) = anyone can create an app account; closed = access keys only
+  HAYAT_CORS_ORIGINS  comma-separated browser origins allowed to call /api (not needed for the app)
   HAYAT_SITE_DIR      directory with the static landing page (optional)
   HAYAT_TRUST_PROXY   1 = use X-Forwarded-For from the local proxy for rate limiting (default 1)
   HAYAT_INSECURE_DEV  1 = allow plain-HTTP cookies for local development only`)
@@ -197,6 +201,7 @@ func serve(cfg Config, log *slog.Logger) error {
 				return
 			case <-t.C:
 				_ = st.PurgeExpiredSessions(context.Background(), time.Now())
+				st.PurgeExpiredRefresh(context.Background(), time.Now())
 			}
 		}
 	}()

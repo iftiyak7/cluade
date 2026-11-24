@@ -14,4 +14,8 @@
     <string name="add_finance">বিল বা পেমেন্ট</string>
     <string name="add_sleep">ঘুম লিখুন</string>
     <string name="add_meal">খাবারের পরিকল্পনা</string>
+    <string name="add_prayer">নামাজ</string>
+    <string name="add_focus">মনোযোগ</string>
+    <string name="add_workout">ব্যায়াম</string>
+    <string name="add_more">আরও</string>
 </resources>

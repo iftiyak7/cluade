@@ -1,0 +1,39 @@
+{{define "content"}}
+<div class="head">
+  <div>
+    <h1>App users</h1>
+    <p class="muted">People who connect the Hayat app to this server. Sign-up is <b>{{if .Signup}}open{{else}}closed{{end}}</b>
+      (set <code>HAYAT_SIGNUP</code>). With sign-up closed, create an access key for each person.</p>
+  </div>
+</div>
+{{if .NewKey}}
+<section class="card keybox">
+  <h2>New access key</h2>
+  <p class="muted">Give this to the user; they paste it on the app's "Connect to your server" screen.</p>
+  <input class="key" readonly value="{{.NewKey}}" aria-label="Access key">
+</section>
+{{end}}
+<section class="card">
+  <h2>Create an access key</h2>
+  <form method="post" action="/admin/users/key" class="row">
+    <input type="hidden" name="csrf" value="{{.CSRF}}">
+    <input name="label" placeholder="Label, e.g. Ayesha's phone" maxlength="60" class="grow">
+    <button class="primary">Create key</button>
+  </form>
+</section>
+<section class="card audit">
+  <h2>Accounts</h2>
+  {{if not .Users}}<p class="muted">No app users yet.</p>{{end}}
+  <ul>
+  {{range .Users}}
+    <li class="row">
+      <span class="grow"><b>{{if .Email}}{{.Email}}{{else if .Label}}{{.Label}} <span class="chip kind">key</span>{{else}}#{{.ID}}{{end}}</b><br>
+        <span class="muted small">created {{local .CreatedAt}} · last seen {{if .LastSeenAt.Unix}}{{local .LastSeenAt}}{{else}}never{{end}} · sync revision {{.Revision}} · {{.Size}} bytes</span></span>
+      <form method="post" action="/admin/users/{{.ID}}/delete" class="inline" data-confirm="Delete this account and all its synced data? This cannot be undone.">
+        <input type="hidden" name="csrf" value="{{$.CSRF}}"><button class="ghost danger">Delete</button>
+      </form>
+    </li>
+  {{end}}
+  </ul>
+</section>
+{{end}}

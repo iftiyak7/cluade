@@ -79,4 +79,6 @@ data class UserPreferences(
     val userName: String = "",
     /** Show in-app announcements fetched from the Hayat server (no personal data is sent). */
     val announcementsEnabled: Boolean = true,
+    /** New installs must connect to a server once before using the app (set when onboarding ends). */
+    val serverSetupPending: Boolean = false,
 )

@@ -150,7 +150,7 @@ private fun LazyListScope.todayTab(s: IbadahState, nav: NavController, vm: Ibada
     item {
         val fmt = LocalFormatter.current
         val h = HijriCalendar.fromGregorian(s.today, s.prefs.hijriOffsetDays)
-        Text(fmt.date(s.today) + (h?.let { " · " + fmt.digits("${it.day}/${it.month}/${it.year}") } ?: ""), style = MaterialTheme.typography.titleMedium)
+        Text(fmt.date(s.today) + (h?.let { " · " + fmt.hijri(it.day, it.month, it.year) } ?: ""), style = MaterialTheme.typography.titleMedium)
         if (h?.isRamadan == true) Text(stringResource(R.string.ib_ramadan_day, fmt.number(h.day)), color = MaterialTheme.colorScheme.primary)
     }
     val times = s.times

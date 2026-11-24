@@ -33,6 +33,10 @@ class AppInitializer @Inject constructor(
     private val announcementWork: AnnouncementWorkScheduler,
     private val config: AppConfig,
     @ApplicationScope private val appScope: CoroutineScope,
+    private val sessions: com.hayat.core.domain.sync.SessionStore,
+    private val syncState: com.hayat.core.domain.sync.SyncState,
+    private val syncScheduler: com.hayat.core.network.SyncScheduler,
+    private val snapshots: com.hayat.core.domain.sync.SnapshotSource,
 ) {
     suspend fun initialize() {
         channels.ensureChannels()
@@ -41,6 +45,13 @@ class AppInitializer @Inject constructor(
         reconciliation.ensurePeriodic()
         // Catches gaps after force-stop, process death or updates: missed occurrences are recorded, alarms re-registered.
         runCatching { scheduler.reconcile(notifyMissed = true) }
+        // Offline-first sync: every local change marks the queue dirty and schedules a debounced upload.
+        appScope.launch {
+            sessions.load()?.let { syncScheduler.ensurePeriodic(); syncScheduler.requestSync() }
+            snapshots.changes().collect {
+                if (sessions.load() != null) { syncState.setDirty(true); syncScheduler.onLocalChange() }
+            }
+        }
         // Announcements: fetch only while the user's setting is on (default on, opt-out in Settings).
         appScope.launch {
             prefs.preferences.map { it.announcementsEnabled }.distinctUntilChanged().collect { enabled ->

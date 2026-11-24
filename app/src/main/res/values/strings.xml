@@ -14,4 +14,8 @@
     <string name="add_finance">Bill or payment</string>
     <string name="add_sleep">Log sleep</string>
     <string name="add_meal">Meal plan</string>
+    <string name="add_prayer">Prayer</string>
+    <string name="add_focus">Focus</string>
+    <string name="add_workout">Workout</string>
+    <string name="add_more">More</string>
 </resources>

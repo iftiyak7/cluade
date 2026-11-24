@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.ui.composed
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -73,24 +74,30 @@ fun HayatCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(16.dp),
-    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val shape = MaterialTheme.shapes.large
+    val ext = com.hayat.core.designsystem.theme.HayatThemeExt.colors
     val interaction = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
-    val shadowTint = MaterialTheme.colorScheme.primary
     Column(
         modifier
             .fillMaxWidth()
             .then(if (onClick != null) Modifier.pressScale(interaction) else Modifier)
-            .shadow(8.dp, shape, clip = false, ambientColor = shadowTint.copy(alpha = 0.06f), spotColor = shadowTint.copy(alpha = 0.10f))
+            .softCard(shape)
             .clip(shape)
             .background(containerColor)
-            .border(1.dp, com.hayat.core.designsystem.theme.HayatThemeExt.colors.hairline, shape)
             .then(if (onClick != null) Modifier.clickable(interaction, ripple(), role = Role.Button, onClick = onClick) else Modifier)
             .padding(contentPadding),
         content = content,
     )
+}
+
+/** Light theme: soft shadow (y 4, blur 16, ~6 %). Dark theme: 1 px border. */
+fun Modifier.softCard(shape: androidx.compose.ui.graphics.Shape): Modifier = composed {
+    val ext = com.hayat.core.designsystem.theme.HayatThemeExt.colors
+    if (ext.isDark) border(1.dp, ext.hairline, shape)
+    else shadow(6.dp, shape, clip = false, ambientColor = Color.Black.copy(alpha = 0.04f), spotColor = Color.Black.copy(alpha = 0.08f))
 }
 
 @Composable
@@ -115,29 +122,35 @@ fun ProgressRing(
     center: @Composable () -> Unit = {},
 ) {
     val reduce = LocalReduceMotion.current
-    val animated by animateFloatAsState(progress.coerceIn(0f, 1f), animationSpec = tween(if (reduce) 0 else 450), label = "ring")
+    val animated by animateFloatAsState(progress.coerceIn(0f, 1f), animationSpec = tween(if (reduce) 0 else 500, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "ring")
     Box(modifier.size(size).semantics { contentDescription = description }, contentAlignment = Alignment.Center) {
         Canvas(Modifier.fillMaxSize()) {
             val s = stroke.toPx()
             val arc = Size(this.size.width - s, this.size.height - s)
             val tl = Offset(s / 2, s / 2)
-            drawArc(trackColor, -90f, 360f, false, tl, arc, style = Stroke(s, cap = StrokeCap.Round))
-            if (animated > 0f) drawArc(color, -90f, 360f * animated, false, tl, arc, style = Stroke(s, cap = StrokeCap.Round))
+            drawArc(trackColor, -90f, 360f, false, tl, arc, style = Stroke(s))
+            if (animated > 0f) {
+                // Round caps extend the arc by half the stroke at each end; inset them so the visible
+                // arc covers exactly `animated` of the circle (42 % looks like 42 %).
+                val a = ringArc(animated, s, this.size.minDimension)
+                drawArc(color, a.start, a.sweep, false, tl, arc, style = Stroke(s, cap = if (a.roundCaps) StrokeCap.Round else StrokeCap.Butt))
+            }
         }
         center()
     }
 }
 
+/** Horizontal bar whose filled width is exactly [progress] of the track (rounded ends stay inside). */
 @Composable
-fun LinearMeter(progress: Float, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primary, description: String) {
-    LinearProgressIndicator(
-        progress = { progress.coerceIn(0f, 1f) },
-        modifier = modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(4.dp)).semantics { contentDescription = description },
-        color = color,
-        trackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-        gapSize = 0.dp,
-        drawStopIndicator = {},
-    )
+fun LinearMeter(progress: Float, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primary, description: String, height: Dp = 8.dp,
+                trackColor: Color = MaterialTheme.colorScheme.surfaceContainerHighest) {
+    val reduce = LocalReduceMotion.current
+    val p by animateFloatAsState(progress.coerceIn(0f, 1f), tween(if (reduce) 0 else 500, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "meter")
+    Canvas(modifier.fillMaxWidth().height(height).semantics { contentDescription = description }) {
+        val r = androidx.compose.ui.geometry.CornerRadius(size.height / 2, size.height / 2)
+        drawRoundRect(trackColor, cornerRadius = r)
+        if (p > 0f) drawRoundRect(color, size = Size(size.width * p, size.height), cornerRadius = r)
+    }
 }
 
 @Composable
@@ -389,5 +402,31 @@ fun KeyValueRow(key: String, value: String, modifier: Modifier = Modifier) {
     Row(modifier.fillMaxWidth().padding(vertical = 6.dp).semantics(mergeDescendants = true) {}, verticalAlignment = Alignment.CenterVertically) {
         Text(key, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
         Text(value, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.widthIn(min = 40.dp), textAlign = TextAlign.End)
+    }
+}
+
+/** Arc geometry for [ProgressRing]. */
+data class RingArc(val start: Float, val sweep: Float, val roundCaps: Boolean) {
+    /** Angle actually covered on screen, including the round caps. */
+    fun visibleDegrees(strokePx: Float, sizePx: Float): Float {
+        if (!roundCaps) return sweep
+        val radius = (sizePx - strokePx) / 2f
+        return sweep + 2 * Math.toDegrees((strokePx / 2f / radius).toDouble()).toFloat()
+    }
+}
+
+/**
+ * Round caps add half the stroke at both ends, which makes 42 % look like ~48 %. The arc is
+ * shortened by the cap angle so the *visible* coloured part equals [progress] exactly.
+ */
+fun ringArc(progress: Float, strokePx: Float, sizePx: Float): RingArc {
+    val p = progress.coerceIn(0f, 1f)
+    val radius = (sizePx - strokePx) / 2f
+    val capDeg = Math.toDegrees((strokePx / 2f / radius).toDouble()).toFloat()
+    val sweep = 360f * p
+    return when {
+        sweep >= 360f - 0.01f -> RingArc(-90f, 360f, false)
+        sweep > 2 * capDeg -> RingArc(-90f + capDeg, sweep - 2 * capDeg, true)
+        else -> RingArc(-90f, sweep, false)
     }
 }

@@ -26,6 +26,10 @@ android {
         val feedUrl = (project.findProperty("hayatFeedUrl") as String?).orEmpty()
         require(feedUrl.isEmpty() || feedUrl.startsWith("https://")) { "hayatFeedUrl must use https://" }
         buildConfigField("String", "FEED_URL", "\"$feedUrl\"")
+        // Default for "Connect to your server" (users can change it). Example: -PhayatServerUrl=https://api.mydomain.com
+        val serverUrl = (project.findProperty("hayatServerUrl") as String?).orEmpty().trimEnd('/')
+        require(serverUrl.isEmpty() || serverUrl.startsWith("https://")) { "hayatServerUrl must use https://" }
+        buildConfigField("String", "SERVER_URL", "\"$serverUrl\"")
     }
     androidResources {
         localeFilters += listOf("en", "bn")

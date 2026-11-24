@@ -33,4 +33,13 @@
     <string name="an_ach_meds">সময়মতো ওষুধ</string>
     <string name="an_ach_prayer">নিয়মিত নামাজ</string>
     <string name="an_breakdown">বিস্তারিত</string>
+    <string name="an_active_of">%2$s দিনের মধ্যে %1$s দিন সক্রিয়</string>
+    <string name="an_streak_current">চলতি ধারা (দিন)</string>
+    <string name="an_streak_best">সেরা ধারা (দিন)</string>
+    <string name="an_locked">এখনো অর্জিত হয়নি</string>
+    <string name="an_start">শুরু করুন</string>
+    <string name="an_focus_empty_title">এখনো মনোযোগ সেশন নেই</string>
+    <string name="an_focus_empty_text">২৫ মিনিটের ফোকাস টাইমার চেষ্টা করুন।</string>
+    <string name="an_workout_empty_title">এখনো কোনো ব্যায়াম নেই</string>
+    <string name="an_workout_empty_text">একটি হাঁটা বা ছোট সেশন লিখে রাখুন।</string>
 </resources>

@@ -1,6 +1,12 @@
 package com.hayat.app
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -15,7 +21,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -58,63 +63,63 @@ import com.hayat.core.navigation.*
 import com.hayat.core.ui.R as UiR
 
 /**
- * Floating pill navigation: the active destination expands into a filled pill with its label,
- * the others are icon buttons; Add sits in the middle as a raised gradient button.
+ * Bottom navigation: light surface with a hairline top border, four tabs whose labels are always
+ * visible, and a raised centre "+" that opens the create sheet.
  */
 @Composable
 fun HayatBottomBar(current: TopLevel, onSelect: (TopLevel) -> Unit, onAdd: () -> Unit) {
-    val ext = HayatThemeExt.colors
-    Box(
-        Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.navigationBars).padding(horizontal = 16.dp, vertical = 10.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        Row(
-            Modifier.fillMaxWidth()
-                .shadow(16.dp, RoundedCornerShape(50), ambientColor = Color.Black.copy(0.18f), spotColor = Color.Black.copy(0.25f))
-                .clip(RoundedCornerShape(50)).background(ext.ink).border(1.dp, ext.hairline, RoundedCornerShape(50)).padding(6.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            NavPill(current == TopLevel.HOME, Icons.Outlined.Home, stringResource(UiR.string.feature_home)) { onSelect(TopLevel.HOME) }
-            NavPill(current == TopLevel.CALENDAR, Icons.Outlined.CalendarMonth, stringResource(UiR.string.feature_calendar)) { onSelect(TopLevel.CALENDAR) }
-            AddButton(stringResource(UiR.string.feature_add), onAdd)
-            NavPill(current == TopLevel.PROGRESS, Icons.Outlined.Insights, stringResource(UiR.string.feature_progress)) { onSelect(TopLevel.PROGRESS) }
-            NavPill(current == TopLevel.SETTINGS, Icons.Outlined.Settings, stringResource(UiR.string.feature_settings)) { onSelect(TopLevel.SETTINGS) }
+    val scheme = MaterialTheme.colorScheme
+    Box(Modifier.fillMaxWidth()) {
+        Column(Modifier.fillMaxWidth().padding(top = 14.dp).background(scheme.surface)) {
+            Box(Modifier.fillMaxWidth().height(1.dp).background(HayatThemeExt.colors.hairline))
+            Row(
+                Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.navigationBars).height(64.dp).padding(horizontal = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                NavTab(current == TopLevel.HOME, Icons.Outlined.Home, stringResource(UiR.string.feature_home), Modifier.weight(1f)) { onSelect(TopLevel.HOME) }
+                NavTab(current == TopLevel.CALENDAR, Icons.Outlined.CalendarMonth, stringResource(UiR.string.feature_calendar), Modifier.weight(1f)) { onSelect(TopLevel.CALENDAR) }
+                Spacer(Modifier.width(72.dp))
+                NavTab(current == TopLevel.PROGRESS, Icons.Outlined.Insights, stringResource(UiR.string.feature_progress), Modifier.weight(1f)) { onSelect(TopLevel.PROGRESS) }
+                NavTab(current == TopLevel.SETTINGS, Icons.Outlined.Settings, stringResource(UiR.string.feature_settings), Modifier.weight(1f)) { onSelect(TopLevel.SETTINGS) }
+            }
         }
+        AddFab(stringResource(UiR.string.feature_add), onAdd, Modifier.align(Alignment.TopCenter))
     }
 }
 
 @Composable
-private fun NavPill(selected: Boolean, icon: ImageVector, label: String, onClick: () -> Unit) {
-    val ext = HayatThemeExt.colors
+private fun NavTab(selected: Boolean, icon: ImageVector, label: String, modifier: Modifier, onClick: () -> Unit) {
+    val scheme = MaterialTheme.colorScheme
     val interaction = remember { MutableInteractionSource() }
-    val bg by animateColorAsState(if (selected) ext.inkAccent else Color.Transparent, label = "navbg")
-    val fg by animateColorAsState(if (selected) ext.ink else ext.onInk.copy(alpha = 0.75f), label = "navfg")
-    Row(
-        Modifier.height(52.dp).pressScale(interaction).clip(RoundedCornerShape(50)).background(bg)
-            .selectable(selected, interaction, ripple(), role = Role.Tab, onClick = onClick)
-            .animateContentSize(spring(dampingRatio = Spring.DampingRatioLowBouncy, stiffness = Spring.StiffnessMediumLow))
-            .padding(horizontal = if (selected) 16.dp else 14.dp),
-        verticalAlignment = Alignment.CenterVertically,
+    val color by animateColorAsState(if (selected) scheme.primary else scheme.onSurfaceVariant, tween(180), label = "tab")
+    val pill by animateColorAsState(if (selected) scheme.primaryContainer else Color.Transparent, tween(180), label = "pill")
+    Column(
+        modifier.fillMaxHeight().clip(RoundedCornerShape(16.dp))
+            .selectable(selected, interaction, ripple(bounded = false), role = Role.Tab, onClick = onClick)
+            .semantics(mergeDescendants = true) { contentDescription = label },
+        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
     ) {
-        Icon(icon, if (selected) null else label, tint = fg)
-        if (selected) {
-            Spacer(Modifier.width(8.dp))
-            Text(label, color = fg, style = MaterialTheme.typography.labelLarge, maxLines = 1)
+        Box(Modifier.size(width = 56.dp, height = 30.dp).clip(RoundedCornerShape(15.dp)).background(pill), contentAlignment = Alignment.Center) {
+            Icon(icon, null, tint = color, modifier = Modifier.size(24.dp))
         }
+        Text(label, color = color, style = MaterialTheme.typography.labelMedium, maxLines = 1, modifier = Modifier.padding(top = 2.dp).clearAndSetSemantics { })
     }
 }
 
 @Composable
-private fun AddButton(label: String, onClick: () -> Unit) {
-    val ext = HayatThemeExt.colors
+private fun AddFab(label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val scheme = MaterialTheme.colorScheme
+    val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
     val interaction = remember { MutableInteractionSource() }
     Box(
-        Modifier.size(52.dp).pressScale(interaction, 0.9f).clip(CircleShape)
-            .background(Brush.linearGradient(listOf(ext.gradientStart, ext.gradientEnd)))
-            .clickable(interaction, ripple(color = Color.White), role = Role.Button, onClick = onClick),
+        modifier.size(60.dp).pressScale(interaction)
+            .shadow(8.dp, CircleShape, ambientColor = scheme.primary.copy(0.3f), spotColor = scheme.primary.copy(0.4f))
+            .clip(CircleShape).background(scheme.primary)
+            .clickable(interaction, ripple(color = scheme.onPrimary), role = Role.Button) {
+                haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.VirtualKey); onClick()
+            },
         contentAlignment = Alignment.Center,
-    ) { Icon(Icons.Outlined.Add, label, tint = Color.White, modifier = Modifier.size(28.dp)) }
+    ) { Icon(Icons.Outlined.Add, label, tint = scheme.onPrimary, modifier = Modifier.size(30.dp)) }
 }
 
 private data class AddAction(val icon: ImageVector, val label: Int, val route: Any)
@@ -122,38 +127,59 @@ private data class AddAction(val icon: ImageVector, val label: Int, val route: A
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddSheet(onDismiss: () -> Unit, onNavigate: (Any) -> Unit, islamic: Boolean) {
-    val actions = buildList {
-        add(AddAction(Icons.Outlined.TaskAlt, R.string.add_task, TaskEditRoute()))
-        add(AddAction(Icons.Outlined.Alarm, R.string.add_reminder, ReminderEditRoute()))
-        add(AddAction(Icons.Outlined.ViewTimeline, R.string.add_routine, RoutineEditRoute()))
-        add(AddAction(Icons.Outlined.WaterDrop, R.string.add_water, WaterRoute))
-        add(AddAction(Icons.Outlined.Medication, R.string.add_medicine, MedicineEditRoute()))
-        add(AddAction(Icons.Outlined.Repeat, R.string.add_habit, HabitEditRoute()))
-        add(AddAction(Icons.Outlined.StickyNote2, R.string.add_note, NoteEditRoute()))
-        add(AddAction(Icons.Outlined.Book, R.string.add_journal, JournalEditRoute()))
-        add(AddAction(Icons.Outlined.Cake, R.string.add_event, EventEditRoute()))
-        add(AddAction(Icons.Outlined.Payments, R.string.add_finance, FinanceEditRoute()))
-        add(AddAction(Icons.Outlined.Bedtime, R.string.add_sleep, SleepRoute))
-        add(AddAction(Icons.Outlined.Restaurant, R.string.add_meal, MealPlanEditRoute()))
-    }
     val ext = HayatThemeExt.colors
-    val tones = listOf(ext.mint, ext.lavender, ext.amber, ext.sky, ext.pink)
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true), containerColor = MaterialTheme.colorScheme.surfaceContainerLow) {
-        Text(stringResource(R.string.add_sheet_title), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp))
+    // The five daily trackers first, as large tiles.
+    val quick = buildList {
+        add(Triple(AddAction(Icons.Outlined.WaterDrop, R.string.add_water, WaterRoute), ext.water, 0))
+        add(Triple(AddAction(Icons.Outlined.Repeat, R.string.add_habit, HabitEditRoute()), ext.habits, 1))
+        if (islamic) add(Triple(AddAction(Icons.Outlined.Mosque, R.string.add_prayer, IbadahRoute), ext.prayer, 2))
+        add(Triple(AddAction(Icons.Outlined.Timer, R.string.add_focus, FocusRoute), ext.mint, 3))
+        add(Triple(AddAction(Icons.Outlined.FitnessCenter, R.string.add_workout, FitnessRoute), ext.pink, 4))
+    }
+    val more = listOf(
+        AddAction(Icons.Outlined.TaskAlt, R.string.add_task, TaskEditRoute()),
+        AddAction(Icons.Outlined.Alarm, R.string.add_reminder, ReminderEditRoute()),
+        AddAction(Icons.Outlined.ViewTimeline, R.string.add_routine, RoutineEditRoute()),
+        AddAction(Icons.Outlined.Medication, R.string.add_medicine, MedicineEditRoute()),
+        AddAction(Icons.Outlined.StickyNote2, R.string.add_note, NoteEditRoute()),
+        AddAction(Icons.Outlined.Book, R.string.add_journal, JournalEditRoute()),
+        AddAction(Icons.Outlined.Cake, R.string.add_event, EventEditRoute()),
+        AddAction(Icons.Outlined.Payments, R.string.add_finance, FinanceEditRoute()),
+        AddAction(Icons.Outlined.Bedtime, R.string.add_sleep, SleepRoute),
+        AddAction(Icons.Outlined.Restaurant, R.string.add_meal, MealPlanEditRoute()),
+    )
+    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true), containerColor = MaterialTheme.colorScheme.surface) {
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(96.dp), modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 24.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp),
+            columns = GridCells.Fixed(5), modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 24.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            itemsIndexed(actions) { i, a ->
-                val tone = tones[i % tones.size]
+            item(span = { GridItemSpan(maxLineSpan) }) { Text(stringResource(R.string.add_sheet_title), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp)) }
+            quick.forEach { (a, tone, i) ->
+                item {
+                    val interaction = remember { MutableInteractionSource() }
+                    Column(
+                        Modifier.animateEnter(i).pressScale(interaction).clip(MaterialTheme.shapes.medium)
+                            .clickable(interaction, ripple(), role = Role.Button) { onNavigate(a.route) }.padding(vertical = 6.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Box(Modifier.size(52.dp).clip(CircleShape).background(tone.first), contentAlignment = Alignment.Center) { Icon(a.icon, null, tint = tone.second) }
+                        Text(stringResource(a.label), style = MaterialTheme.typography.labelMedium, textAlign = TextAlign.Center, maxLines = 2, modifier = Modifier.padding(top = 6.dp))
+                    }
+                }
+            }
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Text(stringResource(R.string.add_more), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(start = 4.dp, top = 12.dp))
+            }
+            items(more.size) { i ->
+                val a = more[i]
                 val interaction = remember { MutableInteractionSource() }
                 Column(
-                    Modifier.animateEnter(i).heightIn(min = 92.dp).pressScale(interaction).clip(MaterialTheme.shapes.large).background(tone.first)
-                        .clickable(interaction, ripple(), role = Role.Button) { onNavigate(a.route) }.padding(8.dp),
+                    Modifier.heightIn(min = 76.dp).pressScale(interaction).clip(MaterialTheme.shapes.medium).background(MaterialTheme.colorScheme.surfaceContainer)
+                        .clickable(interaction, ripple(), role = Role.Button) { onNavigate(a.route) }.padding(6.dp),
                     horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
                 ) {
-                    Icon(a.icon, null, Modifier.size(28.dp), tint = tone.second)
-                    Text(stringResource(a.label), style = MaterialTheme.typography.labelMedium, color = tone.second, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 6.dp), maxLines = 2)
+                    Icon(a.icon, null, Modifier.size(24.dp), tint = MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(a.label), style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center, maxLines = 2, modifier = Modifier.padding(top = 4.dp))
                 }
             }
         }

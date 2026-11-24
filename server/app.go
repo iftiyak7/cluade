@@ -16,6 +16,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode/utf8"
 )
 
 //go:embed web/templates/*.html web/static/*
@@ -31,6 +32,12 @@ type App struct {
 	adminTZ  *time.Location
 	now      func() time.Time
 	staticFS http.Handler
+
+	jwtKey      []byte
+	signupOpen  bool
+	corsOrigins []string
+	authLimit   *RateLimiter // per IP, unauthenticated auth endpoints
+	apiLimit    *RateLimiter // per user, authenticated API
 }
 
 func NewApp(cfg Config, st *Store, log *slog.Logger) (*App, error) {
@@ -40,10 +47,24 @@ func NewApp(cfg Config, st *Store, log *slog.Logger) (*App, error) {
 	}
 	app := &App{
 		cfg: cfg, store: st, log: log,
-		logins:  NewLoginLimiter(5, 15*time.Minute),
-		feed:    NewRateLimiter(60, 30),
-		adminTZ: tz,
-		now:     time.Now,
+		logins:      NewLoginLimiter(5, 15*time.Minute),
+		feed:        NewRateLimiter(60, 30),
+		adminTZ:     tz,
+		now:         time.Now,
+		signupOpen:  envOr("HAYAT_SIGNUP", "open") == "open",
+		authLimit:   NewRateLimiter(20, 10),
+		apiLimit:    NewRateLimiter(120, 60),
+		corsOrigins: splitList(envOr("HAYAT_CORS_ORIGINS", "")),
+	}
+	secret := os.Getenv("HAYAT_JWT_SECRET")
+	switch {
+	case len(secret) >= 32:
+		app.jwtKey = []byte(secret)
+	case secret == "":
+		app.jwtKey = []byte(randomToken(48))
+		log.Warn("HAYAT_JWT_SECRET not set: using a random key; app sign-ins will not survive a restart")
+	default:
+		return nil, errors.New("HAYAT_JWT_SECRET must be at least 32 characters")
 	}
 	funcs := template.FuncMap{
 		"local":     func(t time.Time) string { return t.In(app.adminTZ).Format("02 Jan 2006, 15:04") },
@@ -53,7 +74,7 @@ func NewApp(cfg Config, st *Store, log *slog.Logger) (*App, error) {
 		"deeplinks": DeepLinks,
 	}
 	app.tmpl = map[string]*template.Template{}
-	for _, page := range []string{"login", "list", "edit", "password"} {
+	for _, page := range []string{"login", "list", "edit", "password", "users"} {
 		t, err := template.New("layout.html").Funcs(funcs).ParseFS(webFS, "web/templates/layout.html", "web/templates/"+page+".html")
 		if err != nil {
 			return nil, err
@@ -86,14 +107,18 @@ func (app *App) Handler() http.Handler {
 	mux.HandleFunc("POST /admin/a/{id}/delete", app.requireAdmin(app.handleDelete))
 	mux.HandleFunc("GET /admin/password", app.requireAdmin(app.handlePasswordPage))
 	mux.HandleFunc("POST /admin/password", app.requireAdmin(app.handlePassword))
+	mux.HandleFunc("GET /admin/users", app.requireAdmin(app.handleUsers))
+	mux.HandleFunc("POST /admin/users/key", app.requireAdmin(app.handleCreateKey))
+	mux.HandleFunc("POST /admin/users/{id}/delete", app.requireAdmin(app.handleDeleteUser))
 	mux.Handle("GET /admin/static/", app.staticFS)
+	app.apiRoutes(mux)
 
 	if app.cfg.SiteDir != "" {
 		mux.Handle("GET /", siteHandler(app.cfg.SiteDir))
 	} else {
 		mux.HandleFunc("GET /{$}", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("Hayat")) })
 	}
-	return app.recoverer(app.securityHeaders(mux))
+	return app.recoverer(app.securityHeaders(app.cors(mux)))
 }
 
 // ---- middleware ----
@@ -211,6 +236,9 @@ type pageData struct {
 	IsNew     bool
 	Username  string
 	EndsInput string
+	Users     []User
+	NewKey    string
+	Signup    bool
 }
 
 func (app *App) render(w http.ResponseWriter, r *http.Request, page string, status int, d pageData) {
@@ -475,4 +503,60 @@ func (app *App) handlePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.Redirect(w, r, "/admin?ok=password", http.StatusSeeOther)
+}
+
+func splitList(v string) []string {
+	var out []string
+	for _, p := range strings.Split(v, ",") {
+		if p = strings.TrimSpace(p); p != "" {
+			out = append(out, p)
+		}
+	}
+	return out
+}
+
+func (app *App) handleUsers(w http.ResponseWriter, r *http.Request) {
+	users, err := app.store.ListUsers(r.Context())
+	if err != nil {
+		http.Error(w, "Internal error", http.StatusInternalServerError)
+		return
+	}
+	notice := map[string]string{"deleted": "Account and its synced data deleted."}[r.URL.Query().Get("ok")]
+	app.render(w, r, "users", http.StatusOK, pageData{Title: "App users", Users: users, Signup: app.signupOpen, Notice: notice})
+}
+
+// handleCreateKey creates an account that signs in with an access key. The key is shown once;
+// only its SHA-256 is stored.
+func (app *App) handleCreateKey(w http.ResponseWriter, r *http.Request) {
+	r.Body = http.MaxBytesReader(w, r.Body, 8<<10)
+	sess, _ := sessionFrom(r.Context())
+	label := strings.TrimSpace(r.PostFormValue("label"))
+	if utf8.RuneCountInString(label) > 60 {
+		label = string([]rune(label)[:60])
+	}
+	key := "hk_" + randomToken(24)
+	id, err := app.store.CreateUser(r.Context(), "", "", sha(key), label, app.now())
+	if err != nil {
+		http.Error(w, "Could not create the key", http.StatusInternalServerError)
+		return
+	}
+	app.store.Audit(r.Context(), sess.AdminID, "create key", "user #"+strconv.FormatInt(id, 10)+" "+label, app.now())
+	users, _ := app.store.ListUsers(r.Context())
+	app.render(w, r, "users", http.StatusOK, pageData{Title: "App users", Users: users, Signup: app.signupOpen, NewKey: key,
+		Notice: "Access key created. Copy it now — it will not be shown again."})
+}
+
+func (app *App) handleDeleteUser(w http.ResponseWriter, r *http.Request) {
+	id, ok := app.idParam(r)
+	if !ok {
+		http.NotFound(w, r)
+		return
+	}
+	sess, _ := sessionFrom(r.Context())
+	if err := app.store.DeleteUser(r.Context(), id); err != nil {
+		http.Error(w, "Could not delete", http.StatusInternalServerError)
+		return
+	}
+	app.store.Audit(r.Context(), sess.AdminID, "delete user", "#"+strconv.FormatInt(id, 10), app.now())
+	http.Redirect(w, r, "/admin/users?ok=deleted", http.StatusSeeOther)
 }

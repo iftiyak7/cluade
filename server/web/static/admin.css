@@ -56,3 +56,5 @@ button:active,.primary:active,.ghost:active{transform:scale(.96)}
 @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media (max-width:860px){.editor{grid-template-columns:1fr}.preview{position:static}.cols{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.grow{flex:1;min-width:200px}.keybox{margin-bottom:16px;border-color:var(--green2)}.key{font-family:ui-monospace,monospace;font-size:15px}
+.card+.card{margin-top:16px}code{background:var(--line);padding:1px 6px;border-radius:6px}

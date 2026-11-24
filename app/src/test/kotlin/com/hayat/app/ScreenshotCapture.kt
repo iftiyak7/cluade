@@ -14,6 +14,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performScrollToNode
 import androidx.test.core.app.ApplicationProvider
 import androidx.work.testing.WorkManagerTestInitHelper
@@ -88,9 +89,12 @@ class ScreenshotCapture {
     @Inject lateinit var ids: IdGenerator
     @Inject lateinit var completeTask: com.hayat.core.domain.task.CompleteTaskUseCase
     @Inject lateinit var routineRepo: com.hayat.core.domain.repository.RoutineRepository
+    @Inject lateinit var sessions: com.hayat.core.domain.sync.SessionStore
 
     @Before fun seed() {
         assumeTrue("screenshot capture disabled", outDir.isNotBlank())
+        // Device time zone as on a phone in Bangladesh (greeting and prayer times use it).
+        java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("Asia/Dhaka"))
         hilt.inject()
         runBlocking {
             val now = time.now(); val today = time.today()
@@ -102,7 +106,11 @@ class ScreenshotCapture {
                 id
             }
             completeTask(taskIds.first(), true)
-            routines.applyTemplate(BuiltInTemplates.byId("builtin.balanced")!!, "Balanced day", today.minusDays(1), 0xFF167C5A)
+            // Localise item titles exactly like the onboarding/templates screens do.
+            val ctx = ApplicationProvider.getApplicationContext<Context>()
+            val tpl = BuiltInTemplates.byId("builtin.balanced")!!
+            val localized = tpl.copy(items = tpl.items.map { item -> com.hayat.core.ui.TemplateStrings.item(item.title)?.let { item.copy(title = ctx.getString(it)) } ?: item })
+            routines.applyTemplate(localized, "Balanced day", today.minusDays(1), 0xFF0E7C66)
             routineRepo.observeRoutines().first().flatMap { it.activities }.sortedBy { it.startTime }.take(4).forEach { a ->
                 routines.log(a.id, today, com.hayat.core.model.ActivityStatus.COMPLETED)
                 routines.log(a.id, today.minusDays(1), com.hayat.core.model.ActivityStatus.COMPLETED)
@@ -110,7 +118,14 @@ class ScreenshotCapture {
             listOf(250, 250, 500).forEach { water.add(it) }
             medicines.save(Medicine(ids.newId(), "Vitamin D", dose = "1000", unit = "IU", startDate = today,
                 schedules = listOf(MedicineSchedule(ids.newId(), "", LocalTime.of(21, 0))), createdAt = now, updatedAt = now))
-            habits.save(Habit(ids.newId(), "Read 20 pages", color = 0xFF3B6FD6, createdAt = now.minusSeconds(86400L * 10), updatedAt = now))
+            val read = ids.newId()
+            habits.save(Habit(read, "Read 20 pages", color = 0xFF3B6FD6, createdAt = now.minusSeconds(86400L * 10), updatedAt = now))
+            val walk = ids.newId()
+            habits.save(Habit(walk, "Morning walk", color = 0xFF0E7C66, createdAt = now.minusSeconds(86400L * 10), updatedAt = now))
+            habits.save(Habit(ids.newId(), "Drink 8 glasses", targetPerDay = 8, color = 0xFF1F5FB8, createdAt = now.minusSeconds(86400L * 10), updatedAt = now))
+            habits.increment(walk, today, 1)
+            (1..4).forEach { d -> habits.increment(walk, today.minusDays(d.toLong()), 1); habits.increment(read, today.minusDays(d.toLong()), 1) }
+            sessions.save(com.hayat.core.domain.sync.ServerSession("https://api.hayat.example", "ayesha@example.com", "a", "r", now.plusSeconds(900), 3, now.minusSeconds(120)))
             ibadah.setPrayerStatus(today, Prayer.FAJR, PrayerStatus.PRAYED, now)
             ibadah.setPrayerStatus(today, Prayer.DHUHR, PrayerStatus.PRAYED, now)
             ibadah.addZikrCount("preset.subhanallah", today, 33, now)
@@ -124,7 +139,7 @@ class ScreenshotCapture {
         File(outDir, "$name.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
     }
 
-    private fun home() = compose.waitUntil(10_000) { compose.onAllNodes(hasContentDescription("Customise home") or hasContentDescription("হোম সাজান")).fetchSemanticsNodes().isNotEmpty() }
+    private fun home() = compose.waitUntil(10_000) { compose.onAllNodes(androidx.compose.ui.test.hasTestTag("home-screen")).fetchSemanticsNodes().isNotEmpty() }
     private fun waitText(t: String) = compose.waitUntil(10_000) { compose.onAllNodesWithText(t, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty() }
     private fun openFeature(grid: String, tile: String, expect: String) {
         compose.onAllNodes(hasScrollToNodeAction()).onFirst().performScrollToNode(hasText(grid))
@@ -135,16 +150,34 @@ class ScreenshotCapture {
         waitText(expect)
     }
 
+    private fun scrollTo(text: String) = compose.onAllNodes(hasScrollToNodeAction()).onFirst().performScrollToNode(hasText(text))
+    private fun settle() { compose.mainClock.advanceTimeBy(1500); compose.waitForIdle() }
+
     @Test @Config(qualifiers = "+en") fun english_light() {
-        home(); shot("en-home")
-        compose.onAllNodes(hasScrollToNodeAction()).onFirst().performScrollToNode(hasText("Anytime"))
-        shot("en-home-plan")
-        compose.onAllNodes(hasScrollToNodeAction()).onFirst().performScrollToNode(hasText("All features"))
-        shot("en-home-cards")
+        home(); settle(); shot("en-home")
+        scrollTo("Today's habits"); settle(); shot("en-home-2")
         openFeature("All features", "Ibadah", "Fajr"); shot("en-ibadah")
     }
 
-    @Test @Config(qualifiers = "+en") fun english_progress() { home(); compose.onNodeWithContentDescription("Progress").performClick(); waitText("Consistency score"); compose.mainClock.advanceTimeBy(1500); shot("en-progress") }
+    @Test @Config(qualifiers = "+en") fun english_progress() {
+        home(); compose.onNodeWithContentDescription("Progress").performClick(); waitText("Consistency score"); settle(); shot("en-progress")
+        scrollTo("Achievements"); settle(); shot("en-progress-2")
+    }
+
+    @Test @Config(qualifiers = "+en") fun english_add_sheet() { home(); compose.onNodeWithContentDescription("Add").performClick(); waitText("More"); settle(); shot("en-add-sheet") }
+
+    @Test @Config(qualifiers = "+en") fun english_connect() {
+        runBlocking { sessions.clear(); prefs.update { it.copy(serverSetupPending = true) } }
+        waitText("Connect to your server")
+        compose.onNode(androidx.compose.ui.test.hasSetTextAction() and hasText("Server URL")).performTextInput("https://api.mydomain.com")
+        compose.onNodeWithText("Test connection").performClick()
+        waitText("Connected · 42 ms"); settle(); shot("en-connect")
+    }
+
+    @Test @Config(qualifiers = "+en") fun english_server_settings() {
+        home(); compose.onNodeWithContentDescription("Settings").performClick(); waitText("Server"); compose.onNodeWithText("Server").performClick()
+        waitText("Sync now"); settle(); shot("en-server")
+    }
 
     @Test @Config(qualifiers = "+en") fun english_water() { home(); openFeature("All features", "Water", "Quick add"); shot("en-water") }
 
@@ -152,12 +185,14 @@ class ScreenshotCapture {
 
     @Test @Config(qualifiers = "+en-night") fun english_dark() {
         runBlocking { prefs.update { it.copy(theme = ThemeMode.DARK) } }
-        home(); shot("en-home-dark")
+        home(); settle(); shot("en-home-dark")
+        compose.onNodeWithContentDescription("Progress").performClick(); waitText("Consistency score"); settle(); shot("en-progress-dark")
     }
 
     @Test @Config(qualifiers = "+bn") fun bengali() {
         runBlocking { prefs.update { it.copy(language = AppLanguage.BENGALI) } }
-        home(); shot("bn-home")
-        openFeature("সব ফিচার", "ইবাদত", "ফজর"); shot("bn-ibadah")
+        home(); settle(); shot("bn-home")
+        scrollTo("আজকের অভ্যাস"); settle(); shot("bn-home-2")
+        compose.onNodeWithContentDescription("অগ্রগতি").performClick(); waitText("ধারাবাহিকতা স্কোর"); settle(); shot("bn-progress")
     }
 }
