@@ -22,6 +22,7 @@ object DatabaseModule {
             .build()
 
     @Provides fun categoryDao(db: HayatDatabase) = db.categoryDao()
+    @Provides fun announcementDao(db: HayatDatabase) = db.announcementDao()
     @Provides fun tagDao(db: HayatDatabase) = db.tagDao()
     @Provides fun taskDao(db: HayatDatabase) = db.taskDao()
     @Provides fun routineDao(db: HayatDatabase) = db.routineDao()

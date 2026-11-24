@@ -199,6 +199,12 @@ class HayatBackupService @Inject constructor(
 
     companion object {
         /** User-data tables in parent-before-child (insert) order. Device diagnostics are not exported. */
+        /**
+         * Tables deliberately not in backups: diagnostics, backup bookkeeping and the cached
+         * announcements feed (server content that is re-downloaded, not user data).
+         */
+        val EXCLUDED: Set<String> = setOf("alarm_delivery_logs", "backup_metadata", "announcements", "announcement_feed_state")
+
         val TABLES: List<String> = listOf(
             "categories", "tags", "routines", "routine_activities", "routine_activity_logs", "calendar_events",
             "tasks", "subtasks", "task_tags", "templates", "template_items",

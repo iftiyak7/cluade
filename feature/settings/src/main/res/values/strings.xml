@@ -143,4 +143,8 @@
     <string name="license_font">Hind Siliguri font — SIL Open Font License 1.1 (Indian Type Foundry)</string>
     <string name="license_adhan">Adhan prayer time library — MIT License (Batoul Apps)</string>
     <string name="license_androidx">Android Jetpack (AndroidX), Kotlin, Dagger/Hilt — Apache License 2.0</string>
+    <string name="pref_name">Your name</string>
+    <string name="pref_name_sub">Shown in the greeting on Home. Stays on this phone.</string>
+    <string name="pref_announcements">Announcements</string>
+    <string name="pref_announcements_sub">Occasional tips and updates from Hayat. Downloaded anonymously when you are online; nothing about you is sent. Turning this off also deletes downloaded announcements.</string>
 </resources>

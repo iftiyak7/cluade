@@ -45,4 +45,6 @@
     <string name="prayer_asr_n">আসর</string>
     <string name="prayer_maghrib_n">মাগরিব</string>
     <string name="prayer_isha_n">ইশা</string>
+    <string name="channel_announcements">হায়াতের খবর</string>
+    <string name="channel_announcements_desc">মাঝে মাঝে টিপস ও আপডেট। সেটিংস → ঘোষণা থেকে বন্ধ করুন।</string>
 </resources>

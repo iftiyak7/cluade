@@ -124,6 +124,23 @@ private fun LazyListScope.chips(title: Int, content: @Composable () -> Unit) {
 
 @Composable
 private fun GeneralSettingsScreen(onBack: () -> Unit) = PrefsScreen(stringResource(R.string.settings_general), onBack) { p, vm ->
+    item {
+        var name by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(p.userName) }
+        androidx.compose.material3.OutlinedTextField(
+            value = name,
+            onValueChange = { v -> name = v.take(40); vm.update { it.copy(userName = name) } },
+            label = { Text(stringResource(R.string.pref_name)) },
+            supportingText = { Text(stringResource(R.string.pref_name_sub)) },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+        )
+    }
+    item {
+        SwitchRow(
+            stringResource(R.string.pref_announcements), p.announcementsEnabled, { v -> vm.update { it.copy(announcementsEnabled = v) } },
+            subtitle = stringResource(R.string.pref_announcements_sub), icon = Icons.Outlined.Campaign,
+        )
+    }
     chips(R.string.pref_language) {
         val labels = mapOf(AppLanguage.SYSTEM to stringResource(R.string.lang_system), AppLanguage.ENGLISH to stringResource(R.string.lang_english), AppLanguage.BENGALI to stringResource(R.string.lang_bengali))
         ChoiceChips(AppLanguage.entries, p.language, { labels.getValue(it) }, { l -> vm.update { it.copy(language = l) } })

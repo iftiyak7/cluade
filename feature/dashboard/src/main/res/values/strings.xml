@@ -57,4 +57,14 @@
     <string name="db_tab_empty">Nothing planned here — enjoy the space.</string>
     <string name="db_mark_done">Mark as done</string>
     <string name="db_brand">Hayat</string>
+    <string name="db_news">Announcements</string>
+    <string name="db_news_unread">Announcements, %1$d new</string>
+    <string name="db_news_tag">NEW</string>
+    <string name="db_news_dismiss">Dismiss</string>
+    <string name="db_news_empty_title">You\'re all caught up</string>
+    <string name="db_news_empty_text">Tips and updates from Hayat will appear here.</string>
+    <string name="db_news_off_title">Announcements are off</string>
+    <string name="db_news_off_text">Turn them on in Settings to get occasional tips and updates.</string>
+    <string name="db_news_open_settings">Open Settings</string>
+    <string name="db_news_privacy">Downloaded anonymously — Hayat sends nothing about you. You can turn announcements off in Settings.</string>
 </resources>

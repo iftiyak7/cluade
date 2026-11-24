@@ -143,4 +143,8 @@
     <string name="license_font">হিন্দ শিলিগুড়ি ফন্ট — SIL Open Font License 1.1 (Indian Type Foundry)</string>
     <string name="license_adhan">আযান নামাজের সময় লাইব্রেরি — MIT License (Batoul Apps)</string>
     <string name="license_androidx">Android Jetpack (AndroidX), Kotlin, Dagger/Hilt — Apache License 2.0</string>
+    <string name="pref_name">আপনার নাম</string>
+    <string name="pref_name_sub">হোমের শুভেচ্ছায় দেখানো হয়। এই ফোনেই থাকে।</string>
+    <string name="pref_announcements">ঘোষণা</string>
+    <string name="pref_announcements_sub">মাঝে মাঝে হায়াতের টিপস ও আপডেট। অনলাইনে থাকলে পরিচয় ছাড়াই ডাউনলোড হয়; আপনার সম্পর্কে কিছুই পাঠানো হয় না। বন্ধ করলে ডাউনলোড করা ঘোষণাও মুছে যায়।</string>
 </resources>

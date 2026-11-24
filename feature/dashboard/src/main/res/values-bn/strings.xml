@@ -57,4 +57,14 @@
     <string name="db_tab_empty">এখানে কিছু নেই — একটু বিশ্রাম নিন।</string>
     <string name="db_mark_done">সম্পন্ন চিহ্নিত করুন</string>
     <string name="db_brand">হায়াত</string>
+    <string name="db_news">ঘোষণা</string>
+    <string name="db_news_unread">ঘোষণা, %1$dটি নতুন</string>
+    <string name="db_news_tag">নতুন</string>
+    <string name="db_news_dismiss">সরান</string>
+    <string name="db_news_empty_title">সব দেখা হয়ে গেছে</string>
+    <string name="db_news_empty_text">হায়াতের টিপস ও আপডেট এখানে দেখা যাবে।</string>
+    <string name="db_news_off_title">ঘোষণা বন্ধ আছে</string>
+    <string name="db_news_off_text">মাঝে মাঝে টিপস ও আপডেট পেতে সেটিংসে চালু করুন।</string>
+    <string name="db_news_open_settings">সেটিংস খুলুন</string>
+    <string name="db_news_privacy">পরিচয় ছাড়াই ডাউনলোড হয় — হায়াত আপনার সম্পর্কে কিছুই পাঠায় না। সেটিংস থেকে ঘোষণা বন্ধ করা যায়।</string>
 </resources>

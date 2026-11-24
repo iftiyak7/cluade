@@ -42,6 +42,7 @@ import com.hayat.core.database.entity.*
         StudySubjectEntity::class, FocusSessionEntity::class, FinanceItemEntity::class, FinancePaymentEntity::class,
         NoteEntity::class, NoteItemEntity::class, NoteTagCrossRef::class, JournalEntryEntity::class, MoodEntryEntity::class,
         BackupMetadataEntity::class,
+        AnnouncementEntity::class, AnnouncementFeedStateEntity::class,
     ],
 )
 @TypeConverters(Converters::class)
@@ -68,9 +69,10 @@ abstract class HayatDatabase : RoomDatabase() {
     abstract fun searchDao(): SearchDao
     abstract fun backupDao(): BackupDao
     abstract fun maintenanceDao(): MaintenanceDao
+    abstract fun announcementDao(): com.hayat.core.database.dao.AnnouncementDao
 
     companion object {
-        const val VERSION = 1
+        const val VERSION = 2
         const val NAME = "hayat.db"
     }
 }

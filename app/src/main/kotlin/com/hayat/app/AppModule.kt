@@ -1,6 +1,7 @@
 package com.hayat.app
 
 import com.hayat.core.common.ApplicationScope
+import com.hayat.core.domain.announcement.AppConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,4 +20,12 @@ object AppModule {
 
     @Provides @Named("appVersion")
     fun appVersion(): String = BuildConfig.VERSION_NAME
+
+    @Provides @Singleton
+    fun appConfig(): AppConfig = object : AppConfig {
+        override val feedUrl: String = BuildConfig.FEED_URL
+        override val versionCode: Int = BuildConfig.VERSION_CODE
+        // The device language, independent of Hayat's per-app language override.
+        override val systemLanguage: String get() = android.content.res.Resources.getSystem().configuration.locales.get(0)?.language.orEmpty()
+    }
 }

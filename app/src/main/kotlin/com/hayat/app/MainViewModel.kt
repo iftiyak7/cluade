@@ -43,6 +43,11 @@ class MainViewModel @Inject constructor(
         val occurrenceId = intent.getStringExtra(DeepLinkKeys.EXTRA_OCCURRENCE_ID)
         val action = intent.getStringExtra(DeepLinkKeys.EXTRA_ACTION)
         if (intent.action == DeepLinkKeys.ACTION_QUICK_ADD_WATER) { _pendingRoute.value = WaterRoute; return }
+        if (intent.action == com.hayat.core.notifications.AndroidAnnouncementNotifier.ACTION_OPEN_ANNOUNCEMENTS) {
+            _pendingRoute.value = com.hayat.core.navigation.AnnouncementsRoute
+            intent.action = null // handle once
+            return
+        }
         if (occurrenceId == null || action == null) return
         if (action == DeepLinkKeys.ACTION_RESCHEDULE) { _pendingRoute.value = ReminderRescheduleRoute(occurrenceId); return }
         viewModelScope.launch { scheduler.handleAction(occurrenceId, ReminderAction.OPEN) }

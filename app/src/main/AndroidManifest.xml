@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Hayat is fully offline: guarantee no dependency can add network permissions. -->
-    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
+    <!-- Network is used for one thing only: downloading the anonymous announcements feed
+         (opt-out in Settings). All user data stays on the device. See docs/privacy.md. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Lets WorkManager wait for connectivity instead of retrying blindly. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:node="remove" />
 
     <application
@@ -17,6 +19,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="false"
         android:theme="@style/Theme.Hayat.Splash"
         tools:targetApi="34">
 

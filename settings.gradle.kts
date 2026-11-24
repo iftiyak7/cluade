@@ -36,6 +36,7 @@ listOf(
     ":core:alarms",
     ":core:security",
     ":core:backup",
+    ":core:network",
     ":core:testing",
     ":feature:onboarding",
     ":feature:dashboard",

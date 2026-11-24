@@ -13,18 +13,20 @@ the feature that needs it, and the app keeps working (with reduced capability) i
 | `USE_BIOMETRIC` | Normal | ✅ (via androidx.biometric) | When enabling biometric unlock | PIN only. |
 | `WAKE_LOCK` | Normal | merged from WorkManager | — | — |
 | `USE_FINGERPRINT` | Normal (legacy) | merged from androidx.biometric for API < 28 | — | — |
+| `INTERNET` | Normal | ✅ | Install time | Used only by `:core:network` to download the anonymous announcements feed (ADR-22). Settings → General → Announcements turns it off. |
+| `ACCESS_NETWORK_STATE` | Normal | ✅ | Install time | Lets WorkManager wait for a connection before fetching the feed. |
 | `FOREGROUND_SERVICE` | — | ❌ not used | Focus timer uses a persisted start instant + a scheduled end alarm instead of a long-running service. | — |
 
 ## Explicitly **not** requested
 
-`INTERNET`, `ACCESS_NETWORK_STATE`, `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`,
+`ACCESS_WIFI_STATE`, `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`,
 `READ_CONTACTS`, `READ_SMS`, `CALL_PHONE`, `READ/WRITE_EXTERNAL_STORAGE`,
 `MANAGE_EXTERNAL_STORAGE`, `USE_EXACT_ALARM`, `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`.
 
-* WorkManager merges `ACCESS_NETWORK_STATE` into the manifest by default; Hayat removes it with
-  `tools:node="remove"` (Hayat never uses network constraints).
-* A build-time test (`ManifestPolicyTest`) fails the build if `INTERNET` or any forbidden
-  permission appears in the merged manifest.
+* Cleartext HTTP is disabled (`usesCleartextTraffic="false"` + network security config trusting
+  system CAs only).
+* A build-time test (`ManifestPolicyTest`) fails the build if any forbidden permission appears in
+  the merged manifest or cleartext traffic becomes allowed.
 * Prayer times use a manually chosen city or typed coordinates — no location permission.
 * Backups use the Storage Access Framework (`ACTION_CREATE_DOCUMENT` / `ACTION_OPEN_DOCUMENT`) —
   no storage permission.

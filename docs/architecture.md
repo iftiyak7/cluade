@@ -11,7 +11,7 @@
 |---|---|
 | Name / tagline | Hayat — *Your Life, Organized.* |
 | Platform | Android only, minSdk 26, targetSdk 37, compileSdk 37.2 |
-| Connectivity | 100 % offline. **No `INTERNET` permission.** No accounts, backend, Firebase, analytics or ads. |
+| Connectivity | Offline-first: every feature works without a connection and all user data stays on the device. The only network use is downloading the **anonymous announcements feed** (opt-out in Settings, ADR-22). No accounts, Firebase, analytics, ads or uploads of user data. |
 | Languages | English (default resource set) and Bengali (`values-bn`), switchable in-app via per-app locales. |
 | Users | Bangladesh first, internationally usable. Muslim and non-Muslim users: the Islamic module is optional and off by default unless enabled in onboarding/settings. |
 | Data | All user data in a local Room database and Jetpack DataStore. Android auto-backup and device-transfer extraction are disabled; the user owns backups through explicit, optionally encrypted export files (Storage Access Framework). |
@@ -54,6 +54,9 @@ goal, fasting log, Hijri date).
 | ADR-19 | Focus timer uses `SystemClock.elapsedRealtime` persisted in `SavedStateHandle`, plus a one-time reminder at the end. | Monotonic and process-death safe without a foreground service; the user is notified when backgrounded. |
 | ADR-20 | Locked notes/journal use `BIOMETRIC_WEAK or DEVICE_CREDENTIAL`; app unlock uses Hayat's PIN with optional `BIOMETRIC_STRONG`. | The combination works on API 26+; the app PIN is independent of the device lock. |
 | ADR-21 | Compose resource reads use `LocalResources`/`LocalConfiguration` (lint-enforced). | Strings stay correct after in-app language changes. |
+| ADR-22 | **Announcements feed (download-only).** `INTERNET` is declared solely for `GET /api/v1/announcements` on the Hayat server, done by `:core:network` — the only module with network code. The request carries no parameters, cookies or identifiers (fixed `User-Agent: Hayat/<versionCode>`); filtering by language/version happens on the phone. HTTPS only, system CAs only, no redirects, 256 KB cap, ETag/304. Default **on**, opt-out in Settings; turning it off cancels the work and deletes downloaded items. | The owner needs to reach users with banners and notifications without compromising the privacy promise: nothing flows from the device to the server. |
+| ADR-23 | Server = one Go binary + SQLite (`server/`), behind Caddy for TLS. | Small attack surface, no runtime dependencies, trivial to back up (one file). |
+| ADR-24 | UI v2 design language: deep "ink" hero surfaces, pastel accents, hairline glass edges, light-weight display numerals, spring-based motion that honours *reduce motion*. Components live in `:core:designsystem` (`InkCard`, `SegmentedProgress`, `PillTabs`, `TimelineEntry`, …). | Premium, calm look; consistency across 23 feature modules through shared components. |
 
 ## 3. Layering and dependency rules
 
@@ -78,6 +81,9 @@ graph TD
   alarms --> notif[":core:notifications"]
   backup --> db
   backup --> security[":core:security"]
+  app --> network[":core:network"]
+  network --> domain
+  network --> notif
   features -.-> security
   db --> model
   time --> common

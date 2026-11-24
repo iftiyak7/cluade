@@ -8,7 +8,15 @@ import com.hayat.core.domain.repository.IbadahRepository
 import com.hayat.core.domain.worship.ZikrPresets
 import com.hayat.core.model.Category
 import com.hayat.core.notifications.NotificationChannelManager
+import com.hayat.core.common.ApplicationScope
+import com.hayat.core.domain.announcement.AppConfig
+import com.hayat.core.domain.repository.PreferencesRepository
+import com.hayat.core.network.AnnouncementWorkScheduler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,6 +29,10 @@ class AppInitializer @Inject constructor(
     private val reconciliation: ReconciliationScheduler,
     private val scheduler: ReminderScheduler,
     private val time: TimeProvider,
+    private val prefs: PreferencesRepository,
+    private val announcementWork: AnnouncementWorkScheduler,
+    private val config: AppConfig,
+    @ApplicationScope private val appScope: CoroutineScope,
 ) {
     suspend fun initialize() {
         channels.ensureChannels()
@@ -29,6 +41,12 @@ class AppInitializer @Inject constructor(
         reconciliation.ensurePeriodic()
         // Catches gaps after force-stop, process death or updates: missed occurrences are recorded, alarms re-registered.
         runCatching { scheduler.reconcile(notifyMissed = true) }
+        // Announcements: fetch only while the user's setting is on (default on, opt-out in Settings).
+        appScope.launch {
+            prefs.preferences.map { it.announcementsEnabled }.distinctUntilChanged().collect { enabled ->
+                runCatching { announcementWork.apply(enabled, configured = config.feedUrl.startsWith("https://")) }
+            }
+        }
     }
 
     private suspend fun seedCategories() {

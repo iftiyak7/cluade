@@ -32,6 +32,7 @@ class NotificationChannelManager @Inject constructor(@ApplicationContext private
             channel(IBADAH, R.string.channel_ibadah, R.string.channel_ibadah_desc, NotificationManager.IMPORTANCE_DEFAULT),
             channel(TASKS, R.string.channel_tasks, R.string.channel_tasks_desc, NotificationManager.IMPORTANCE_DEFAULT),
             channel(SYSTEM, R.string.channel_system, R.string.channel_system_desc, NotificationManager.IMPORTANCE_LOW),
+            channel(ANNOUNCEMENTS, R.string.channel_announcements, R.string.channel_announcements_desc, NotificationManager.IMPORTANCE_DEFAULT),
         )
         nm.createNotificationChannels(channels)
     }
@@ -50,6 +51,7 @@ class NotificationChannelManager @Inject constructor(@ApplicationContext private
         const val IBADAH = "ibadah"
         const val TASKS = "tasks"
         const val SYSTEM = "system"
+        const val ANNOUNCEMENTS = "announcements"
 
         fun channelFor(category: ReminderCategory, style: ReminderStyle): String = when {
             style == ReminderStyle.ALARM -> ALARMS

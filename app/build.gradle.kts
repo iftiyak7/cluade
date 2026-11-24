@@ -21,6 +21,11 @@ android {
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        // Announcements feed (HTTPS only). Empty = feature inactive. Set in gradle.properties or with
+        // -PhayatFeedUrl=https://your-domain/api/v1/announcements
+        val feedUrl = (project.findProperty("hayatFeedUrl") as String?).orEmpty()
+        require(feedUrl.isEmpty() || feedUrl.startsWith("https://")) { "hayatFeedUrl must use https://" }
+        buildConfigField("String", "FEED_URL", "\"$feedUrl\"")
     }
     androidResources {
         localeFilters += listOf("en", "bn")
@@ -71,6 +76,7 @@ dependencies {
     implementation(projects.core.alarms)
     implementation(projects.core.security)
     implementation(projects.core.backup)
+    implementation(projects.core.network)
 
     implementation(projects.feature.settings)
     implementation(projects.feature.lock)

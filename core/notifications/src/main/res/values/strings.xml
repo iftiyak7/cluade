@@ -45,4 +45,6 @@
     <string name="prayer_asr_n">Asr</string>
     <string name="prayer_maghrib_n">Maghrib</string>
     <string name="prayer_isha_n">Isha</string>
+    <string name="channel_announcements">News from Hayat</string>
+    <string name="channel_announcements_desc">Occasional tips and updates. Turn off in Settings → Announcements.</string>
 </resources>

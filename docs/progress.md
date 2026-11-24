@@ -16,9 +16,13 @@ Status keys: **Implemented & tested** · **Implemented** (covered only by smoke/
 | 9 Hardening | Partially done | Lint clean (0 errors), release manifest audited, E2E/smoke UI tests, migration test. **Not done:** device matrix, performance profiling, TalkBack audit, Bengali editorial review |
 | 10 Release | Partially done | R8 release APK and AAB build (unsigned); signing instructions; versioning; release notes. **Not done:** signed build, store listing, Baseline Profile |
 
+| 11 UI v2 | Implemented (screenshots + UI tests) | Ink/pastel design system, motion system, floating pill nav, redesigned Home and Progress, shared scaffold |
+| 12 Server + admin | Implemented & tested (Go, 12 tests) | `server/`: admin panel, anonymous feed, security hardening |
+| 13 Announcements in app | Implemented & tested | `:core:network`, Room v2 migration, worker, banners, inbox, notifications, opt-out |
+
 ## Numbers (last run)
 
-* 108 automated tests, 0 failures (`testing.md`).
+* 128 Android/JVM tests + 12 Go server tests, 0 failures (6 opt-in screenshot tests skipped).
 * ~16.6k lines of production Kotlin, ~1.9k lines of tests, 23 feature modules, 15 core modules.
 * Release APK ≈ 3.7 MB (unsigned, R8), AAB ≈ 8.4 MB.
 

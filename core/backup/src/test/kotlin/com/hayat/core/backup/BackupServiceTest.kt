@@ -87,7 +87,7 @@ class BackupServiceTest {
         val schema = File("../database/schemas/com.hayat.core.database.HayatDatabase/${HayatDatabase.VERSION}.json").readText()
         val names = Json.parseToJsonElement(schema).jsonObject["database"]!!.jsonObject["entities"]!!.jsonArray
             .map { (it.jsonObject["tableName"] as JsonPrimitive).content }.toSet()
-        assertEquals(names - setOf("alarm_delivery_logs", "backup_metadata"), HayatBackupService.TABLES.toSet())
+        assertEquals(names - HayatBackupService.EXCLUDED, HayatBackupService.TABLES.toSet())
     }
 
     @Test fun `plain backup round trips all data exactly`() = runTest {

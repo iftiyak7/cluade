@@ -41,6 +41,7 @@ abstract class DataModule {
     @Binds abstract fun ids(impl: UuidIdGenerator): IdGenerator
 
     @Binds @Singleton abstract fun categories(impl: RoomCategoryRepository): CategoryRepository
+    @Binds @Singleton abstract fun announcements(impl: com.hayat.core.data.repository.RoomAnnouncementRepository): com.hayat.core.domain.announcement.AnnouncementRepository
     @Binds @Singleton abstract fun tags(impl: RoomTagRepository): TagRepository
     @Binds @Singleton abstract fun tasks(impl: RoomTaskRepository): TaskRepository
     @Binds @Singleton abstract fun routines(impl: RoomRoutineRepository): RoutineRepository

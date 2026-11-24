@@ -36,6 +36,10 @@ import com.hayat.core.designsystem.component.pressScale
 import com.hayat.core.designsystem.theme.HayatThemeExt
 import com.hayat.core.domain.routine.RoutineActionsUseCase
 import com.hayat.core.domain.task.CompleteTaskUseCase
+import com.hayat.core.domain.announcement.AnnouncementPolicy
+import com.hayat.core.domain.announcement.AnnouncementRepository
+import com.hayat.core.domain.announcement.AppConfig
+import com.hayat.core.model.Announcement
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -152,6 +156,9 @@ data class DashboardState(
     val habitsOnTrack: Int = 0,
     val mealsPlanned: Int = 0,
     val mealsLogged: Int = 0,
+    val banners: List<Announcement> = emptyList(),
+    val unreadAnnouncements: Int = 0,
+    val bengali: Boolean = false,
 ) {
     val doneCount: Int get() = todayTasks.count { it.isCompleted } + timeline.count { it.log?.status == ActivityStatus.COMPLETED }
     val totalCount: Int get() = todayTasks.size + timeline.size
@@ -173,6 +180,8 @@ class DashboardViewModel @Inject constructor(
     private val medicineUseCases: MedicineUseCases,
     private val completeTask: CompleteTaskUseCase,
     private val routineActions: RoutineActionsUseCase,
+    private val announcements: AnnouncementRepository,
+    private val appConfig: AppConfig,
     private val time: TimeProvider,
 ) : HayatViewModel() {
     private val today = time.today()
@@ -205,14 +214,28 @@ class DashboardViewModel @Inject constructor(
         listOf(pl.size, zp.sumOf { it.count }, scheduled.size, scheduled.count { it.isSuccess(counts[it.id] ?: 0) }, planned.size, ml.count { it.mealPlanId != null && it.status == MealStatus.EATEN })
     }
 
-    val state = combine(planning, remindersFlow, health, lifestyle) { (p, t, tl), (up, missed), (w, doses), l ->
+    private val base = combine(planning, remindersFlow, health, lifestyle) { (p, t, tl), (up, missed), (w, doses), l ->
         DashboardState(
             loading = false, prefs = p, today = today, hour = time.zonedNow().hour,
             todayTasks = t, timeline = tl, upcoming = up.take(3), missedToday = missed, water = w, doses = doses,
             nextPrayer = if (p.islamicModuleEnabled) PrayerTimeCalculator.next(time.now(), p.prayer) else null,
             prayersLogged = l[0], zikrToday = l[1], habitsScheduled = l[2], habitsOnTrack = l[3], mealsPlanned = l[4], mealsLogged = l[5],
         )
+    }
+
+    val state = combine(base, announcements.observeAll()) { s, all ->
+        if (!s.prefs.announcementsEnabled) return@combine s
+        val bengali = AnnouncementPolicy.isBengali(s.prefs.language, appConfig.systemLanguage)
+        val visible = AnnouncementPolicy.visible(all, time.now(), bengali, appConfig.versionCode)
+        s.copy(
+            banners = visible.filter { it.showsBanner && !it.dismissed }.take(2),
+            unreadAnnouncements = visible.count { !it.seen },
+            bengali = bengali,
+        )
     }.stateInVm(DashboardState())
+
+    fun dismissAnnouncement(id: Long) = safeLaunch { announcements.dismiss(id) }
+    fun markAnnouncementSeen(id: Long) = safeLaunch { announcements.markSeen(listOf(id)) }
 
     fun addWater() = safeLaunch { waterUseCases.add(state.value.prefs.water.defaultGlassMl).handle() }
     fun takeDose(d: MedicineDose) = safeLaunch { medicineUseCases.setDoseStatus(d, DoseStatus.TAKEN).handle() }
@@ -253,6 +276,7 @@ private fun partOf(t: java.time.LocalTime?): DayPart = when {
 
 fun NavGraphBuilder.dashboardGraph(nav: NavController, onQuickAdd: () -> Unit = {}) {
     composable<HomeRoute> { DashboardScreen(nav, onQuickAdd) }
+    composable<AnnouncementsRoute> { AnnouncementsScreen(nav) }
     composable<AllFeaturesRoute> { AllFeaturesScreen(nav) }
 }
 
@@ -263,6 +287,7 @@ private fun DashboardScreen(nav: NavController, onQuickAdd: () -> Unit, vm: Dash
     MessageEffect(vm.messages, host)
     val fmt = LocalFormatter.current
     val ext = HayatThemeExt.colors
+    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     Scaffold(snackbarHost = { SnackbarHost(host) }, containerColor = MaterialTheme.colorScheme.background) { pad ->
         if (s.loading) { LoadingBox(Modifier.padding(pad)); return@Scaffold }
         val visible = s.prefs.dashboardCards.filter { it.visible && (s.prefs.islamicModuleEnabled || it.card !in setOf(DashboardCard.PRAYER, DashboardCard.ZIKR)) }.map { it.card }
@@ -283,6 +308,14 @@ private fun DashboardScreen(nav: NavController, onQuickAdd: () -> Unit, vm: Dash
                         Text(fmt.date(s.today), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
                     }
                     BadgeIconButton(Icons.Outlined.Search, stringResource(R.string.db_search), showDot = false, onClick = { nav.navigate(SearchRoute) })
+                    if (s.prefs.announcementsEnabled) {
+                        Spacer(Modifier.width(8.dp))
+                        BadgeIconButton(
+                            Icons.Outlined.Notifications,
+                            if (s.unreadAnnouncements > 0) stringResource(R.string.db_news_unread, s.unreadAnnouncements) else stringResource(R.string.db_news),
+                            showDot = s.unreadAnnouncements > 0, onClick = { nav.navigate(AnnouncementsRoute) },
+                        )
+                    }
                     Spacer(Modifier.width(8.dp))
                     BadgeIconButton(Icons.Outlined.Tune, stringResource(R.string.db_customize), showDot = false, onClick = { nav.navigate(DashboardSettingsRoute) })
                 }
@@ -322,6 +355,13 @@ private fun DashboardScreen(nav: NavController, onQuickAdd: () -> Unit, vm: Dash
                     Spacer(Modifier.height(6.dp))
                     GradientCta(stringResource(R.string.db_quick_add), Icons.Outlined.AutoAwesome, onQuickAdd, trailing = Icons.Outlined.ChevronRight)
                 }
+            }
+            items(s.banners, key = { "ann" + it.id }) { a ->
+                AnnouncementBanner(
+                    a, s.bengali, Modifier.animateItem(),
+                    onCta = { vm.markAnnouncementSeen(a.id); openAnnouncementLink(a.ctaUrl, nav, uriHandler) },
+                    onDismiss = { vm.dismissAnnouncement(a.id) },
+                )
             }
             item("week") {
                 val days = (-3..3).map { s.today.plusDays(it.toLong()) }

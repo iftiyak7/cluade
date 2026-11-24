@@ -42,6 +42,15 @@ Honest list of what is not done, not verified, or limited by Android itself.
     but there is no in-app recycle bin yet).
 20. Analytics "Activity" heat map counts recorded actions; it is not a weighted score.
 
+## Announcements
+24. The announcements feed only works once a server URL is configured at build time
+    (`-PhayatFeedUrl=https://…/api/v1/announcements`); builds without it never touch the network.
+25. Announcements support text, a button and links; images in announcements are not displayed
+    yet (the server accepts an image URL for future use).
+26. Delivery is best-effort: the app checks about hourly when online (WorkManager), so an
+    announcement may appear up to ~1–2 hours after publishing, later on devices with strict
+    battery management.
+
 ## Data durability
 21. Data exists only on the device. Uninstalling the app or losing the phone deletes it unless
     the user exported a backup file. This is stated in onboarding-adjacent screens (Privacy,
