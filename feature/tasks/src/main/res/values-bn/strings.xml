@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tasks_title">কাজ</string>
+    <string name="task_new">নতুন কাজ</string>
+    <string name="task_edit">কাজ সম্পাদনা</string>
+    <string name="filter_today">আজ</string>
+    <string name="filter_tomorrow">আগামীকাল</string>
+    <string name="filter_upcoming">আসন্ন</string>
+    <string name="filter_overdue">সময় পেরিয়েছে</string>
+    <string name="filter_no_date">তারিখ নেই</string>
+    <string name="filter_completed">সম্পন্ন</string>
+    <string name="filter_archived">আর্কাইভ</string>
+    <string name="filter_all">সব</string>
+    <string name="sort_due">নির্ধারিত তারিখ</string>
+    <string name="sort_priority">অগ্রাধিকার</string>
+    <string name="sort_created">নতুনগুলো আগে</string>
+    <string name="sort_title">শিরোনাম</string>
+    <string name="sort_by">সাজানোর ক্রম</string>
+    <string name="search_tasks">কাজ খুঁজুন</string>
+    <string name="empty_tasks_title">এখানে কিছু নেই</string>
+    <string name="empty_tasks_text">আপনার যোগ করা কাজ এখানে দেখা যাবে। নতুন কাজ তৈরি করতে + বোতাম ব্যবহার করুন।</string>
+    <string name="task_category">বিভাগ</string>
+    <string name="task_due_date">নির্ধারিত তারিখ</string>
+    <string name="task_due_time">নির্ধারিত সময়</string>
+    <string name="task_estimate">আনুমানিক মিনিট</string>
+    <string name="task_reminder_none">রিমাইন্ডার নেই</string>
+    <string name="task_reminder_at_time">নির্ধারিত সময়ে</string>
+    <string name="task_reminder_before">%1$d মিনিট আগে</string>
+    <string name="task_reminder_day_before">১ দিন আগে</string>
+    <string name="task_subtasks">চেকলিস্ট</string>
+    <string name="task_add_subtask">চেকলিস্টে যোগ করুন</string>
+    <string name="task_subtask_hint">আইটেম</string>
+    <string name="task_tags">ট্যাগ</string>
+    <string name="task_tags_hint">কমা দিয়ে আলাদা করুন</string>
+    <string name="task_mark_done">সম্পন্ন হিসেবে চিহ্নিত করুন</string>
+    <string name="task_mark_open">অসম্পন্ন হিসেবে চিহ্নিত করুন</string>
+    <string name="task_selected">%1$dটি নির্বাচিত</string>
+    <string name="task_subtasks_progress">%2$s এর মধ্যে %1$s সম্পন্ন</string>
+    <string name="task_completed_on">%1$s সম্পন্ন হয়েছে</string>
+    <string name="task_repeats">পুনরাবৃত্তি: %1$s</string>
+    <string name="task_due">নির্ধারিত %1$s</string>
+    <string name="task_reminder_needs_date">রিমাইন্ডার বা পুনরাবৃত্তির জন্য নির্ধারিত তারিখ দিন।</string>
+</resources>

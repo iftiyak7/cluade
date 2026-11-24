@@ -74,6 +74,11 @@ dependencies {
 
     implementation(projects.feature.settings)
     implementation(projects.feature.lock)
+    implementation(projects.feature.onboarding)
+    implementation(projects.feature.tasks)
+    implementation(projects.feature.routines)
+    implementation(projects.feature.reminders)
+    implementation(projects.feature.calendar)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ob_welcome_title">হায়াতে স্বাগতম</string>
+    <string name="ob_welcome_text">আপনার দিন পরিকল্পনা করুন, রুটিন মেনে চলুন এবং গুরুত্বপূর্ণ বিষয় মনে রাখুন — সবকিছু এই ফোনেই, ইন্টারনেট বা অ্যাকাউন্ট ছাড়া।</string>
+    <string name="ob_skip">বাদ দিন</string>
+    <string name="ob_next">পরবর্তী</string>
+    <string name="ob_finish">হায়াত ব্যবহার শুরু করুন</string>
+    <string name="ob_step">ধাপ %2$d এর মধ্যে %1$d</string>
+    <string name="ob_language">আপনার ভাষা বাছুন</string>
+    <string name="ob_theme">চেহারা বাছুন</string>
+    <string name="ob_day_title">আপনার দিন</string>
+    <string name="ob_day_text">হায়াত পানি ও ঘুমের রিমাইন্ডারের জন্য এই সময়গুলো ব্যবহার করে। যেকোনো সময় বদলাতে পারবেন।</string>
+    <string name="ob_categories_title">কোন বিষয়ে সাহায্য চান?</string>
+    <string name="ob_categories_text">পরে সেটিংস থেকে ফিচার চালু বা বন্ধ করতে পারবেন।</string>
+    <string name="ob_islamic">ইসলামিক জীবনযাপন (নামাজ, যিকির, কুরআন, রোজা)</string>
+    <string name="ob_water">পানির রিমাইন্ডার</string>
+    <string name="ob_bedtime">ঘুমানোর রিমাইন্ডার</string>
+    <string name="ob_notifications_title">নোটিফিকেশন</string>
+    <string name="ob_notifications_text">রিমাইন্ডার নোটিফিকেশন হিসেবে দেখানো হয়। অ্যান্ড্রয়েড অনুমতি চাইবে। অনুমতি না দিলেও হায়াত রিমাইন্ডার লিখে রাখবে এবং পরে অনুমতি দিতে পারবেন।</string>
+    <string name="ob_allow_notifications">নোটিফিকেশনের অনুমতি দিন</string>
+    <string name="ob_notifications_granted">নোটিফিকেশনের অনুমতি আছে</string>
+    <string name="ob_template_title">একটি রুটিন দিয়ে শুরু করবেন?</string>
+    <string name="ob_template_text">সম্পাদনাযোগ্য রুটিন তৈরি করতে একটি টেমপ্লেট বাছুন, অথবা বাদ দিয়ে নিজের রুটিন বানান।</string>
+    <string name="ob_no_template">টেমপ্লেট নয়</string>
+    <string name="ob_auto">স্বয়ংক্রিয়</string>
+    <string name="ob_light">হালকা</string>
+    <string name="ob_dark">গাঢ়</string>
+    <string name="ob_wake">ঘুম থেকে ওঠার সময়</string>
+    <string name="ob_sleep">ঘুমানোর সময়</string>
+</resources>

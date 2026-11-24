@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="routines_title">রুটিন</string>
+    <string name="routine_new">নতুন রুটিন</string>
+    <string name="routine_edit">রুটিন সম্পাদনা</string>
+    <string name="routine_kind">ধরন</string>
+    <string name="routine_activities">কাজগুলো</string>
+    <string name="routine_add_activity">কাজ যোগ করুন</string>
+    <string name="routine_activity_title">কাজ</string>
+    <string name="routine_start">শুরু</string>
+    <string name="routine_duration">মিনিট</string>
+    <string name="routine_activity_reminder">মনে করিয়ে দিন</string>
+    <string name="routine_conflict">%1$s এবং %2$s-এর সময় মিলে যাচ্ছে</string>
+    <string name="routine_empty_title">এখনো কোনো রুটিন নেই</string>
+    <string name="routine_empty_text">কর্মদিবস, শুক্রবার, ছুটির দিন বা রমজানের জন্য রুটিন তৈরি করুন, অথবা টেমপ্লেট থেকে শুরু করুন।</string>
+    <string name="routine_templates">টেমপ্লেট</string>
+    <string name="routine_save_template">টেমপ্লেট হিসেবে সংরক্ষণ</string>
+    <string name="routine_template_saved">টেমপ্লেট হিসেবে সংরক্ষিত হয়েছে</string>
+    <string name="routine_activity_count">%1$dটি কাজ</string>
+    <string name="routine_section_active">চালু</string>
+    <string name="routine_section_paused">বিরতিতে</string>
+    <string name="routine_section_archived">আর্কাইভ করা</string>
+    <string name="routine_for_date">%1$s তারিখের কাজ</string>
+    <string name="routine_not_scheduled">এই দিনে রুটিনটি নির্ধারিত নেই।</string>
+    <string name="routine_mark">%1$s চিহ্নিত করুন</string>
+    <string name="routine_clear_status">অবস্থা মুছুন</string>
+    <string name="routine_history">গত ৭ দিন</string>
+    <string name="routine_needs_activity">অন্তত একটি কাজ যোগ করুন।</string>
+    <string name="tpl_title">রুটিন টেমপ্লেট</string>
+    <string name="tpl_builtin">অ্যাপের টেমপ্লেট</string>
+    <string name="tpl_mine">আমার টেমপ্লেট</string>
+    <string name="tpl_use">রুটিন তৈরি করুন</string>
+    <string name="tpl_confirm_title">নতুন রুটিন তৈরি করবেন?</string>
+    <string name="tpl_confirm_text">\"%1$s\" নামে একটি নতুন, সম্পাদনাযোগ্য রুটিন যোগ হবে। আপনার আগের রুটিনগুলো বদলাবে না।</string>
+    <string name="tpl_created">রুটিন তৈরি হয়েছে</string>
+    <string name="tpl_delete">টেমপ্লেট মুছুন</string>
+</resources>

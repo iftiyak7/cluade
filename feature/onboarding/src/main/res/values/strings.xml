@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ob_welcome_title">Welcome to Hayat</string>
+    <string name="ob_welcome_text">Plan your day, keep your routines and remember what matters — all on this phone, without internet or an account.</string>
+    <string name="ob_skip">Skip</string>
+    <string name="ob_next">Next</string>
+    <string name="ob_finish">Start using Hayat</string>
+    <string name="ob_step">Step %1$d of %2$d</string>
+    <string name="ob_language">Choose your language</string>
+    <string name="ob_theme">Choose a look</string>
+    <string name="ob_day_title">Your day</string>
+    <string name="ob_day_text">Hayat uses these times for water reminders and sleep. You can change them any time.</string>
+    <string name="ob_categories_title">What would you like help with?</string>
+    <string name="ob_categories_text">You can turn features on or off later in Settings.</string>
+    <string name="ob_islamic">Islamic lifestyle (prayer, zikr, Quran, fasting)</string>
+    <string name="ob_water">Water reminders</string>
+    <string name="ob_bedtime">Bedtime reminder</string>
+    <string name="ob_notifications_title">Notifications</string>
+    <string name="ob_notifications_text">Reminders are shown as notifications. Android will ask for permission. If you decline, Hayat still records reminders and you can allow notifications later.</string>
+    <string name="ob_allow_notifications">Allow notifications</string>
+    <string name="ob_notifications_granted">Notifications are allowed</string>
+    <string name="ob_template_title">Start with a routine?</string>
+    <string name="ob_template_text">Pick a template to create an editable routine, or skip and build your own.</string>
+    <string name="ob_no_template">No template</string>
+    <string name="ob_auto">Automatic</string>
+    <string name="ob_light">Light</string>
+    <string name="ob_dark">Dark</string>
+    <string name="ob_wake">Wake-up time</string>
+    <string name="ob_sleep">Bedtime</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cal_day">দিন</string>
+    <string name="cal_week">সপ্তাহ</string>
+    <string name="cal_month">মাস</string>
+    <string name="cal_prev">আগের</string>
+    <string name="cal_next">পরের</string>
+    <string name="cal_today">আজকে যান</string>
+    <string name="cal_empty_day">এই দিনের জন্য কিছু পরিকল্পনা নেই।</string>
+    <string name="cal_routine">রুটিন</string>
+    <string name="cal_tasks">কাজ</string>
+    <string name="cal_events">ইভেন্ট</string>
+    <string name="cal_reminders">রিমাইন্ডার</string>
+    <string name="cal_items">%1$dটি আইটেম</string>
+    <string name="cal_add_task">এই দিনে কাজ যোগ করুন</string>
+    <string name="cal_add_event">এই দিনে ইভেন্ট যোগ করুন</string>
+    <string name="cal_hijri">%1$s %2$s %3$s হিজরি</string>
+    <string name="cal_conflicts">%1$dটি কাজের সময় মিলে যাচ্ছে</string>
+    <string name="cal_day_summary">%1$s, %2$dটি আইটেম</string>
+    <string name="hijri_month_1">মুহাররম</string>
+    <string name="hijri_month_2">সফর</string>
+    <string name="hijri_month_3">রবিউল আউয়াল</string>
+    <string name="hijri_month_4">রবিউস সানি</string>
+    <string name="hijri_month_5">জমাদিউল আউয়াল</string>
+    <string name="hijri_month_6">জমাদিউস সানি</string>
+    <string name="hijri_month_7">রজব</string>
+    <string name="hijri_month_8">শাবান</string>
+    <string name="hijri_month_9">রমজান</string>
+    <string name="hijri_month_10">শাওয়াল</string>
+    <string name="hijri_month_11">জিলকদ</string>
+    <string name="hijri_month_12">জিলহজ</string>
+</resources>

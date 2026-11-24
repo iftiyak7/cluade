@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cal_day">Day</string>
+    <string name="cal_week">Week</string>
+    <string name="cal_month">Month</string>
+    <string name="cal_prev">Previous</string>
+    <string name="cal_next">Next</string>
+    <string name="cal_today">Go to today</string>
+    <string name="cal_empty_day">Nothing planned for this day.</string>
+    <string name="cal_routine">Routine</string>
+    <string name="cal_tasks">Tasks</string>
+    <string name="cal_events">Events</string>
+    <string name="cal_reminders">Reminders</string>
+    <string name="cal_items">%1$d items</string>
+    <string name="cal_add_task">Add task on this day</string>
+    <string name="cal_add_event">Add event on this day</string>
+    <string name="cal_hijri">%1$s %2$s %3$s AH</string>
+    <string name="cal_conflicts">%1$d overlapping activities</string>
+    <string name="cal_day_summary">%1$s, %2$d items</string>
+    <string name="hijri_month_1">Muharram</string>
+    <string name="hijri_month_2">Safar</string>
+    <string name="hijri_month_3">Rabi al-Awwal</string>
+    <string name="hijri_month_4">Rabi al-Thani</string>
+    <string name="hijri_month_5">Jumada al-Ula</string>
+    <string name="hijri_month_6">Jumada al-Akhirah</string>
+    <string name="hijri_month_7">Rajab</string>
+    <string name="hijri_month_8">Sha\'ban</string>
+    <string name="hijri_month_9">Ramadan</string>
+    <string name="hijri_month_10">Shawwal</string>
+    <string name="hijri_month_11">Dhu al-Qa\'dah</string>
+    <string name="hijri_month_12">Dhu al-Hijjah</string>
+</resources>

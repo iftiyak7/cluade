@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="routines_title">Routines</string>
+    <string name="routine_new">New routine</string>
+    <string name="routine_edit">Edit routine</string>
+    <string name="routine_kind">Type</string>
+    <string name="routine_activities">Activities</string>
+    <string name="routine_add_activity">Add activity</string>
+    <string name="routine_activity_title">Activity</string>
+    <string name="routine_start">Starts</string>
+    <string name="routine_duration">Minutes</string>
+    <string name="routine_activity_reminder">Remind me</string>
+    <string name="routine_conflict">%1$s overlaps with %2$s</string>
+    <string name="routine_empty_title">No routines yet</string>
+    <string name="routine_empty_text">Create a routine for your workdays, Fridays, holidays or Ramadan, or start from a template.</string>
+    <string name="routine_templates">Templates</string>
+    <string name="routine_save_template">Save as template</string>
+    <string name="routine_template_saved">Saved as a template</string>
+    <string name="routine_activity_count">%1$d activities</string>
+    <string name="routine_section_active">Active</string>
+    <string name="routine_section_paused">Paused</string>
+    <string name="routine_section_archived">Archived</string>
+    <string name="routine_for_date">Activities on %1$s</string>
+    <string name="routine_not_scheduled">This routine is not scheduled on this day.</string>
+    <string name="routine_mark">Mark %1$s</string>
+    <string name="routine_clear_status">Clear status</string>
+    <string name="routine_history">Last 7 days</string>
+    <string name="routine_needs_activity">Add at least one activity.</string>
+    <string name="tpl_title">Routine templates</string>
+    <string name="tpl_builtin">Bundled templates</string>
+    <string name="tpl_mine">My templates</string>
+    <string name="tpl_use">Create routine</string>
+    <string name="tpl_confirm_title">Create a new routine?</string>
+    <string name="tpl_confirm_text">A new, editable routine named \"%1$s\" will be added. Your existing routines are not changed.</string>
+    <string name="tpl_created">Routine created</string>
+    <string name="tpl_delete">Delete template</string>
+</resources>
