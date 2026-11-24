@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="med_title">ওষুধ</string>
+    <string name="med_new">ওষুধ যোগ করুন</string>
+    <string name="med_edit">ওষুধ সম্পাদনা</string>
+    <string name="med_disclaimer">আপনি যা লেখেন হায়াত শুধু তা মনে করিয়ে দেয় ও লিখে রাখে। এটি চিকিৎসা পরামর্শ দেয় না, ডোজ বদলায় না বা ওষুধের পারস্পরিক প্রতিক্রিয়া যাচাই করে না। কোনো ডোজ বাদ পড়লে আপনার চিকিৎসক বা ফার্মাসিস্টের নির্দেশনা মেনে চলুন।</string>
+    <string name="med_today">আজকের ডোজ</string>
+    <string name="med_none_today">আজ কোনো ডোজ নির্ধারিত নেই।</string>
+    <string name="med_list">আমার ওষুধ</string>
+    <string name="med_empty_title">কোনো ওষুধ যোগ করা হয়নি</string>
+    <string name="med_empty_text">রিমাইন্ডার পেতে ও লগ রাখতে সময়সূচিসহ একটি ওষুধ যোগ করুন।</string>
+    <string name="med_taken">নিয়েছি</string>
+    <string name="med_skip">বাদ</string>
+    <string name="med_postpone">পরে</string>
+    <string name="med_undo">ফেরান</string>
+    <string name="med_dose">ডোজ (প্রেসক্রিপশন অনুযায়ী)</string>
+    <string name="med_unit">একক</string>
+    <string name="med_form">ধরন</string>
+    <string name="med_meal">খাবার সংক্রান্ত নির্দেশনা</string>
+    <string name="med_times">ডোজের সময়</string>
+    <string name="med_add_time">ডোজের সময় যোগ করুন</string>
+    <string name="med_quantity">প্রতি ডোজে একক</string>
+    <string name="med_stock">অবশিষ্ট মজুদ</string>
+    <string name="med_refill">যে পরিমাণে কেনার কথা মনে করাবে</string>
+    <string name="med_reminders">ডোজের রিমাইন্ডার</string>
+    <string name="med_refill_warning">শীঘ্রই কিনুন: %1$s বাকি</string>
+    <string name="med_adherence">গত ৭ দিনে নেওয়া হিসেবে লেখা: %1$s</string>
+    <string name="med_course_ended">কোর্স শেষ</string>
+    <string name="med_needs_time">অন্তত একটি ডোজের সময় যোগ করুন।</string>
+    <string name="med_dose_line">%1$s · %2$s</string>
+</resources>

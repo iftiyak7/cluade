@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fit_title">Fitness</string>
+    <string name="fit_plans">Workout plans</string>
+    <string name="fit_new_plan">New workout plan</string>
+    <string name="fit_edit_plan">Edit plan</string>
+    <string name="fit_exercises">Exercises</string>
+    <string name="fit_add_exercise">Add exercise</string>
+    <string name="fit_exercise">Exercise</string>
+    <string name="fit_sets">Sets</string>
+    <string name="fit_reps">Reps</string>
+    <string name="fit_duration_s">Duration (sec)</string>
+    <string name="fit_rest_s">Rest (sec)</string>
+    <string name="fit_schedule">Workout days</string>
+    <string name="fit_time">Time</string>
+    <string name="fit_reminder">Remind me</string>
+    <string name="fit_log">Log workout</string>
+    <string name="fit_minutes">Minutes</string>
+    <string name="fit_steps">Steps (optional)</string>
+    <string name="fit_history">Recent workouts</string>
+    <string name="fit_empty">No workouts logged yet.</string>
+    <string name="fit_plans_empty">No plans yet. Create one with your exercises.</string>
+    <string name="fit_week">This week: %1$d workouts, %2$d minutes</string>
+    <string name="fit_rest_timer">Rest timer</string>
+    <string name="fit_rest_start">Start %1$s s</string>
+    <string name="fit_rest_left">%1$s s left</string>
+    <string name="fit_logged">Workout logged</string>
+    <string name="fit_plan_none">No plan</string>
+    <string name="fit_exercise_line">%1$s × %2$s</string>
+    <string name="fit_manual_note">Workouts and steps are entered manually; no sensors are used.</string>
+</resources>

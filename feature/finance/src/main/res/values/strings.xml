@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fn_title">Finance reminders</string>
+    <string name="fn_new">New item</string>
+    <string name="fn_edit">Edit item</string>
+    <string name="fn_note_offline">For reminders only. Hayat never connects to banks or asks for account details.</string>
+    <string name="fn_upcoming">Upcoming</string>
+    <string name="fn_overdue">Overdue</string>
+    <string name="fn_paid">Paid</string>
+    <string name="fn_empty">No bills or payments yet.</string>
+    <string name="fn_kind">Type</string>
+    <string name="fn_amount">Amount (optional)</string>
+    <string name="fn_currency">Currency</string>
+    <string name="fn_due">Due date</string>
+    <string name="fn_repeat">Repeats</string>
+    <string name="fn_counterparty">Person or company</string>
+    <string name="fn_lead">Remind me</string>
+    <string name="fn_lead_none">No reminder</string>
+    <string name="fn_lead_same">On the day</string>
+    <string name="fn_lead_days">%1$d days before</string>
+    <string name="fn_mark_paid">Mark paid</string>
+    <string name="fn_mark_unpaid">Mark unpaid</string>
+    <string name="fn_paid_on">Paid on</string>
+    <string name="fn_history">Payment history</string>
+    <string name="fn_due_in">Due %1$s</string>
+    <string name="fn_recorded">Payment recorded</string>
+    <string name="fn_month_total">Due this month: %1$s</string>
+</resources>

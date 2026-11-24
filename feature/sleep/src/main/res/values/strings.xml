@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sleep_title">Sleep</string>
+    <string name="sleep_log">Log sleep</string>
+    <string name="sleep_bed">Went to bed</string>
+    <string name="sleep_wake">Woke up</string>
+    <string name="sleep_quality">How did you sleep?</string>
+    <string name="sleep_saved">Sleep logged</string>
+    <string name="sleep_history">Recent nights</string>
+    <string name="sleep_empty">No sleep logged yet.</string>
+    <string name="sleep_average">7-day average: %1$s (goal %2$s)</string>
+    <string name="sleep_duration">%1$d h %2$d min</string>
+    <string name="sleep_manual_note">Sleep is logged manually. Hayat does not detect sleep automatically.</string>
+    <string name="sleep_routine">Bedtime routine</string>
+    <string name="sleep_routine_text">Create a calm evening routine from the Healthy Sleep template, then follow it on the calendar.</string>
+    <string name="sleep_reminders">Bedtime reminder and wake-up alarm</string>
+    <string name="sleep_week">Last 7 nights</string>
+    <string name="sleep_quality_n">Quality %1$d of 5</string>
+</resources>

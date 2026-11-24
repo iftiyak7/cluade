@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nt_title">নোট ও ডায়েরি</string>
+    <string name="nt_tab_notes">নোট</string>
+    <string name="nt_tab_journal">ডায়েরি</string>
+    <string name="nt_tab_mood">মেজাজ</string>
+    <string name="nt_new_note">নতুন নোট</string>
+    <string name="nt_new_checklist">নতুন চেকলিস্ট</string>
+    <string name="nt_edit">নোট সম্পাদনা</string>
+    <string name="nt_body">কিছু লিখুন…</string>
+    <string name="nt_add_item">আইটেম যোগ করুন</string>
+    <string name="nt_pin">পিন করুন</string>
+    <string name="nt_unpin">পিন সরান</string>
+    <string name="nt_lock">এই নোট লক করুন</string>
+    <string name="nt_lock_sub">খুলতে আঙুলের ছাপ, মুখ বা স্ক্রিন লক লাগবে</string>
+    <string name="nt_lock_unavailable">নোট লক করতে এই ফোনে স্ক্রিন লক চালু করুন</string>
+    <string name="nt_locked">লক করা</string>
+    <string name="nt_unlock_title">লক করা নোট খুলুন</string>
+    <string name="nt_reminder">মনে করান</string>
+    <string name="nt_search">নোট খুঁজুন</string>
+    <string name="nt_empty">এখনো কোনো নোট নেই। নোট এই ফোনেই থাকে।</string>
+    <string name="nt_tags">ট্যাগ</string>
+    <string name="nt_tags_hint">কমা দিয়ে আলাদা করুন</string>
+    <string name="jr_new">নতুন ডায়েরি লেখা</string>
+    <string name="jr_edit">লেখা সম্পাদনা</string>
+    <string name="jr_empty">আপনার ডায়েরি খালি।</string>
+    <string name="jr_mood">মেজাজ</string>
+    <string name="md_today">আজ কেমন বোধ করছেন?</string>
+    <string name="md_history">গত ১৪ দিন</string>
+    <string name="md_1">খুব খারাপ</string>
+    <string name="md_2">খারাপ</string>
+    <string name="md_3">মোটামুটি</string>
+    <string name="md_4">ভালো</string>
+    <string name="md_5">খুব ভালো</string>
+    <string name="md_saved">মেজাজ সংরক্ষিত</string>
+</resources>

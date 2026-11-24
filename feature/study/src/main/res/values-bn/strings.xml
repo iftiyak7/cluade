@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="st_title">পড়াশোনা ও মনোযোগ</string>
+    <string name="st_subjects">বিষয়</string>
+    <string name="st_add_subject">বিষয় যোগ করুন</string>
+    <string name="st_edit_subject">বিষয় সম্পাদনা</string>
+    <string name="st_weekly_goal">সাপ্তাহিক লক্ষ্য (মিনিট)</string>
+    <string name="st_exam_date">পরীক্ষার তারিখ</string>
+    <string name="st_week_progress">এই সপ্তাহে: %2$s মিনিটের মধ্যে %1$s</string>
+    <string name="st_exam_in">পরীক্ষা %1$d দিন পর</string>
+    <string name="st_exam_today">আজ পরীক্ষা</string>
+    <string name="st_no_subjects">পড়ার সময় পরিকল্পনা ও মনোযোগের সেশনের হিসাব রাখতে বিষয় যোগ করুন।</string>
+    <string name="st_focus">মনোযোগ টাইমার</string>
+    <string name="st_history">সাম্প্রতিক সেশন</string>
+    <string name="st_no_sessions">এখনো কোনো মনোযোগ সেশন নেই।</string>
+    <string name="st_session_line">%1$s · %2$s মিনিট</string>
+    <string name="st_total_week">এই সপ্তাহে মনোযোগ: %1$s মিনিট</string>
+    <string name="fc_focus">মনোযোগ</string>
+    <string name="fc_short">ছোট বিরতি</string>
+    <string name="fc_long">লম্বা বিরতি</string>
+    <string name="fc_start">শুরু</string>
+    <string name="fc_pause">বিরতি</string>
+    <string name="fc_resume">চালিয়ে যান</string>
+    <string name="fc_reset">রিসেট</string>
+    <string name="fc_skip">পরের ধাপ</string>
+    <string name="fc_subject">বিষয়</string>
+    <string name="fc_no_subject">বিষয় নেই</string>
+    <string name="fc_remaining">%1$s বাকি</string>
+    <string name="fc_done">সেশন শেষ</string>
+    <string name="fc_sessions">সম্পন্ন মনোযোগ সেশন: %1$d</string>
+    <string name="fc_background_note">হায়াত ব্যাকগ্রাউন্ডে থাকলেও টাইমার শেষ হলে নোটিফিকেশন পাবেন।</string>
+</resources>

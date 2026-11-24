@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="water_title">Water</string>
+    <string name="water_progress">%1$s of %2$s ml</string>
+    <string name="water_progress_cd">%1$s millilitres of %2$s millilitres today</string>
+    <string name="water_quick_add">Quick add</string>
+    <string name="water_ml">%1$s ml</string>
+    <string name="water_custom">Custom amount (ml)</string>
+    <string name="water_add">Add</string>
+    <string name="water_today_log">Today\'s log</string>
+    <string name="water_empty_log">No water logged today.</string>
+    <string name="water_week">Last 7 days</string>
+    <string name="water_week_summary">Goal met on %1$d of %2$d days</string>
+    <string name="water_goal">Daily goal</string>
+    <string name="water_goal_ml">Goal (ml)</string>
+    <string name="water_goal_note">Needs vary by person, climate and health. Choose a goal that suits you or ask a health professional.</string>
+    <string name="water_reminders">Reminders every %1$s, %2$s–%3$s</string>
+    <string name="water_reminders_off">Water reminders are off</string>
+    <string name="water_edit_entry">Edit entry</string>
+    <string name="water_added">Added %1$s ml</string>
+    <string name="water_goal_reached">Goal reached for today</string>
+</resources>

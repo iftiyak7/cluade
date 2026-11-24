@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fn_title">আর্থিক রিমাইন্ডার</string>
+    <string name="fn_new">নতুন আইটেম</string>
+    <string name="fn_edit">আইটেম সম্পাদনা</string>
+    <string name="fn_note_offline">শুধু রিমাইন্ডারের জন্য। হায়াত কখনো ব্যাংকের সাথে যুক্ত হয় না বা অ্যাকাউন্টের তথ্য চায় না।</string>
+    <string name="fn_upcoming">আসন্ন</string>
+    <string name="fn_overdue">সময় পেরিয়েছে</string>
+    <string name="fn_paid">পরিশোধিত</string>
+    <string name="fn_empty">এখনো কোনো বিল বা পেমেন্ট নেই।</string>
+    <string name="fn_kind">ধরন</string>
+    <string name="fn_amount">পরিমাণ (ঐচ্ছিক)</string>
+    <string name="fn_currency">মুদ্রা</string>
+    <string name="fn_due">পরিশোধের তারিখ</string>
+    <string name="fn_repeat">পুনরাবৃত্তি</string>
+    <string name="fn_counterparty">ব্যক্তি বা প্রতিষ্ঠান</string>
+    <string name="fn_lead">মনে করিয়ে দিন</string>
+    <string name="fn_lead_none">রিমাইন্ডার নেই</string>
+    <string name="fn_lead_same">একই দিনে</string>
+    <string name="fn_lead_days">%1$d দিন আগে</string>
+    <string name="fn_mark_paid">পরিশোধিত চিহ্নিত করুন</string>
+    <string name="fn_mark_unpaid">অপরিশোধিত চিহ্নিত করুন</string>
+    <string name="fn_paid_on">পরিশোধের তারিখ</string>
+    <string name="fn_history">পেমেন্টের ইতিহাস</string>
+    <string name="fn_due_in">পরিশোধ %1$s</string>
+    <string name="fn_recorded">পেমেন্ট লেখা হয়েছে</string>
+    <string name="fn_month_total">এই মাসে দেয়: %1$s</string>
+</resources>

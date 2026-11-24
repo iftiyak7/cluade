@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hb_title">অভ্যাস</string>
+    <string name="hb_new">নতুন অভ্যাস</string>
+    <string name="hb_edit">অভ্যাস সম্পাদনা</string>
+    <string name="hb_empty_title">এখনো কোনো অভ্যাস নেই</string>
+    <string name="hb_empty_text">যে অভ্যাস গড়তে বা কমাতে চান তার হিসাব রাখুন। বিরতি দিলেও ইতিহাস থাকে।</string>
+    <string name="hb_kind">ধরন</string>
+    <string name="hb_build">গড়ে তুলুন (বেশি করুন)</string>
+    <string name="hb_reduce">কমান (কম করুন)</string>
+    <string name="hb_target_build">দিনে কতবার</string>
+    <string name="hb_target_reduce">দিনে সর্বোচ্চ</string>
+    <string name="hb_reminder">রিমাইন্ডারের সময়</string>
+    <string name="hb_today">আজ: %1$s / %2$s</string>
+    <string name="hb_streak">বর্তমান ধারাবাহিকতা: %1$d দিন</string>
+    <string name="hb_best">সেরা: %1$d</string>
+    <string name="hb_rate">গত ৩০ দিন: %1$s</string>
+    <string name="hb_not_today">আজ নির্ধারিত নয়</string>
+    <string name="hb_success">ঠিক পথে আছে</string>
+    <string name="hb_add_one">এক যোগ করুন</string>
+    <string name="hb_remove_one">এক কমান</string>
+    <string name="hb_heatmap">গত ৫ সপ্তাহ</string>
+    <string name="hb_paused_note">বিরতিতে থাকা অভ্যাসের ইতিহাস থাকে এবং গণনায় ধরা হয় না।</string>
+</resources>

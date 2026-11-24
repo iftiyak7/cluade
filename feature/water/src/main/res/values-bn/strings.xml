@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="water_title">পানি</string>
+    <string name="water_progress">%2$s মিলির মধ্যে %1$s মিলি</string>
+    <string name="water_progress_cd">আজ %2$s মিলিলিটারের মধ্যে %1$s মিলিলিটার</string>
+    <string name="water_quick_add">দ্রুত যোগ</string>
+    <string name="water_ml">%1$s মিলি</string>
+    <string name="water_custom">নিজের পরিমাণ (মিলি)</string>
+    <string name="water_add">যোগ করুন</string>
+    <string name="water_today_log">আজকের লগ</string>
+    <string name="water_empty_log">আজ কোনো পানি লেখা হয়নি।</string>
+    <string name="water_week">গত ৭ দিন</string>
+    <string name="water_week_summary">%2$d দিনের মধ্যে %1$d দিন লক্ষ্য পূরণ হয়েছে</string>
+    <string name="water_goal">দৈনিক লক্ষ্য</string>
+    <string name="water_goal_ml">লক্ষ্য (মিলি)</string>
+    <string name="water_goal_note">মানুষ, আবহাওয়া ও স্বাস্থ্যভেদে প্রয়োজন ভিন্ন হয়। আপনার জন্য উপযুক্ত লক্ষ্য বাছুন অথবা স্বাস্থ্য বিশেষজ্ঞের পরামর্শ নিন।</string>
+    <string name="water_reminders">প্রতি %1$s পর পর, %2$s–%3$s</string>
+    <string name="water_reminders_off">পানির রিমাইন্ডার বন্ধ</string>
+    <string name="water_edit_entry">এন্ট্রি সম্পাদনা</string>
+    <string name="water_added">%1$s মিলি যোগ হয়েছে</string>
+    <string name="water_goal_reached">আজকের লক্ষ্য পূরণ হয়েছে</string>
+</resources>

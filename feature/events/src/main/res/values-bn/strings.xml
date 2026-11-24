@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ev_title">গুরুত্বপূর্ণ তারিখ</string>
+    <string name="ev_new">নতুন তারিখ</string>
+    <string name="ev_edit">তারিখ সম্পাদনা</string>
+    <string name="ev_empty_title">কোনো গুরুত্বপূর্ণ তারিখ নেই</string>
+    <string name="ev_empty_text">জন্মদিন, বার্ষিকী, অ্যাপয়েন্টমেন্ট, ভ্রমণ ও কাগজপত্র নবায়নের তারিখ যোগ করুন।</string>
+    <string name="ev_kind">ধরন</string>
+    <string name="ev_label">নিজস্ব লেবেল</string>
+    <string name="ev_repeat_yearly">প্রতি বছর হয়</string>
+    <string name="ev_reminders">মনে করিয়ে দিন</string>
+    <string name="ev_on_day">একই দিনে</string>
+    <string name="ev_days_before">%1$d দিন আগে</string>
+    <string name="ev_in_days">%1$d দিন পর</string>
+    <string name="ev_today">আজ</string>
+    <string name="ev_turns">%1$d বছরে পা</string>
+    <string name="ev_years">%1$d বছর</string>
+    <string name="ev_upcoming">আসন্ন</string>
+    <string name="ev_past">অতীত ও সম্পন্ন</string>
+    <string name="ev_mark_done">সম্পন্ন চিহ্নিত করুন</string>
+    <string name="ev_mark_open">অসম্পন্ন চিহ্নিত করুন</string>
+</resources>

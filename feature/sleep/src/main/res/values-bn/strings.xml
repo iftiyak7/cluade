@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sleep_title">ঘুম</string>
+    <string name="sleep_log">ঘুম লিখুন</string>
+    <string name="sleep_bed">ঘুমাতে গিয়েছি</string>
+    <string name="sleep_wake">ঘুম থেকে উঠেছি</string>
+    <string name="sleep_quality">ঘুম কেমন হয়েছে?</string>
+    <string name="sleep_saved">ঘুম লেখা হয়েছে</string>
+    <string name="sleep_history">সাম্প্রতিক রাতগুলো</string>
+    <string name="sleep_empty">এখনো কোনো ঘুম লেখা হয়নি।</string>
+    <string name="sleep_average">৭ দিনের গড়: %1$s (লক্ষ্য %2$s)</string>
+    <string name="sleep_duration">%1$d ঘণ্টা %2$d মিনিট</string>
+    <string name="sleep_manual_note">ঘুম হাতে লিখে রাখা হয়। হায়াত নিজে থেকে ঘুম শনাক্ত করে না।</string>
+    <string name="sleep_routine">ঘুমানোর রুটিন</string>
+    <string name="sleep_routine_text">সুস্থ ঘুমের টেমপ্লেট থেকে একটি শান্ত সন্ধ্যার রুটিন তৈরি করুন, তারপর ক্যালেন্ডারে তা মেনে চলুন।</string>
+    <string name="sleep_reminders">ঘুমানোর রিমাইন্ডার ও ঘুম ভাঙানোর অ্যালার্ম</string>
+    <string name="sleep_week">গত ৭ রাত</string>
+    <string name="sleep_quality_n">মান ৫ এর মধ্যে %1$d</string>
+</resources>

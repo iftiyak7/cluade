@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="diet_title">খাদ্য ও খাবার</string>
+    <string name="diet_tab_today">আজ</string>
+    <string name="diet_tab_plan">খাবারের পরিকল্পনা</string>
+    <string name="diet_tab_shopping">বাজারের তালিকা</string>
+    <string name="diet_tab_history">ইতিহাস</string>
+    <string name="diet_new_plan">খাবার যোগ করুন</string>
+    <string name="diet_edit_plan">খাবার সম্পাদনা</string>
+    <string name="diet_eaten">খেয়েছি</string>
+    <string name="diet_skipped">বাদ দিয়েছি</string>
+    <string name="diet_log_extra">আরেকটি খাবার লিখুন</string>
+    <string name="diet_no_plans">আজকের জন্য কোনো খাবার পরিকল্পিত নেই। সাপ্তাহিক পরিকল্পনায় খাবার যোগ করুন।</string>
+    <string name="diet_meal_type">খাবার</string>
+    <string name="diet_calories">ক্যালরি (ঐচ্ছিক, আপনার নিজের মান)</string>
+    <string name="diet_calories_note">হায়াত পুষ্টির মান অনুমান করে না। জানা থাকলে তবেই মান লিখুন।</string>
+    <string name="diet_reminder">মনে করিয়ে দিন</string>
+    <string name="diet_shopping_add">আইটেম যোগ করুন</string>
+    <string name="diet_shopping_qty">পরিমাণ</string>
+    <string name="diet_shopping_clear">টিক দেওয়াগুলো সরান</string>
+    <string name="diet_shopping_empty">আপনার বাজারের তালিকা খালি।</string>
+    <string name="diet_history_summary">গত ৭ দিনে %2$dটি পরিকল্পিত খাবারের মধ্যে %1$dটি খাওয়া হিসেবে লেখা</string>
+    <string name="diet_logged">লেখা হয়েছে</string>
+    <string name="diet_plan_empty">পরিকল্পনায় এখনো কোনো খাবার নেই।</string>
+    <string name="diet_what">কী খেয়েছেন?</string>
+    <string name="diet_kcal">%1$s কিলোক্যালরি</string>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fit_title">ফিটনেস</string>
+    <string name="fit_plans">ওয়ার্কআউট পরিকল্পনা</string>
+    <string name="fit_new_plan">নতুন ওয়ার্কআউট পরিকল্পনা</string>
+    <string name="fit_edit_plan">পরিকল্পনা সম্পাদনা</string>
+    <string name="fit_exercises">ব্যায়ামগুলো</string>
+    <string name="fit_add_exercise">ব্যায়াম যোগ করুন</string>
+    <string name="fit_exercise">ব্যায়াম</string>
+    <string name="fit_sets">সেট</string>
+    <string name="fit_reps">বার</string>
+    <string name="fit_duration_s">সময় (সেকেন্ড)</string>
+    <string name="fit_rest_s">বিশ্রাম (সেকেন্ড)</string>
+    <string name="fit_schedule">ওয়ার্কআউটের দিন</string>
+    <string name="fit_time">সময়</string>
+    <string name="fit_reminder">মনে করিয়ে দিন</string>
+    <string name="fit_log">ওয়ার্কআউট লিখুন</string>
+    <string name="fit_minutes">মিনিট</string>
+    <string name="fit_steps">পদক্ষেপ (ঐচ্ছিক)</string>
+    <string name="fit_history">সাম্প্রতিক ওয়ার্কআউট</string>
+    <string name="fit_empty">এখনো কোনো ওয়ার্কআউট লেখা হয়নি।</string>
+    <string name="fit_plans_empty">এখনো কোনো পরিকল্পনা নেই। আপনার ব্যায়াম দিয়ে একটি তৈরি করুন।</string>
+    <string name="fit_week">এই সপ্তাহে: %1$dটি ওয়ার্কআউট, %2$d মিনিট</string>
+    <string name="fit_rest_timer">বিশ্রামের টাইমার</string>
+    <string name="fit_rest_start">%1$s সেকেন্ড শুরু</string>
+    <string name="fit_rest_left">%1$s সেকেন্ড বাকি</string>
+    <string name="fit_logged">ওয়ার্কআউট লেখা হয়েছে</string>
+    <string name="fit_plan_none">পরিকল্পনা নেই</string>
+    <string name="fit_exercise_line">%1$s × %2$s</string>
+    <string name="fit_manual_note">ওয়ার্কআউট ও পদক্ষেপ হাতে লেখা হয়; কোনো সেন্সর ব্যবহার হয় না।</string>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hb_title">Habits</string>
+    <string name="hb_new">New habit</string>
+    <string name="hb_edit">Edit habit</string>
+    <string name="hb_empty_title">No habits yet</string>
+    <string name="hb_empty_text">Track habits you want to build or reduce. Pausing keeps your history.</string>
+    <string name="hb_kind">Type</string>
+    <string name="hb_build">Build (do more)</string>
+    <string name="hb_reduce">Reduce (do less)</string>
+    <string name="hb_target_build">Times per day</string>
+    <string name="hb_target_reduce">At most per day</string>
+    <string name="hb_reminder">Reminder time</string>
+    <string name="hb_today">Today: %1$s / %2$s</string>
+    <string name="hb_streak">Current streak: %1$d days</string>
+    <string name="hb_best">Best: %1$d</string>
+    <string name="hb_rate">Last 30 days: %1$s</string>
+    <string name="hb_not_today">Not scheduled today</string>
+    <string name="hb_success">On track</string>
+    <string name="hb_add_one">Add one</string>
+    <string name="hb_remove_one">Remove one</string>
+    <string name="hb_heatmap">Last 5 weeks</string>
+    <string name="hb_paused_note">Paused habits keep their history and are not counted.</string>
+</resources>

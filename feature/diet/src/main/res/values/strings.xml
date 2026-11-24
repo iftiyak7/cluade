@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="diet_title">Diet &amp; meals</string>
+    <string name="diet_tab_today">Today</string>
+    <string name="diet_tab_plan">Meal plan</string>
+    <string name="diet_tab_shopping">Shopping</string>
+    <string name="diet_tab_history">History</string>
+    <string name="diet_new_plan">Add meal</string>
+    <string name="diet_edit_plan">Edit meal</string>
+    <string name="diet_eaten">Eaten</string>
+    <string name="diet_skipped">Skipped</string>
+    <string name="diet_log_extra">Log another meal</string>
+    <string name="diet_no_plans">No meals planned for today. Add meals to your weekly plan.</string>
+    <string name="diet_meal_type">Meal</string>
+    <string name="diet_calories">Calories (optional, your own value)</string>
+    <string name="diet_calories_note">Hayat does not estimate nutrition. Enter values only if you know them.</string>
+    <string name="diet_reminder">Remind me</string>
+    <string name="diet_shopping_add">Add item</string>
+    <string name="diet_shopping_qty">Quantity</string>
+    <string name="diet_shopping_clear">Remove checked</string>
+    <string name="diet_shopping_empty">Your shopping list is empty.</string>
+    <string name="diet_history_summary">Logged as eaten on %1$d of %2$d planned meals in the last 7 days</string>
+    <string name="diet_logged">Logged</string>
+    <string name="diet_plan_empty">No meals in your plan yet.</string>
+    <string name="diet_what">What did you eat?</string>
+    <string name="diet_kcal">%1$s kcal</string>
+</resources>

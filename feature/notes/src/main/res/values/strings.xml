@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nt_title">Notes &amp; journal</string>
+    <string name="nt_tab_notes">Notes</string>
+    <string name="nt_tab_journal">Journal</string>
+    <string name="nt_tab_mood">Mood</string>
+    <string name="nt_new_note">New note</string>
+    <string name="nt_new_checklist">New checklist</string>
+    <string name="nt_edit">Edit note</string>
+    <string name="nt_body">Write something…</string>
+    <string name="nt_add_item">Add item</string>
+    <string name="nt_pin">Pin</string>
+    <string name="nt_unpin">Unpin</string>
+    <string name="nt_lock">Lock this note</string>
+    <string name="nt_lock_sub">Requires your fingerprint, face or screen lock to open</string>
+    <string name="nt_lock_unavailable">Set a screen lock on this phone to lock notes</string>
+    <string name="nt_locked">Locked</string>
+    <string name="nt_unlock_title">Open locked note</string>
+    <string name="nt_reminder">Remind me at</string>
+    <string name="nt_search">Search notes</string>
+    <string name="nt_empty">No notes yet. Notes stay on this phone.</string>
+    <string name="nt_tags">Tags</string>
+    <string name="nt_tags_hint">Separate with commas</string>
+    <string name="jr_new">New journal entry</string>
+    <string name="jr_edit">Edit entry</string>
+    <string name="jr_empty">Your journal is empty.</string>
+    <string name="jr_mood">Mood</string>
+    <string name="md_today">How are you feeling today?</string>
+    <string name="md_history">Last 14 days</string>
+    <string name="md_1">Very low</string>
+    <string name="md_2">Low</string>
+    <string name="md_3">Okay</string>
+    <string name="md_4">Good</string>
+    <string name="md_5">Great</string>
+    <string name="md_saved">Mood saved</string>
+</resources>

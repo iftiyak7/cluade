@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ev_title">Important dates</string>
+    <string name="ev_new">New date</string>
+    <string name="ev_edit">Edit date</string>
+    <string name="ev_empty_title">No important dates</string>
+    <string name="ev_empty_text">Add birthdays, anniversaries, appointments, travel and document renewals.</string>
+    <string name="ev_kind">Type</string>
+    <string name="ev_label">Custom label</string>
+    <string name="ev_repeat_yearly">Repeats every year</string>
+    <string name="ev_reminders">Remind me</string>
+    <string name="ev_on_day">On the day</string>
+    <string name="ev_days_before">%1$d days before</string>
+    <string name="ev_in_days">in %1$d days</string>
+    <string name="ev_today">Today</string>
+    <string name="ev_turns">turns %1$d</string>
+    <string name="ev_years">%1$d years</string>
+    <string name="ev_upcoming">Upcoming</string>
+    <string name="ev_past">Past and completed</string>
+    <string name="ev_mark_done">Mark completed</string>
+    <string name="ev_mark_open">Mark not completed</string>
+</resources>

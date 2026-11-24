@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="med_title">Medicine</string>
+    <string name="med_new">Add medicine</string>
+    <string name="med_edit">Edit medicine</string>
+    <string name="med_disclaimer">Hayat reminds and records what you enter. It does not give medical advice, change doses or check interactions. If you miss a dose, follow your doctor\'s or pharmacist\'s instructions.</string>
+    <string name="med_today">Today\'s doses</string>
+    <string name="med_none_today">No doses scheduled today.</string>
+    <string name="med_list">My medicines</string>
+    <string name="med_empty_title">No medicines added</string>
+    <string name="med_empty_text">Add a medicine with its schedule to get reminders and keep a log.</string>
+    <string name="med_taken">Taken</string>
+    <string name="med_skip">Skip</string>
+    <string name="med_postpone">Later</string>
+    <string name="med_undo">Undo</string>
+    <string name="med_dose">Dose (as prescribed)</string>
+    <string name="med_unit">Unit</string>
+    <string name="med_form">Form</string>
+    <string name="med_meal">Meal instruction</string>
+    <string name="med_times">Dose times</string>
+    <string name="med_add_time">Add dose time</string>
+    <string name="med_quantity">Units per dose</string>
+    <string name="med_stock">Remaining stock</string>
+    <string name="med_refill">Remind to refill at</string>
+    <string name="med_reminders">Dose reminders</string>
+    <string name="med_refill_warning">Refill soon: %1$s left</string>
+    <string name="med_adherence">Logged as taken in the last 7 days: %1$s</string>
+    <string name="med_course_ended">Course ended</string>
+    <string name="med_needs_time">Add at least one dose time.</string>
+    <string name="med_dose_line">%1$s · %2$s</string>
+</resources>
