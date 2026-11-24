@@ -1,0 +1,15 @@
+[Unit]
+Description=Hayat database backup (keeps 14 days)
+
+[Service]
+Type=oneshot
+User=hayat
+Group=hayat
+EnvironmentFile=/etc/hayat/hayat.env
+ExecStart=/bin/sh -c 'f=/var/lib/hayat/backups/hayat-$(date +%%Y%%m%%d-%%H%%M%%S).db && /opt/hayat/hayat-server backup -out "$f" && find /var/lib/hayat/backups -name "hayat-*.db" -mtime +14 -delete'
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/hayat
+ProtectHome=yes
+PrivateTmp=yes
+UMask=0077

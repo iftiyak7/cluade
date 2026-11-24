@@ -31,6 +31,12 @@ func OpenStore(path string) (*Store, error) {
 
 func (s *Store) Close() error { return s.db.Close() }
 
+// Backup writes a consistent snapshot of the database to path (safe while the server runs).
+func (s *Store) Backup(ctx context.Context, path string) error {
+	_, err := s.db.ExecContext(ctx, `VACUUM INTO ?`, path)
+	return err
+}
+
 var migrations = []string{
 	`CREATE TABLE admins (
 		id INTEGER PRIMARY KEY,

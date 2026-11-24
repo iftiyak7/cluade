@@ -1,0 +1,43 @@
+[Unit]
+Description=Hayat server (landing page, announcements feed, admin panel)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hayat
+Group=hayat
+EnvironmentFile=/etc/hayat/hayat.env
+ExecStart=/opt/hayat/hayat-server serve
+Restart=on-failure
+RestartSec=3
+
+# Sandboxing: the service can only write its database directory.
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/hayat
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+AmbientCapabilities=
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged @resources
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

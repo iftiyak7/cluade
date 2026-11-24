@@ -362,3 +362,22 @@ func TestSiteHandlerHidesDotfilesAndListings(t *testing.T) {
 		}
 	}
 }
+
+func TestBackupSnapshot(t *testing.T) {
+	h := newHarness(t)
+	a := Announcement{Kind: KindBanner, Lang: "en", TitleEn: "Kept", BodyEn: "x", StartsAt: h.now}
+	h.store.SaveAnnouncement(context.Background(), &a, h.now)
+	out := filepath.Join(t.TempDir(), "backup.db")
+	if err := h.store.Backup(context.Background(), out); err != nil {
+		t.Fatal(err)
+	}
+	copy, err := OpenStore(out)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer copy.Close()
+	items, _ := copy.ListAnnouncements(context.Background())
+	if len(items) != 1 || items[0].TitleEn != "Kept" {
+		t.Fatalf("backup missing data: %+v", items)
+	}
+}

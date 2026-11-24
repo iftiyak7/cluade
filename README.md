@@ -50,3 +50,13 @@ docs/                architecture, modules, database, alarm engine, permissions,
 ```
 
 Start with [`docs/architecture.md`](docs/architecture.md) and [`docs/progress.md`](docs/progress.md).
+
+## Repository layout
+
+| Path | What |
+|---|---|
+| `app/`, `core/`, `feature/` | Android app (Kotlin, Compose) |
+| `server/` | Go server: landing page, anonymous announcements feed, admin panel |
+| `website/` | Bilingual static landing page + privacy policy |
+| `deploy/` | VPS install kit (Caddy + systemd), release bundle script |
+| `docs/` | Architecture, security, privacy, testing, release docs |

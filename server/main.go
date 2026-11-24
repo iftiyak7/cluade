@@ -59,6 +59,11 @@ func main() {
 	switch os.Args[1] {
 	case "serve":
 		err = serve(cfg, log)
+	case "backup":
+		fs := flag.NewFlagSet("backup", flag.ExitOnError)
+		out := fs.String("out", "", "path of the backup file to create")
+		_ = fs.Parse(os.Args[2:])
+		err = backupCommand(cfg, *out)
 	case "create-admin", "set-password":
 		fs := flag.NewFlagSet(os.Args[1], flag.ExitOnError)
 		user := fs.String("user", "", "admin username")
@@ -79,6 +84,7 @@ func usage() {
   hayat-server serve
   hayat-server create-admin -user NAME   (password is read from the terminal)
   hayat-server set-password -user NAME
+  hayat-server backup -out FILE          (consistent online copy of the database)
 
 environment:
   HAYAT_ADDR          listen address (default 127.0.0.1:8080 — put a TLS proxy in front)
@@ -141,6 +147,21 @@ func adminCommand(cfg Config, cmd, user string) error {
 	}
 	fmt.Fprintln(os.Stderr, "Password changed; existing sessions signed out.")
 	return nil
+}
+
+func backupCommand(cfg Config, out string) error {
+	if out == "" {
+		return errors.New("-out is required")
+	}
+	if _, err := os.Stat(out); err == nil {
+		return errors.New("refusing to overwrite an existing file")
+	}
+	st, err := OpenStore(cfg.DBPath)
+	if err != nil {
+		return err
+	}
+	defer st.Close()
+	return st.Backup(context.Background(), out)
 }
 
 func serve(cfg Config, log *slog.Logger) error {
